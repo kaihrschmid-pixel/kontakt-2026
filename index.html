@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>kontakt — das Kulturfestival 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e8e0d5;--deep:#3d1a2e;--deep2:#2a0f1f;--cream:#f0e8dd;--yellow:#f5d800;--yellow2:#e8c800;--card-bg:rgba(255,255,255,0.06);--card-border:rgba(240,232,221,0.13);--muted:rgba(240,232,221,0.42)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.35}
+.frame{position:relative;z-index:1;background:var(--deep);min-height:100vh;border:10px solid var(--bg)}
+header{position:relative;overflow:hidden;padding:2.5rem 2rem 1.8rem;text-align:center;border-bottom:2px solid rgba(245,216,0,0.18)}
+header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(100,40,80,0.65) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 70%,rgba(80,20,60,0.45) 0%,transparent 60%);pointer-events:none}
+.hi{position:relative;z-index:1}
+.wm{font-family:'Share Tech Mono',monospace;font-size:clamp(2.8rem,9vw,5.5rem);letter-spacing:0.12em;line-height:0.9;color:var(--yellow);text-transform:uppercase;text-shadow:4px 4px 0 rgba(0,0,0,0.5)}
+.sl{font-family:'Share Tech Mono',monospace;font-size:clamp(0.7rem,1.8vw,0.9rem);letter-spacing:0.22em;text-transform:uppercase;color:var(--cream);margin-top:0.5rem;opacity:0.65}
+.hm{display:flex;align-items:center;justify-content:center;gap:1.25rem;margin-top:1.1rem;flex-wrap:wrap}
+.hb{display:inline-flex;align-items:center;gap:0.3rem;background:var(--yellow);color:var(--deep2);font-family:'Share Tech Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;padding:0.28rem 0.85rem;clip-path:polygon(8% 0%,92% 0%,100% 50%,92% 100%,8% 100%,0% 50%);text-transform:uppercase}
+.hd{font-family:'Share Tech Mono',monospace;font-size:clamp(0.95rem,2.5vw,1.5rem);color:var(--cream);letter-spacing:0.08em}
+.hl{font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.16em;text-transform:uppercase;margin-top:0.35rem}
+.sb{position:sticky;top:0;z-index:200;background:var(--deep2);border-bottom:2px solid rgba(245,216,0,0.2)}
+.dt{display:flex;overflow-x:auto;padding:0 1rem;scrollbar-width:none;border-bottom:1px solid rgba(245,216,0,0.08)}
+.dt::-webkit-scrollbar{display:none}
+.dta{padding:0.7rem 1.35rem;font-family:'Share Tech Mono',monospace;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.15s;user-select:none}
+.dta:hover{color:var(--cream)}
+.dta.active{color:var(--yellow);border-bottom-color:var(--yellow)}
+.fi{display:flex;gap:0.35rem;flex-wrap:wrap;padding:0.55rem 1rem;align-items:center}
+.fil{font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-right:0.2rem}
+.tp{display:inline-flex;align-items:center;gap:0.28rem;padding:0.18rem 0.55rem;border-radius:3px;border:1px solid rgba(240,232,221,0.13);background:rgba(255,255,255,0.04);color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:0.62rem;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;transition:all 0.12s;user-select:none}
+.tp .pi{font-size:0.78rem;line-height:1}
+.tp:hover{border-color:rgba(240,232,221,0.28);color:var(--cream)}
+.tp.active{background:var(--pc,var(--yellow));color:var(--deep2);border-color:transparent;font-weight:700}
+main{padding:1.25rem 0 2rem 1.25rem;overflow:hidden}
+.rg{display:flex;gap:0.9rem;overflow-x:auto;padding-right:1.25rem;padding-bottom:1.5rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.rg::-webkit-scrollbar{height:4px}
+.rg::-webkit-scrollbar-track{background:rgba(255,255,255,0.04)}
+.rg::-webkit-scrollbar-thumb{background:rgba(245,216,0,0.28);border-radius:2px}
+.rc{flex:0 0 272px;scroll-snap-align:start;display:flex;flex-direction:column}
+.rh{font-family:'Share Tech Mono',monospace;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--yellow);padding:0.45rem 0;border-top:2px solid var(--yellow);margin-bottom:0.55rem;display:flex;align-items:center;gap:0.4rem}
+.re{display:flex;flex-direction:column;gap:0.45rem}
+.ec{background:var(--card-bg);border:1px solid var(--card-border);border-radius:3px;padding:0.7rem 0.8rem;cursor:pointer;transition:transform 0.1s,background 0.1s,opacity 0.2s,border-color 0.12s;position:relative;overflow:hidden}
+.ec::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tc,rgba(240,232,221,0.3))}
+.ec:hover{background:rgba(255,255,255,0.1);border-color:rgba(245,216,0,0.28);transform:translateY(-1px)}
+.ec.dm{opacity:0.12;pointer-events:none}
+.ew{width:100%;border-radius:2px;margin-bottom:0.45rem;overflow:hidden;display:grid;align-items:center;justify-items:center;min-height:70px;position:relative}
+.ew-bg{position:absolute;inset:-12px;background-size:cover;background-position:center;filter:blur(14px) saturate(1.8) brightness(0.55);transform:scale(1.05);z-index:0}
+.et{position:relative;z-index:1;width:100%;max-height:110px;object-fit:contain;object-position:center;display:block;filter:saturate(0.9) brightness(0.95)}
+.eto{display:flex;align-items:baseline;justify-content:space-between;gap:0.4rem;margin-bottom:0.28rem}
+.etm{font-family:'Share Tech Mono',monospace;font-size:0.68rem;letter-spacing:0.06em;color:var(--yellow)}
+.edu{font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:var(--muted)}
+.eti{font-family:'Share Tech Mono',monospace;font-size:0.85rem;line-height:1.25;color:var(--cream);letter-spacing:0.03em;text-transform:uppercase;margin-bottom:0.32rem}
+.em{display:flex;align-items:center;gap:0.35rem;flex-wrap:wrap}
+.eb{display:inline-flex;align-items:center;gap:0.22rem;font-family:'Share Tech Mono',monospace;font-size:0.56rem;letter-spacing:0.09em;text-transform:uppercase;padding:0.12rem 0.38rem;border-radius:2px;background:var(--tc,rgba(240,232,221,0.3));color:var(--deep2);font-weight:700}
+.bi{font-size:0.68rem;line-height:1}
+.ea{font-size:0.65rem;color:var(--muted);margin-top:0.22rem}
+.mo{display:none;position:fixed;inset:0;background:rgba(15,3,10,0.88);backdrop-filter:blur(10px);z-index:1000;align-items:center;justify-content:center;padding:1.5rem}
+.mo.open{display:flex}
+.md{background:var(--deep);border:1px solid rgba(245,216,0,0.28);border-radius:4px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;position:relative;animation:mi 0.17s ease;box-shadow:0 0 80px rgba(245,216,0,0.08),0 24px 64px rgba(0,0,0,0.65)}
+@keyframes mi{from{transform:translateY(14px) scale(0.98);opacity:0}to{transform:none;opacity:1}}
+.mhero-wrap{position:relative;overflow:hidden;border-radius:3px 3px 0 0;min-height:120px;display:grid;align-items:center;justify-items:center}
+.mhero-bg{position:absolute;inset:-16px;background-size:cover;background-position:center;filter:blur(20px) saturate(2) brightness(0.45);transform:scale(1.05);z-index:0}
+.mhero{position:relative;z-index:1;width:100%;max-height:280px;object-fit:contain;object-position:center;filter:saturate(0.9);display:block}
+.mb{padding:1.4rem}
+.mtb{display:inline-flex;align-items:center;gap:0.32rem;font-family:'Share Tech Mono',monospace;font-size:0.63rem;letter-spacing:0.14em;text-transform:uppercase;padding:0.22rem 0.58rem;border-radius:2px;color:var(--deep2);margin-bottom:0.8rem;font-weight:700}
+.mn{font-family:'Share Tech Mono',monospace;font-size:clamp(1.2rem,4vw,1.8rem);letter-spacing:0.05em;text-transform:uppercase;color:var(--cream);line-height:1.1;margin-bottom:0.8rem}
+.minf{display:flex;gap:1.1rem;flex-wrap:wrap;margin-bottom:1rem;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--yellow);letter-spacing:0.08em}
+.mdv{height:1px;background:rgba(245,216,0,0.12);margin-bottom:0.95rem}
+.mde{font-size:0.82rem;line-height:1.72;color:rgba(240,232,221,0.72);white-space:pre-line}
+.mlink{display:inline-flex;align-items:center;gap:0.35rem;margin-top:1.4rem;padding:0.52rem 1rem;background:var(--yellow);color:var(--deep2);border-radius:2px;text-decoration:none;font-family:'Share Tech Mono',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;transition:background 0.12s}
+.mlink:hover{background:var(--yellow2)}
+.mcl{position:absolute;top:0.7rem;right:0.7rem;width:1.9rem;height:1.9rem;border-radius:2px;background:rgba(0,0,0,0.55);color:var(--cream);border:1px solid rgba(255,255,255,0.12);font-family:'Share Tech Mono',monospace;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background 0.12s}
+.mcl:hover{background:var(--yellow);color:var(--deep2)}
+.ed{font-family:'Share Tech Mono',monospace;color:var(--muted);font-size:0.82rem;padding:3rem 0;letter-spacing:0.12em;text-transform:uppercase}
+@media(max-width:600px){.frame{border-width:5px}main{padding:1rem 0 1.5rem 1rem}}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="frame">
+<header>
+  <div class="hi">
+    <div class="wm">KONTAKT</div>
+    <div class="sl">durch raum und zeit &nbsp;·&nbsp; das Kulturfestival &nbsp;·&nbsp; 20 Jahre</div>
+    <div class="hm"><span class="hd">21.–24.05.2026</span><span class="hb">★ 20 Jahre</span></div>
+    <div class="hl">Metalluk-Gelände &nbsp;·&nbsp; Ohmstraße 8 &nbsp;·&nbsp; Bamberg</div>
+  </div>
+</header>
+<div class="sb">
+  <div class="dt" id="dayTabs"></div>
+  <div class="fi" id="trackFilters"><span class="fil">Filter:</span></div>
+</div>
+<main id="mainContent"></main>
+</div>
+<div class="mo" id="mo">
+  <div class="md">
+    <button class="mcl" id="mcl">✕</button>
+    <div class="mhero-wrap" id="mheroWrap" style="display:none">
+      <div class="mhero-bg" id="mheroBg"></div>
+      <img class="mhero" id="mhero" src="" alt="">
+    </div>
+    <div class="mb">
+      <div class="mtb" id="mtb"></div>
+      <div class="mn" id="mn"></div>
+      <div class="minf" id="minf"></div>
+      <div class="mdv"></div>
+      <div class="mde" id="mde"></div>
+      <a class="mlink" id="mlink" href="#" target="_blank">↗ Mehr auf cfp.kntkt.de</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){const c=document.getElementById('stars'),ctx=c.getContext('2d');let W,H,S=[];function r(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}function mk(){S=[];for(let i=0;i<200;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+0.2,a:Math.random(),s:(Math.random()-0.5)*0.006,cx:Math.random()>0.83})}function dr(){ctx.clearRect(0,0,W,H);S.forEach(s=>{s.a=Math.max(0.05,Math.min(1,s.a+s.s));if(s.a<=0.05||s.a>=1)s.s*=-1;ctx.globalAlpha=s.a;if(s.cx){ctx.fillStyle='#c8b0e0';ctx.fillRect(s.x-s.r*.4,s.y-s.r*2.2,s.r*.8,s.r*4.4);ctx.fillRect(s.x-s.r*2.2,s.y-s.r*.4,s.r*4.4,s.r*.8)}else{ctx.fillStyle=s.r>1?'#b8a8d8':'#e0d8f0';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill()}});ctx.globalAlpha=1;requestAnimationFrame(dr)}r();mk();dr();window.addEventListener('resize',()=>{r();mk()})})();
+
+const TR={
+  'Konzert':{color:'#f5d800',icon:'🎸'},
+  'DJ-Set':{color:'#ff4560',icon:'🎛️'},
+  'Workshop':{color:'#00e5a0',icon:'🛠️'},
+  'Vortrag':{color:'#a78bfa',icon:'🎤'},
+  'Performance':{color:'#ff9f40',icon:'🎭'},
+  'Theater':{color:'#c084fc',icon:'🎬'},
+  'Tanz':{color:'#38d9f5',icon:'💃'},
+  'Film':{color:'#4ade80',icon:'🎞️'},
+  'Jamsession':{color:'#fb923c',icon:'🥁'},
+};
+const RI={'Triebwerk':'🔊','Maschinenraum':'⚙️','Zeitkapsel':'⏳','Funkraum':'📡','Rohteilchenbeschleuniger':'⚡','Landeplatz':'🛸','Satelit':'🌙','Sternenwiese':'🌟','B.U.S.':'🚌'};
+const RO=['Triebwerk','Rohteilchenbeschleuniger','Satelit','Zeitkapsel','Sternenwiese','Landeplatz','Funkraum','Maschinenraum','B.U.S.'];
+const SK=new Set(['Team-Einreichung','Soundcheck']);
+const tc=t=>TR[t]?.color||'rgba(240,232,221,0.35)';
+const ti=t=>TR[t]?.icon||'✦';
+const BASE='https://cfp.kntkt.de';
+const XML_URL='https://cfp.kntkt.de/kontakt-2026/schedule/export/schedule.xml';
+const PROXY='https://corsproxy.io/?url=';
+
+const WDAY=['So','Mo','Di','Mi','Do','Fr','Sa'];
+function dlbl(ds){const d=new Date(ds+'T12:00:00');return`${WDAY[d.getDay()]} ${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')}`}
+
+let aday=0,afil=new Set(),DAYS=[];
+
+// Parse pretalx XML into our DAYS structure
+function parseXML(xmlText){
+  const doc=new DOMParser().parseFromString(xmlText,'text/xml');
+  const days=[];
+  doc.querySelectorAll('day').forEach(dayEl=>{
+    const date=dayEl.getAttribute('date');
+    if(!date)return;
+    const rooms={};
+    dayEl.querySelectorAll('room').forEach(roomEl=>{
+      const rn=roomEl.getAttribute('name');
+      if(!rn)return;
+      const evs=[];
+      roomEl.querySelectorAll('event').forEach(ev=>{
+        const track=ev.querySelector('track')?.textContent?.trim()||'';
+        if(SK.has(track))return;
+        const logo=ev.querySelector('logo')?.textContent?.trim()||'';
+        const persons=[...ev.querySelectorAll('person')].map(p=>p.textContent.trim()).filter(Boolean);
+        // normalize track: strip regional suffix
+        const trNorm=track.replace(/ regional$/,'');
+        evs.push({
+          t: ev.querySelector('title')?.textContent?.trim()||'',
+          tr: trNorm||null,
+          s: ev.querySelector('start')?.textContent?.trim()||'00:00',
+          d: ev.querySelector('duration')?.textContent?.trim()||'00:30',
+          l: logo?BASE+logo:'',
+          desc: ev.querySelector('description')?.textContent?.trim().replace(/^None$/,'')||'',
+          u: ev.querySelector('url')?.textContent?.trim()||'',
+          p: persons
+        });
+      });
+      if(evs.length)rooms[rn]=evs;
+    });
+    if(Object.keys(rooms).length)days.push({date,rooms});
+  });
+  // Filter out Mo (index 1 = 2026-05-25, day 5 = empty)
+  return days.filter(d=>Object.keys(d.rooms).length>0);
+}
+
+function initUI(){
+  const allT=new Set();
+  DAYS.forEach(d=>Object.values(d.rooms).forEach(evs=>evs.forEach(e=>{if(e.tr&&!SK.has(e.tr))allT.add(e.tr)})));
+  const fiEl=document.getElementById('trackFilters');
+  // clear existing filter pills
+  while(fiEl.children.length>1)fiEl.removeChild(fiEl.lastChild);
+  allT.forEach(track=>{
+    const p=document.createElement('button');p.className='tp';p.dataset.track=track;
+    p.style.setProperty('--pc',tc(track));
+    p.innerHTML=`<span class="pi">${ti(track)}</span>${track}`;
+    p.addEventListener('click',()=>{if(afil.has(track)){afil.delete(track);p.classList.remove('active')}else{afil.add(track);p.classList.add('active')}rd(aday)});
+    fiEl.appendChild(p);
+  });
+  const tabEl=document.getElementById('dayTabs');
+  tabEl.innerHTML='';
+  DAYS.forEach((day,i)=>{
+    const tab=document.createElement('div');tab.className='dta'+(i===0?' active':'');
+    tab.textContent=dlbl(day.date);
+    tab.addEventListener('click',()=>{document.querySelectorAll('.dta').forEach(t=>t.classList.remove('active'));tab.classList.add('active');aday=i;rd(i)});
+    tabEl.appendChild(tab);
+  });
+  rd(0);
+}
+
+function showStatus(msg,isError){
+  document.getElementById('mainContent').innerHTML=
+    `<p class="ed" style="color:${isError?'#ff4560':'var(--yellow)'}">${msg}</p>`;
+}
+
+async function loadSchedule(){
+  showStatus('✦ Lade Programm …');
+  let xml;
+  // Try direct first (works when hosted on same domain or if CORS opens up)
+  try{
+    const r=await fetch(XML_URL,{cache:'no-cache'});
+    if(!r.ok)throw new Error('direct failed');
+    xml=await r.text();
+  }catch{
+    // Fallback: CORS proxy
+    try{
+      showStatus('✦ Verbinde via Proxy …');
+      const r=await fetch(PROXY+encodeURIComponent(XML_URL),{cache:'no-cache'});
+      if(!r.ok)throw new Error('proxy failed');
+      xml=await r.text();
+    }catch(e){
+      showStatus('✗ Programm konnte nicht geladen werden. Bitte Seite neu laden.',true);
+      return;
+    }
+  }
+  DAYS=parseXML(xml);
+  if(!DAYS.length){showStatus('✗ Keine Daten gefunden.',true);return;}
+  initUI();
+}
+
+loadSchedule();
+function fd(d){const[h,m]=d.split(':').map(Number);return!h?`${m}min`:!m?`${h}h`:`${h}h${m}`}
+function sk(t){const n=parseInt(t.replace(':',''));return n<600?n+2400:n}
+
+// Per-image object-position: 'top center' for band/person photos, 'center' for logos/artworks
+const IP={'C8YAFV':'center','TTW8JN':'center','ESZ9AW':'center','ZTDLEM':'center',
+'SQGAGP':'center','VJNGKB':'center','CFCLD7':'center','HQHK9C':'center','FAEYQP':'center',
+'CBF9QH':'center','LLQGXK':'50% 30%','9YTH7U':'center','MNQMFX':'center','HQ9CU9':'center',
+'C3RQJA':'center','KSMLXU':'center','VGZZLV':'center','W39PDD':'center','DFJHAD':'center',
+'RBQKEM':'center','YWXTAB':'center','KLZKBP':'center','7AZLEF':'center','X37HSG':'center',
+'YNYFNL':'50% 30%','93FFM3':'center','PEQ8D3':'center','NTZUQB':'center','KX7PDV':'center',
+'GJLSZ8':'center','QVMZYV':'center','7GWQ7B':'center','BSJ3DW':'center','MRGBQW':'center',
+'RXENQU':'center','N8FXXC':'50% 20%','XAEBLW':'center','AJRQ7B':'center',
+'DW7LWG':'center','HZGHPG':'50% 15%','UXHT3B':'center','GMA8CV':'50% 40%',
+'8KGLH3':'50% 25%','QWYRYG':'center','9LBHZ8':'center','8UMZAZ':'center','UYUCGT':'center',
+'9Q7DV3':'center','LREGBW':'50% 20%','MJJY3K':'50% 20%','TTL3U7':'50% 30%',
+'PCWTDR':'50% 20%','Z7B9DD':'center','8VXWTR':'center','9XZHLF':'50% 20%',
+'WWFRKG':'center','CX7SPB':'50% 20%','QSCSXZ':'50% 25%','7F8YEH':'50% 15%',
+'JSJJAN':'center','CYELHM':'50% 20%','CLS8UC':'50% 15%','QLMTE8':'center',
+'ZCTKMW':'50% 30%','9BP83L':'50% 20%','9WYGWT':'center','NYTVAL':'50% 20%',
+'3TL3YU':'50% 25%','XXY9GA':'center','7PWWME':'center','S3FQTF':'center',
+'CDRUCS':'50% 20%','CUFJMU':'center','JW7QAW':'50% 20%','UFS7XJ':'50% 20%',
+'SPVTNU':'50% 20%','EGFAJD':'50% 15%','FWEBHC':'center','VSN8TW':'center',
+'7ZKNXP':'50% 20%','C8JS7A':'50% 20%','UFAHW3':'50% 20%','KDXUEE':'center',
+'T9N7UJ':'center','F8MFHX':'50% 20%','LMTL7R':'50% 20%','FKQQV3':'50% 20%',
+'MEB9JD':'center','FHSRGC':'50% 20%','HJSWYK':'50% 20%','D7YPRE':'50% 20%',
+'N8FXXC':'50% 20%','XAEBLW':'center','BSJ3DW':'center','7HQLXQ':'50% 20%',
+'V9CWMM':'50% 20%','VHHJYZ':'center','7AZLEF':'center','GJLSZ8':'center',
+'LVD9YQ':'50% 20%','AJRQ7B':'center','VV3BLH':'50% 20%','QVMZYV':'center',
+'FAEYQP':'center','93FFM3':'center','X37HSG':'center','YNYFNL':'50% 30%',
+'9WYGWT':'center','7F8YEH':'50% 15%','QSCSXZ':'50% 30%','JSJJAN':'center',
+'CYELHM':'50% 20%','CLS8UC':'50% 15%','9LBHZ8':'center','9Q7DV3':'center',
+'MJJY3K':'50% 20%','TTL3U7':'50% 20%','PCWTDR':'50% 20%','Z7B9DD':'center',
+'8VXWTR':'center','9XZHLF':'50% 20%','WWFRKG':'center','GMA8CV':'50% 40%',
+'8KGLH3':'50% 20%','QWYRYG':'center','HZGHPG':'50% 15%','UXHT3B':'center',
+'LREGBW':'50% 20%','8UMZAZ':'center','UYUCGT':'center','KX7PDV':'center',
+'NTZUQB':'center','PEQ8D3':'center','MRGBQW':'center','CX7SPB':'50% 20%',
+'QLMTE8':'center','ZCTKMW':'50% 30%','9BP83L':'50% 20%',
+'GMA8CV':'50% 40%','LVD9YQ':'50% 20%'};
+function imgPos(url){const m=url&&url.match(/submissions\/([A-Z0-9]+)\//);return(m&&IP[m[1]])||'top center';}
+
+function rd(idx){
+  const main=document.getElementById('mainContent');main.innerHTML='';
+  const day=DAYS[idx];
+  const rooms=[...RO.filter(r=>day.rooms[r]?.length),...Object.keys(day.rooms).filter(r=>!RO.includes(r)&&day.rooms[r]?.length).sort()];
+  if(!rooms.length){main.innerHTML='<p class="ed">✦ Keine Programmpunkte</p>';return}
+  const grid=document.createElement('div');grid.className='rg';
+  rooms.forEach(rn=>{
+    const events=[...day.rooms[rn]].sort((a,b)=>sk(a.s)-sk(b.s));
+    const col=document.createElement('div');col.className='rc';
+    col.innerHTML=`<div class="rh"><span>${RI[rn]||'◆'}</span>${rn}</div><div class="re"></div>`;
+    const evW=col.querySelector('.re');
+    events.forEach(ev=>{
+      if(SK.has(ev.tr))return;
+      const color=tc(ev.tr),icon=ti(ev.tr);
+      const card=document.createElement('div');card.className='ec';
+      card.style.setProperty('--tc',color);
+      if(afil.size>0&&!(ev.tr&&afil.has(ev.tr)))card.classList.add('dm');
+      let h='';
+      if(ev.l){
+        const ew=document.createElement('div');ew.className='ew';
+        const bg=document.createElement('div');bg.className='ew-bg';
+        bg.style.backgroundImage=`url('${ev.l}')`;
+        const img=document.createElement('img');img.className='et';
+        img.alt='';img.loading='lazy';img.src=ev.l;
+        img.onerror=()=>ew.style.display='none';
+        ew.appendChild(bg);ew.appendChild(img);
+        card.appendChild(ew);
+      }
+      h+=`<div class="eto"><span class="etm">${ev.s}</span><span class="edu">${fd(ev.d)}</span></div>`;
+      h+=`<div class="eti">${ev.t}</div>`;
+      h+=`<div class="em">`;
+      if(ev.tr)h+=`<span class="eb" style="background:${color}"><span class="bi">${icon}</span>${ev.tr}</span>`;
+      h+=`</div>`;
+      if(ev.p?.length)h+=`<div class="ea">${ev.p.join(', ')}</div>`;
+      card.insertAdjacentHTML('beforeend',h);
+      card.addEventListener('click',()=>openM(ev));
+      evW.appendChild(card);
+    });
+    grid.appendChild(col);
+  });
+  main.appendChild(grid);
+}
+
+function openM(ev){
+  const color=tc(ev.tr),icon=ti(ev.tr);
+  const wrap=document.getElementById('mheroWrap');
+  const hero=document.getElementById('mhero');
+  const bg=document.getElementById('mheroBg');
+  if(ev.l){
+    hero.src=ev.l;
+    bg.style.backgroundImage=`url('${ev.l}')`;
+    wrap.style.display='grid';
+  }else{wrap.style.display='none'}
+  const tb=document.getElementById('mtb');
+  tb.innerHTML=`<span class="bi">${icon}</span>${ev.tr||'Programm'}`;
+  tb.style.background=color;
+  document.getElementById('mn').textContent=ev.t;
+  document.getElementById('minf').innerHTML=`<span>⬡ ${ev.s} Uhr</span><span>◷ ${fd(ev.d)}</span>`+(ev.p?.length?`<span>✦ ${ev.p.join(', ')}</span>`:'');
+  document.getElementById('mde').textContent=(ev.desc||'').trim();
+  document.getElementById('mlink').href=ev.u||'#';
+  document.getElementById('mo').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+document.getElementById('mcl').addEventListener('click',closeM);
+document.getElementById('mo').addEventListener('click',e=>{if(e.target===e.currentTarget)closeM()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+function closeM(){document.getElementById('mo').classList.remove('open');document.body.style.overflow=''}
+</script>
+</body>
+</html>
