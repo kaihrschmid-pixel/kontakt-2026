@@ -141,40 +141,57 @@ function dlbl(ds){const d=new Date(ds+'T12:00:00');return`${WDAY[d.getDay()]} ${
 let aday=0,afil=new Set(),DAYS=[];
 
 // Parse pretalx XML into our DAYS structure
+function txt(el,tag){
+  // Only search direct children to avoid cross-contamination
+  for(const c of el.children){if(c.tagName===tag)return c.textContent.trim();}
+  return '';
+}
+
 function parseXML(xmlText){
   const doc=new DOMParser().parseFromString(xmlText,'text/xml');
   const days=[];
-  doc.querySelectorAll('day').forEach(dayEl=>{
+  const dayEls=doc.getElementsByTagName('day');
+  for(const dayEl of dayEls){
     const date=dayEl.getAttribute('date');
-    if(!date)return;
+    if(!date)continue;
     const rooms={};
-    dayEl.querySelectorAll('room').forEach(roomEl=>{
+    // Only direct room children of this day
+    for(const roomEl of dayEl.children){
+      if(roomEl.tagName!=='room')continue;
       const rn=roomEl.getAttribute('name');
-      if(!rn)return;
+      if(!rn)continue;
       const evs=[];
-      roomEl.querySelectorAll('event').forEach(ev=>{
-        const track=ev.querySelector('track')?.textContent?.trim()||'';
-        if(SK.has(track))return;
-        const logo=ev.querySelector('logo')?.textContent?.trim()||'';
-        const persons=[...ev.querySelectorAll('person')].map(p=>p.textContent.trim()).filter(Boolean);
-        // normalize track: strip regional suffix
+      // Only direct event children of this room
+      for(const ev of roomEl.children){
+        if(ev.tagName!=='event')continue;
+        const track=txt(ev,'track');
+        if(SK.has(track))continue;
+        const logo=txt(ev,'logo');
+        // persons are nested one level deeper
+        const persons=[];
+        for(const c of ev.children){
+          if(c.tagName==='persons'){
+            for(const p of c.children){
+              if(p.tagName==='person'&&p.textContent.trim())persons.push(p.textContent.trim());
+            }
+          }
+        }
         const trNorm=track.replace(/ regional$/,'');
         evs.push({
-          t: ev.querySelector('title')?.textContent?.trim()||'',
+          t: txt(ev,'title'),
           tr: trNorm||null,
-          s: ev.querySelector('start')?.textContent?.trim()||'00:00',
-          d: ev.querySelector('duration')?.textContent?.trim()||'00:30',
+          s: txt(ev,'start')||'00:00',
+          d: txt(ev,'duration')||'00:30',
           l: logo?BASE+logo:'',
-          desc: ev.querySelector('description')?.textContent?.trim().replace(/^None$/,'')||'',
-          u: ev.querySelector('url')?.textContent?.trim()||'',
+          desc: txt(ev,'description').replace(/^None$/,''),
+          u: txt(ev,'url'),
           p: persons
         });
-      });
+      }
       if(evs.length)rooms[rn]=evs;
-    });
+    }
     if(Object.keys(rooms).length)days.push({date,rooms});
-  });
-  // Filter out Mo (index 1 = 2026-05-25, day 5 = empty)
+  }
   return days.filter(d=>Object.keys(d.rooms).length>0);
 }
 
