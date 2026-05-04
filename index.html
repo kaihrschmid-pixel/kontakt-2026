@@ -60,10 +60,10 @@ main{padding:1.25rem 0 2rem 1.25rem;overflow:hidden}
 .rg::-webkit-scrollbar-thumb{background:rgba(245,216,0,0.28);border-radius:2px}
 .rc{flex:0 0 272px;scroll-snap-align:start;display:flex;flex-direction:column;transition:opacity 0.3s}
 .rh{font-family:'Share Tech Mono',monospace;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--yellow);padding:0.45rem 0;border-top:2px solid var(--yellow);margin-bottom:0.55rem;display:flex;align-items:center;gap:0.4rem}
-.re{display:flex;flex-direction:column;gap:0.45rem}
+.re{position:relative;/* height set by JS */}
 
 /* ── CARDS ── */
-.ec{border:1px solid var(--card-border);border-radius:3px;cursor:pointer;transition:transform 0.12s,opacity 0.2s,border-color 0.12s;position:relative;overflow:hidden;min-height:80px}
+.ec{position:absolute;left:0;right:0;border:1px solid var(--card-border);border-radius:3px;cursor:pointer;transition:transform 0.12s,opacity 0.2s,border-color 0.12s;overflow:hidden;min-height:80px}
 .ec::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tc,rgba(240,232,221,0.3));z-index:3}
 .ec:hover{border-color:rgba(245,216,0,0.45);transform:translateY(-1px)}
 .ec.dm{opacity:0.1;pointer-events:none}
@@ -249,7 +249,6 @@ let favs=new Set(JSON.parse(localStorage.getItem('kontakt_favs')||'[]'));
 /* ── TIME UTILS ── */
 function toMin(t){const[h,m]=t.split(':').map(Number);const tot=h*60+m;return tot<360?tot+1440:tot;}
 function fd(d){const[h,m]=d.split(':').map(Number);return!h?`${m}min`:!m?`${h}h`:`${h}h${m}`}
-const PX_PER_MIN=0.9,GAP_MAX=56,GAP_MIN=6;
 
 /* ── NOW (with dev override) ── */
 let devMin=null; // set via ?dev mode
@@ -469,29 +468,43 @@ function initUI(){
 }
 
 /* ── RENDER ── */
+const PX_PER_MIN=1.8;
+const CARD_MIN_H=82;
+const COL_PAD_BOTTOM=40;
+
 function rd(idx){
   const main=document.getElementById('mainContent');main.innerHTML='';
   const day=DAYS[idx];if(!day){main.innerHTML='<p class="ed">✦ Keine Programmpunkte</p>';return;}
   const rooms=[...RO.filter(r=>day.rooms[r]?.length),...Object.keys(day.rooms).filter(r=>!RO.includes(r)&&day.rooms[r]?.length).sort()];
   if(!rooms.length){main.innerHTML='<p class="ed">✦ Keine Programmpunkte</p>';return;}
-  // Sort-to-front: selected rooms jump to beginning
   const orderedRooms=rfil.size>0
     ?[...rooms.filter(r=>rfil.has(r)),...rooms.filter(r=>!rfil.has(r))]
     :rooms;
   const grid=document.createElement('div');grid.className='rg';
   if(rfil.size>0)setTimeout(()=>grid.scrollTo({left:0,behavior:'smooth'}),30);
-  let dayStart=Infinity;
-  rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{const m=toMin(ev.s);if(m<dayStart)dayStart=m;}));
+
+  let dayStart=Infinity,dayEnd=0;
+  rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{
+    const s=toMin(ev.s);
+    const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
+    const e=s+dh*60+dm;
+    if(s<dayStart)dayStart=s;
+    if(e>dayEnd)dayEnd=e;
+  }));
+  const colH=Math.max((dayEnd-dayStart)*PX_PER_MIN+COL_PAD_BOTTOM,300);
 
   orderedRooms.forEach(rn=>{
     const events=[...day.rooms[rn]].sort((a,b)=>toMin(a.s)-toMin(b.s));
     const col=document.createElement('div');col.className='rc';col.dataset.room=rn;
     if(rfil.size>0&&!rfil.has(rn))col.style.opacity='0.1';
-    col.innerHTML=`<div class="rh"><span>${RI[rn]||'◆'}</span>${rn}</div><div class="re"></div>`;
-    const evW=col.querySelector('.re');
-    const roomStart=toMin(events[0].s);
-    evW.style.paddingTop=Math.min((roomStart-dayStart)*PX_PER_MIN,GAP_MAX*3)+'px';
-    let prevEnd=null;
+    const rhEl=document.createElement('div');rhEl.className='rh';
+    rhEl.innerHTML=`<span>${RI[rn]||'◆'}</span>${rn}`;
+    col.appendChild(rhEl);
+    const evW=document.createElement('div');evW.className='re';
+    evW.style.height=colH+'px';
+    col.appendChild(evW);
+
+    let placedCards=[];
     events.forEach(ev=>{
       if(SK.has(ev.tr))return;
       const matchQ=matchesQuery(ev);
@@ -500,12 +513,19 @@ function rd(idx){
       const live=isLive(ev);
       const faved=favs.has(favKey(ev));
       const conflict=hasConflict(ev);
+      const idealTop=(toMin(ev.s)-dayStart)*PX_PER_MIN;
+      const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
+      const durMin=dh*60+dm;
+      const idealH=Math.max(durMin*PX_PER_MIN,CARD_MIN_H);
+      let top=idealTop;
+      for(const p of placedCards){if(top<p.bottom+4)top=p.bottom+4;}
+      placedCards.push({top,bottom:top+idealH});
       const card=document.createElement('div');
       card.className='ec'+(matchQ&&matchF?'':' dm')+(live?' live':'')+(faved?' faved':'');
       card.style.setProperty('--tc',color);
+      card.style.top=top+'px';
+      card.style.height=idealH+'px';
       if(conflict)card.style.boxShadow='inset 0 0 0 1px #ff456060';
-      if(prevEnd!==null){const gap=Math.max(0,toMin(ev.s)-prevEnd);card.style.marginTop=Math.max(Math.min(gap*PX_PER_MIN,GAP_MAX),GAP_MIN)+'px';}
-      const[dh,dm]=(ev.d||'00:30').split(':').map(Number);prevEnd=toMin(ev.s)+dh*60+dm;
       if(ev.l){
         const ew=document.createElement('div');ew.className='ew';
         const bg=document.createElement('div');bg.className='ew-bg';bg.style.backgroundImage=`url('${ev.l}')`;
@@ -521,7 +541,6 @@ function rd(idx){
       h+=`</div>`;
       if(ev.p?.length)h+=`<div class="ea">${ev.p.join(', ')}</div>`;
       ov.innerHTML=h;
-      // fav star (stopPropagation so it doesn't open modal)
       const star=document.createElement('span');star.className='fav';star.textContent=faved?'★':'☆';
       star.addEventListener('click',e=>{e.stopPropagation();toggleFav(ev);});
       card.appendChild(ov);card.appendChild(star);
