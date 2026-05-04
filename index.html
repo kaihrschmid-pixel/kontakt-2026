@@ -428,19 +428,19 @@ function matchesQuery(ev){
 function scrollToNow(){
   const day=DAYS[aday];
   if(!day||day.date!==todayDate())return;
-  // Calculate dayStart same as rd()
   const rooms=Object.keys(day.rooms);
   let dayStart=Infinity;
   rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{const m=toMin(ev.s);if(m<dayStart)dayStart=m;}));
   const now=nowMin();
-  if(now<dayStart)return; // before programme starts
+  if(now<dayStart)return;
   const topPx=(now-dayStart)*PX_PER_MIN;
-  // Scroll main vertically, with some offset so current time isn't at very top
   const offset=120;
-  setTimeout(()=>{
-    document.getElementById('mainContent').scrollIntoView({behavior:'smooth'});
-    window.scrollTo({top:document.getElementById('mainContent').offsetTop+topPx-offset,behavior:'smooth'});
-  },200);
+  const stickyH=document.querySelector('.sb')?.offsetHeight||0;
+  // Double rAF ensures DOM is fully painted before scrolling
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const target=document.getElementById('mainContent').offsetTop+topPx-offset-stickyH;
+    window.scrollTo({top:Math.max(0,target),behavior:'smooth'});
+  }));
 }
 
 
