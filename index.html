@@ -71,10 +71,9 @@ main{padding:1.25rem 0 2rem 1.25rem;overflow:hidden}
 .ec.noimg .eov{min-height:unset}
 /* live event highlight */
 /* live scaleY pump animation */
-@keyframes livebeat{0%,100%{transform:scaleY(1);box-shadow:0 0 0 1px #ff456040}50%{transform:scaleY(1.08);box-shadow:0 0 0 3px #ff456066}}
-@keyframes livebeatdot{0%,100%{opacity:1}50%{opacity:0.3}}
-.ec.live{border-color:#ff4560!important;transform-origin:center top;z-index:10;animation:livebeat 2s ease-in-out infinite}
-.ec.live::after{content:'● LIVE';position:absolute;top:5px;right:6px;font-family:'Share Tech Mono',monospace;font-size:0.5rem;letter-spacing:0.12em;color:#ff4560;z-index:4;animation:livebeatdot 2s ease-in-out infinite}
+@keyframes liveswell{0%{transform:scale(1)}60%{transform:scale(1.06,1.1)}100%{transform:scale(1)}}
+.ec.live{border-color:#ff4560!important;box-shadow:0 0 0 1px #ff456060;transform-origin:center center;z-index:10;animation:liveswell 1.2s cubic-bezier(0.4,0,0.2,1) 0.3s 1 forwards}
+.ec.live::after{content:'● LIVE';position:absolute;top:5px;right:6px;font-family:'Share Tech Mono',monospace;font-size:0.5rem;letter-spacing:0.12em;color:#ff4560;z-index:4;animation:pulse 1.4s ease-in-out infinite}
 /* favourite star */
 .ec .fav{position:absolute;bottom:5px;right:6px;z-index:4;font-size:0.75rem;opacity:0.35;transition:opacity 0.15s,transform 0.15s;cursor:pointer;line-height:1}
 .ec .fav:hover,.ec.faved .fav{opacity:1}
