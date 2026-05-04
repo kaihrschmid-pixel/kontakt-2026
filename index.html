@@ -424,6 +424,26 @@ function matchesQuery(ev){
 }
 
 /* ── INIT UI ── */
+/* ── SCROLL TO NOW ── */
+function scrollToNow(){
+  const day=DAYS[aday];
+  if(!day||day.date!==todayDate())return;
+  // Calculate dayStart same as rd()
+  const rooms=Object.keys(day.rooms);
+  let dayStart=Infinity;
+  rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{const m=toMin(ev.s);if(m<dayStart)dayStart=m;}));
+  const now=nowMin();
+  if(now<dayStart)return; // before programme starts
+  const topPx=(now-dayStart)*PX_PER_MIN;
+  // Scroll main vertically, with some offset so current time isn't at very top
+  const offset=120;
+  setTimeout(()=>{
+    document.getElementById('mainContent').scrollIntoView({behavior:'smooth'});
+    window.scrollTo({top:document.getElementById('mainContent').offsetTop+topPx-offset,behavior:'smooth'});
+  },200);
+}
+
+
 function initUI(){
   readState();
   const allT=new Set();
@@ -475,6 +495,7 @@ function initUI(){
   buildRoomFilters(aday);
   updateFavBtn();
   rd(aday);
+  scrollToNow();
   // refresh live status every minute
   setInterval(()=>rd(aday),60000);
 }
@@ -610,7 +631,6 @@ if(location.search.includes('dev')){
 }
 function applyDevTime(){
   devMin=parseInt(document.getElementById('devTime').value);
-  // Switch to the selected date's tab
   const dateVal=document.getElementById('devDate').value;
   const idx=DAYS.findIndex(d=>d.date===dateVal);
   if(idx>=0){
@@ -621,9 +641,8 @@ function applyDevTime(){
     });
   }
   rd(aday);
+  scrollToNow();
 }
-
-/* ── LOAD ── */
 function showStatus(msg,isError){
   document.getElementById('mainContent').innerHTML=`<p class="ed" style="color:${isError?'#ff4560':'var(--yellow)'}">${msg}</p>`;
 }
