@@ -27,15 +27,21 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 
 /* ── STICKY BAR ── */
 .sb{position:sticky;top:0;z-index:200;background:var(--deep2);border-bottom:2px solid rgba(245,216,0,0.2)}
-.dt{display:flex;overflow-x:auto;padding:0 1rem;scrollbar-width:none;border-bottom:1px solid rgba(245,216,0,0.08)}
+.dt{display:flex;overflow-x:auto;padding:0 0.5rem;scrollbar-width:none;border-bottom:1px solid rgba(245,216,0,0.08)}
 .dt::-webkit-scrollbar{display:none}
-.dta{padding:0.7rem 1.35rem;font-family:'Share Tech Mono',monospace;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.15s;user-select:none;position:relative}
+.dta{padding:0.65rem 1rem;font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.15s;user-select:none;position:relative}
 .dta:hover{color:var(--cream)}
-.dta.active{color:var(--yellow);border-bottom-color:var(--yellow)}
+.dta.today{color:var(--cream)}
 /* live dot on today tab */
 .dta .livedot{display:none;width:5px;height:5px;border-radius:50%;background:#ff4560;position:absolute;top:6px;right:6px;animation:pulse 1.4s ease-in-out infinite}
 .dta.today .livedot{display:block}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
+/* day divider in continuous timeline */
+.day-block{margin-bottom:2rem}
+.day-div{position:sticky;top:0;z-index:100;background:var(--deep2);border-top:2px solid var(--yellow);border-bottom:1px solid rgba(245,216,0,0.15);padding:0.4rem 1.25rem;display:flex;align-items:center;gap:0.75rem;margin-bottom:0}
+.day-div-label{font-family:'Share Tech Mono',monospace;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--yellow)}
+.day-div-dot{width:6px;height:6px;border-radius:50%;background:#ff4560;animation:pulse 1.4s ease-in-out infinite;display:none}
+.day-div.today .day-div-dot{display:block}
 
 /* ── SEARCH ── */
 .srow{padding:0.45rem 1rem;border-bottom:1px solid rgba(245,216,0,0.06)}
@@ -53,7 +59,7 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 .tp.active{background:var(--pc,var(--yellow));color:var(--deep2);border-color:transparent;font-weight:700}
 
 /* ── GRID ── */
-main{padding:1.25rem 0 2rem 1.25rem;overflow:hidden}
+main{padding:0.5rem 0 4rem 0;overflow:visible}
 .rg{display:flex;gap:0.9rem;overflow-x:auto;padding-right:1.25rem;padding-bottom:1.5rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
 .rg::-webkit-scrollbar{height:4px}
 .rg::-webkit-scrollbar-track{background:rgba(255,255,255,0.04)}
@@ -146,7 +152,7 @@ main{padding:1.25rem 0 2rem 1.25rem;overflow:hidden}
 
 @media(max-width:600px){
   .frame{border-width:5px}
-  main{padding:1rem 0 1.5rem 0}
+  main{padding:0.25rem 0 3rem 0}
   header{padding:1rem 1rem 0.9rem}
   .wm{font-size:clamp(2.2rem,12vw,3.2rem)}
   .sl{display:none}
@@ -154,15 +160,16 @@ main{padding:1.25rem 0 2rem 1.25rem;overflow:hidden}
   .hm{margin-top:0.5rem;gap:0.75rem}
   .hd{font-size:0.95rem}
   .hl{font-size:0.58rem;margin-top:0.2rem}
-  .dt{padding:0;overflow-x:hidden}
-  .dta{flex:1;text-align:center;padding:0.6rem 0.2rem;font-size:0.62rem;letter-spacing:0.08em}
+  .dt{padding:0}
+  .dta{flex:1;text-align:center;padding:0.6rem 0.2rem;font-size:0.6rem;letter-spacing:0.08em}
   .srow{padding:0.35rem 0.75rem}
   .fi{padding:0.35rem 0.75rem;gap:0.22rem;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
   .fi::-webkit-scrollbar{display:none}
   .fil{display:none}
   .tp{font-size:0.56rem;padding:0.13rem 0.38rem;white-space:nowrap;flex-shrink:0}
-  .rg{gap:0;padding:0 0 1.5rem 0;scroll-snap-type:x mandatory}
-  .rc{flex:0 0 calc(100vw - 10px);padding:0 1rem;box-sizing:border-box}
+  .rg{gap:0;padding:0 0 0 0;scroll-snap-type:x mandatory}
+  .rc{flex:0 0 calc(100vw - 10px);padding:0 0.75rem;box-sizing:border-box}
+  .day-div{padding:0.4rem 0.75rem;top:0}
   .fav-panel{width:calc(100vw - 3rem);right:1rem;bottom:5rem}
   .fav-btn{bottom:1rem;right:1rem}
 }
@@ -202,6 +209,7 @@ main{padding:1.25rem 0 2rem 1.25rem;overflow:hidden}
       <span id="devTimeLabel" style="min-width:3rem">13:00</span>
     </div>
     <button onclick="applyDevTime()" style="background:#ff456020;border:1px solid #ff456060;color:#ff4560;border-radius:2px;padding:2px 8px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:0.62rem">Anwenden → Live testen</button>
+    <div id="devDebug" style="margin-top:0.5rem;font-size:0.55rem;opacity:0.8;line-height:1.6;white-space:pre"></div>
   </div>
 </div>
 <button class="fav-btn" id="favBtn" title="Mein Plan">★<span class="fbadge" id="favBadge">0</span></button>
@@ -265,16 +273,33 @@ function fd(d){const[h,m]=d.split(':').map(Number);return!h?`${m}min`:!m?`${h}h`
 /* ── NOW (with dev override) ── */
 let devMin=null; // set via ?dev mode
 function nowMin(){
-  if(devMin!==null)return devMin;
-  const n=new Date();return n.getHours()*60+n.getMinutes();
+  const raw=devMin!==null?devMin:(new Date().getHours()*60+new Date().getMinutes());
+  return raw<360?raw+1440:raw;
 }
 function todayDate(){
   if(devMin!==null)return document.getElementById('devDate')?.value||new Date().toISOString().slice(0,10);
   return new Date().toISOString().slice(0,10);
 }
+function programmeDate(){
+  // Which calendar date is the current "programme day"?
+  if(devMin!==null){
+    const devDate=document.getElementById('devDate')?.value;
+    if(!devDate)return new Date().toISOString().slice(0,10);
+    if(devMin<360){
+      const d=new Date(devDate+'T12:00:00');d.setDate(d.getDate()-1);
+      return d.toISOString().slice(0,10);
+    }
+    return devDate;
+  }
+  const h=new Date().getHours();
+  if(h<6){
+    const d=new Date();d.setDate(d.getDate()-1);
+    return d.toISOString().slice(0,10);
+  }
+  return new Date().toISOString().slice(0,10);
+}
 function isLive(ev){
-  const day=DAYS[aday];if(!day)return false;
-  if(day.date!==todayDate())return false;
+  if(ev.date!==programmeDate())return false;
   const now=nowMin();const start=toMin(ev.s);
   const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
   const end=start+(dh*60+dm);
@@ -311,7 +336,6 @@ function parseXML(xmlText){
 /* ── URL STATE ── */
 function pushState(){
   const p=new URLSearchParams();
-  if(aday>0)p.set('dag',aday);
   if(afil.size)p.set('format',[...afil].join(','));
   if(rfil.size)p.set('raum',[...rfil].join(','));
   if(query)p.set('q',query);
@@ -320,10 +344,10 @@ function pushState(){
 }
 function readState(){
   const p=new URLSearchParams(location.search);
-  if(p.has('dag'))aday=parseInt(p.get('dag'))||0;
   if(p.has('format'))p.get('format').split(',').forEach(f=>afil.add(f));
   if(p.has('raum'))p.get('raum').split(',').forEach(r=>rfil.add(r));
   if(p.has('q'))query=p.get('q');
+  if(p.has('date'))window.__scrollToDate=p.get('date');
 }
 
 /* ── SKELETON ── */
@@ -341,7 +365,7 @@ function showSkeleton(){
 /* ── FAVOURITES ── */
 function favKey(ev){return`${ev.date}|${ev.s}|${ev.t}`;}
 function saveFavs(){localStorage.setItem('kontakt_favs',JSON.stringify([...favs]));}
-function toggleFav(ev){const k=favKey(ev);favs.has(k)?favs.delete(k):favs.add(k);saveFavs();updateFavBtn();renderFavPanel();rd(aday);}
+function toggleFav(ev){const k=favKey(ev);favs.has(k)?favs.delete(k):favs.add(k);saveFavs();updateFavBtn();renderFavPanel();rd();}
 function toggleFavFromModal(){if(currentEv)toggleFav(currentEv);updateModalFavBtn();}
 function updateFavBtn(){
   const btn=document.getElementById('favBtn');
@@ -414,178 +438,241 @@ function openMbyKey(k){
   for(const day of DAYS){for(const evs of Object.values(day.rooms)){for(const ev of evs){if(favKey(ev)===k){closeFavPanel();openM(ev);return;}}}}
 }
 
-/* ── SEARCH ── */
-document.getElementById('search').addEventListener('input',function(){
-  query=this.value.toLowerCase().trim();pushState();rd(aday);
-});
 function matchesQuery(ev){
   if(!query)return true;
   return ev.t.toLowerCase().includes(query)||ev.p.some(p=>p.toLowerCase().includes(query))||(ev.tr||'').toLowerCase().includes(query)||ev.room.toLowerCase().includes(query);
 }
 
-/* ── INIT UI ── */
-/* ── SCROLL TO NOW ── */
-function scrollToNow(){
-  const day=DAYS[aday];
-  if(!day||day.date!==todayDate())return;
-  const rooms=Object.keys(day.rooms);
-  let dayStart=Infinity;
-  rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{const m=toMin(ev.s);if(m<dayStart)dayStart=m;}));
-  const now=nowMin();
-  if(now<dayStart)return;
-  const topPx=(now-dayStart)*PX_PER_MIN;
-  const offset=120;
-  const stickyH=document.querySelector('.sb')?.offsetHeight||0;
-  // Double rAF ensures DOM is fully painted before scrolling
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    const target=document.getElementById('mainContent').offsetTop+topPx-offset-stickyH;
-    window.scrollTo({top:Math.max(0,target),behavior:'smooth'});
-  }));
-}
-
-
 function initUI(){
   readState();
   const allT=new Set();
   DAYS.forEach(d=>Object.values(d.rooms).forEach(evs=>evs.forEach(e=>{if(e.tr&&!SK.has(e.tr))allT.add(e.tr)})));
+  const allR=new Set();
+  DAYS.forEach(d=>RO.filter(r=>d.rooms[r]?.length).forEach(r=>allR.add(r)));
+  DAYS.forEach(d=>Object.keys(d.rooms).filter(r=>!RO.includes(r)&&d.rooms[r]?.length).forEach(r=>allR.add(r)));
+
+  // Track filters
   const fiEl=document.getElementById('trackFilters');
   while(fiEl.children.length>1)fiEl.removeChild(fiEl.lastChild);
   allT.forEach(track=>{
     const p=document.createElement('button');p.className='tp'+(afil.has(track)?' active':'');
-    p.dataset.track=track;p.style.setProperty('--pc',tc(track));
+    p.style.setProperty('--pc',tc(track));
     p.innerHTML=`<span class="pi">${ti(track)}</span>${track}`;
-    p.addEventListener('click',()=>{if(afil.has(track)){afil.delete(track);p.classList.remove('active')}else{afil.add(track);p.classList.add('active')}pushState();rd(aday)});
+    p.addEventListener('click',()=>{if(afil.has(track)){afil.delete(track);p.classList.remove('active')}else{afil.add(track);p.classList.add('active')}pushState();rd()});
     fiEl.appendChild(p);
   });
-  if(query)document.getElementById('search').value=query;
 
-  function buildRoomFilters(dayIdx){
-    const rfEl=document.getElementById('roomFilters');
-    while(rfEl.children.length>1)rfEl.removeChild(rfEl.lastChild);
-    const day=DAYS[dayIdx];
-    const rooms=[...RO.filter(r=>day.rooms[r]?.length),...Object.keys(day.rooms).filter(r=>!RO.includes(r)&&day.rooms[r]?.length).sort()];
-    rooms.forEach(rn=>{
-      const p=document.createElement('button');p.className='tp'+(rfil.has(rn)?' active':'');
-      p.style.setProperty('--pc','rgba(240,232,221,0.55)');
-      p.innerHTML=`<span class="pi">${RI[rn]||'◆'}</span>${rn}`;
-      p.addEventListener('click',()=>{if(rfil.has(rn)){rfil.delete(rn);p.classList.remove('active')}else{rfil.add(rn);p.classList.add('active')}pushState();rd(aday)});
-      rfEl.appendChild(p);
-    });
-  }
+  // Room filters (all rooms across all days)
+  const rfEl=document.getElementById('roomFilters');
+  while(rfEl.children.length>1)rfEl.removeChild(rfEl.lastChild);
+  const roomOrder=[...RO.filter(r=>allR.has(r)),...[...allR].filter(r=>!RO.includes(r)).sort()];
+  roomOrder.forEach(rn=>{
+    const p=document.createElement('button');p.className='tp'+(rfil.has(rn)?' active':'');
+    p.style.setProperty('--pc','rgba(240,232,221,0.55)');
+    p.innerHTML=`<span class="pi">${RI[rn]||'◆'}</span>${rn}`;
+    p.addEventListener('click',()=>{if(rfil.has(rn)){rfil.delete(rn);p.classList.remove('active')}else{rfil.add(rn);p.classList.add('active')}pushState();rd()});
+    rfEl.appendChild(p);
+  });
 
-  // Find today's tab index
+  // Day jump tabs
   const today=todayDate();
-  let todayIdx=DAYS.findIndex(d=>d.date===today);
-  if(todayIdx>=0&&!location.search.includes('dag='))aday=todayIdx;
-
   const tabEl=document.getElementById('dayTabs');tabEl.innerHTML='';
   DAYS.forEach((day,i)=>{
-    const tab=document.createElement('div');
     const isToday=day.date===today;
-    tab.className='dta'+(i===aday?' active':'')+(isToday?' today':'');
+    const tab=document.createElement('div');
+    tab.className='dta'+(isToday?' today':'');
     tab.innerHTML=dlbl(day.date)+'<span class="livedot"></span>';
-    tab.addEventListener('click',()=>{
-      document.querySelectorAll('.dta').forEach(t=>t.classList.remove('active'));
-      tab.classList.add('active');aday=i;rfil.clear();
-      document.querySelectorAll('#roomFilters .tp').forEach(p=>p.classList.remove('active'));
-      buildRoomFilters(i);pushState();rd(i);
-    });
+    tab.addEventListener('click',()=>scrollToDate(day.date));
     tabEl.appendChild(tab);
   });
-  buildRoomFilters(aday);
+
   updateFavBtn();
-  rd(aday);
-  scrollToNow();
-  // refresh live status every minute
-  setInterval(()=>rd(aday),60000);
+  if(document.getElementById('search'))document.getElementById('search').value=query;
+  rd();
+  // Wait until main has real height (layout complete) before scrolling
+  const main=document.getElementById('mainContent');
+  const doScroll=()=>{
+    if(window.__scrollToDate){scrollToDate(window.__scrollToDate);delete window.__scrollToDate;}
+    else scrollToNow();
+  };
+  if(main.scrollHeight>200){
+    // Already laid out (e.g. applyDevTime re-render)
+    requestAnimationFrame(doScroll);
+  } else {
+    // Wait for layout via ResizeObserver
+    const ro=new ResizeObserver(entries=>{
+      if(entries[0].contentRect.height>200){
+        ro.disconnect();
+        requestAnimationFrame(doScroll);
+      }
+    });
+    ro.observe(main);
+    // Safety fallback after 3s
+    setTimeout(()=>{ro.disconnect();doScroll();},3000);
+  }
+  setInterval(()=>{
+    document.querySelectorAll('.ec').forEach(card=>{
+      const k=card.dataset.evkey;if(!k)return;
+      for(const day of DAYS){for(const evs of Object.values(day.rooms)){for(const ev of evs){
+        if(favKey(ev)===k){card.classList.toggle('live',isLive(ev));return;}
+      }}}
+    });
+    const today=todayDate();
+    document.querySelectorAll('.dta').forEach((t,i)=>t.classList.toggle('today',DAYS[i]?.date===today));
+  },30000);
 }
 
-/* ── RENDER ── */
+/* ── RENDER: continuous timeline, all days ── */
 const PX_PER_MIN=1.8;
 const CARD_MIN_H=82;
-const COL_PAD_BOTTOM=40;
+const COL_PAD_BOTTOM=60;
 
-function rd(idx){
+function rd(){
   const main=document.getElementById('mainContent');main.innerHTML='';
-  const day=DAYS[idx];if(!day){main.innerHTML='<p class="ed">✦ Keine Programmpunkte</p>';return;}
-  const rooms=[...RO.filter(r=>day.rooms[r]?.length),...Object.keys(day.rooms).filter(r=>!RO.includes(r)&&day.rooms[r]?.length).sort()];
-  if(!rooms.length){main.innerHTML='<p class="ed">✦ Keine Programmpunkte</p>';return;}
-  const orderedRooms=rfil.size>0
-    ?[...rooms.filter(r=>rfil.has(r)),...rooms.filter(r=>!rfil.has(r))]
-    :rooms;
-  const grid=document.createElement('div');grid.className='rg';
-  if(rfil.size>0)setTimeout(()=>grid.scrollTo({left:0,behavior:'smooth'}),30);
+  if(!DAYS.length){main.innerHTML='<p class="ed">✦ Keine Programmpunkte</p>';return;}
 
-  let dayStart=Infinity,dayEnd=0;
-  rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{
-    const s=toMin(ev.s);
-    const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
-    const e=s+dh*60+dm;
-    if(s<dayStart)dayStart=s;
-    if(e>dayEnd)dayEnd=e;
-  }));
-  const colH=Math.max((dayEnd-dayStart)*PX_PER_MIN+COL_PAD_BOTTOM,300);
+  DAYS.forEach(day=>{
+    const today=todayDate();
+    const isToday=day.date===today;
+    const rooms=[...RO.filter(r=>day.rooms[r]?.length),...Object.keys(day.rooms).filter(r=>!RO.includes(r)&&day.rooms[r]?.length).sort()];
+    const orderedRooms=rfil.size>0?[...rooms.filter(r=>rfil.has(r)),...rooms.filter(r=>!rfil.has(r))]:rooms;
 
-  orderedRooms.forEach(rn=>{
-    const events=[...day.rooms[rn]].sort((a,b)=>toMin(a.s)-toMin(b.s));
-    const col=document.createElement('div');col.className='rc';col.dataset.room=rn;
-    if(rfil.size>0&&!rfil.has(rn))col.style.opacity='0.1';
-    const rhEl=document.createElement('div');rhEl.className='rh';
-    rhEl.innerHTML=`<span>${RI[rn]||'◆'}</span>${rn}`;
-    col.appendChild(rhEl);
-    const evW=document.createElement('div');evW.className='re';
-    evW.style.height=colH+'px';
-    col.appendChild(evW);
+    // Day block
+    const block=document.createElement('div');
+    block.className='day-block';
+    block.dataset.date=day.date;
 
-    let placedCards=[];
-    events.forEach(ev=>{
-      if(SK.has(ev.tr))return;
-      const matchQ=matchesQuery(ev);
-      const matchF=afil.size===0||(ev.tr&&afil.has(ev.tr));
-      const color=tc(ev.tr),icon=ti(ev.tr);
-      const live=isLive(ev);
-      const faved=favs.has(favKey(ev));
-      const conflict=hasConflict(ev);
-      const idealTop=(toMin(ev.s)-dayStart)*PX_PER_MIN;
+    // Sticky day divider
+    const div=document.createElement('div');
+    div.className='day-div'+(isToday?' today':'');
+    div.innerHTML=`<span class="day-div-label">${dlbl(day.date)}</span><span class="day-div-dot"></span>`;
+    block.appendChild(div);
+
+    // Grid for this day
+    const grid=document.createElement('div');
+    grid.className='rg';
+    grid.dataset.date=day.date;
+
+    let dayStart=Infinity,dayEnd=0;
+    rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{
+      const s=toMin(ev.s);
       const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
-      const durMin=dh*60+dm;
-      const idealH=Math.max(durMin*PX_PER_MIN,CARD_MIN_H);
-      let top=idealTop;
-      for(const p of placedCards){if(top<p.bottom+4)top=p.bottom+4;}
-      placedCards.push({top,bottom:top+idealH});
-      const card=document.createElement('div');
-      card.className='ec'+(matchQ&&matchF?'':' dm')+(live?' live':'')+(faved?' faved':'');
-      card.style.setProperty('--tc',color);
-      card.style.top=top+'px';
-      card.style.height=idealH+'px';
-      if(conflict)card.style.boxShadow='inset 0 0 0 1px #ff456060';
-      if(ev.l){
-        const ew=document.createElement('div');ew.className='ew';
-        const bg=document.createElement('div');bg.className='ew-bg';bg.style.backgroundImage=`url('${ev.l}')`;
-        const img=document.createElement('img');img.className='et';img.alt='';img.loading='lazy';img.src=ev.l;
-        img.onerror=()=>{ew.remove();card.classList.add('noimg')};
-        ew.appendChild(bg);ew.appendChild(img);card.appendChild(ew);
-        const scrim=document.createElement('div');scrim.className='escrim';card.appendChild(scrim);
-      } else {card.classList.add('noimg');}
-      const ov=document.createElement('div');ov.className='eov';
-      let h=`<div class="eto"><span class="etm">${ev.s}</span><span class="edu">${fd(ev.d)}</span></div>`;
-      h+=`<div class="eti">${ev.t}</div><div class="em">`;
-      if(ev.tr)h+=`<span class="eb" style="background:${color}"><span class="bi">${icon}</span>${ev.tr}</span>`;
-      h+=`</div>`;
-      if(ev.p?.length)h+=`<div class="ea">${ev.p.join(', ')}</div>`;
-      ov.innerHTML=h;
-      const star=document.createElement('span');star.className='fav';star.textContent=faved?'★':'☆';
-      star.addEventListener('click',e=>{e.stopPropagation();toggleFav(ev);});
-      card.appendChild(ov);card.appendChild(star);
-      card.addEventListener('click',()=>openM(ev));
-      evW.appendChild(card);
+      const e=s+dh*60+dm;
+      if(s<dayStart)dayStart=s;
+      if(e>dayEnd)dayEnd=e;
+    }));
+    const colH=Math.max((dayEnd-dayStart)*PX_PER_MIN+COL_PAD_BOTTOM,300);
+
+    orderedRooms.forEach(rn=>{
+      const events=[...day.rooms[rn]].sort((a,b)=>toMin(a.s)-toMin(b.s));
+      const col=document.createElement('div');col.className='rc';col.dataset.room=rn;
+      if(rfil.size>0&&!rfil.has(rn))col.style.opacity='0.1';
+      const rhEl=document.createElement('div');rhEl.className='rh';
+      rhEl.innerHTML=`<span>${RI[rn]||'◆'}</span>${rn}`;
+      col.appendChild(rhEl);
+      const evW=document.createElement('div');evW.className='re';
+      evW.style.height=colH+'px';
+      col.appendChild(evW);
+      let placedCards=[];
+      events.forEach(ev=>{
+        if(SK.has(ev.tr))return;
+        const matchQ=matchesQuery(ev);
+        const matchF=afil.size===0||(ev.tr&&afil.has(ev.tr));
+        const color=tc(ev.tr),icon=ti(ev.tr);
+        const live=isLive(ev);
+        const faved=favs.has(favKey(ev));
+        const conflict=hasConflict(ev);
+        const idealTop=(toMin(ev.s)-dayStart)*PX_PER_MIN;
+        const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
+        const durMin=dh*60+dm;
+        const idealH=Math.max(durMin*PX_PER_MIN,CARD_MIN_H);
+        let top=idealTop;
+        for(const p of placedCards){if(top<p.bottom+4)top=p.bottom+4;}
+        placedCards.push({top,bottom:top+idealH});
+        const card=document.createElement('div');
+        card.className='ec'+(matchQ&&matchF?'':' dm')+(live?' live':'')+(faved?' faved':'');
+        card.dataset.evkey=favKey(ev);
+        card.style.setProperty('--tc',color);
+        card.style.top=top+'px';
+        card.style.height=idealH+'px';
+        if(conflict)card.style.boxShadow='inset 0 0 0 1px #ff456060';
+        if(ev.l){
+          const ew=document.createElement('div');ew.className='ew';
+          const bg=document.createElement('div');bg.className='ew-bg';bg.style.backgroundImage=`url('${ev.l}')`;
+          const img=document.createElement('img');img.className='et';img.alt='';img.loading='lazy';img.src=ev.l;
+          img.onerror=()=>{ew.remove();card.classList.add('noimg')};
+          ew.appendChild(bg);ew.appendChild(img);card.appendChild(ew);
+          const scrim=document.createElement('div');scrim.className='escrim';card.appendChild(scrim);
+        } else {card.classList.add('noimg');}
+        const ov=document.createElement('div');ov.className='eov';
+        let h=`<div class="eto"><span class="etm">${ev.s}</span><span class="edu">${fd(ev.d)}</span></div>`;
+        h+=`<div class="eti">${ev.t}</div><div class="em">`;
+        if(ev.tr)h+=`<span class="eb" style="background:${color}"><span class="bi">${icon}</span>${ev.tr}</span>`;
+        h+='</div>';
+        if(ev.p?.length)h+=`<div class="ea">${ev.p.join(', ')}</div>`;
+        ov.innerHTML=h;
+        const star=document.createElement('span');star.className='fav';star.textContent=faved?'★':'☆';
+        star.addEventListener('click',e=>{e.stopPropagation();toggleFav(ev);});
+        card.appendChild(ov);card.appendChild(star);
+        card.addEventListener('click',()=>openM(ev));
+        evW.appendChild(card);
+      });
+      grid.appendChild(col);
     });
-    grid.appendChild(col);
+    block.appendChild(grid);
+    main.appendChild(block);
   });
-  main.appendChild(grid);
 }
 
-/* ── MODAL ── */
+/* ── SCROLL HELPERS ── */
+function scrollToDate(date){
+  const block=document.querySelector('.day-block[data-date="'+date+'"]');
+  if(!block)return;
+  const stickyH=document.querySelector('.sb')?.offsetHeight||0;
+  const blockTop=block.getBoundingClientRect().top+window.scrollY;
+  window.scrollTo({top:Math.max(0,blockTop-stickyH-8),behavior:'smooth'});
+}
+
+function scrollToNow(){
+  const targetDate=programmeDate();
+  const targetMin=devMin!==null?(devMin<360?devMin+1440:devMin):nowMin();
+
+  const day=DAYS.find(d=>d.date===targetDate);
+  if(!day){console.log('[stn] day not found',targetDate);return;}
+
+  let dayStart=Infinity;
+  Object.values(day.rooms).forEach(evs=>evs.forEach(ev=>{
+    const m=toMin(ev.s);if(m<dayStart)dayStart=m;
+  }));
+  if(targetMin<dayStart){console.log('[stn] before start',targetMin,dayStart);return;}
+
+  const block=document.querySelector('.day-block[data-date="'+targetDate+'"]');
+  if(!block){console.log('[stn] no block');return;}
+
+  // Force layout flush before measuring
+  document.body.offsetHeight;
+
+  const stickyH=document.querySelector('.sb')?.offsetHeight||0;
+  const topPx=(targetMin-dayStart)*PX_PER_MIN;
+  const blockRect=block.getBoundingClientRect();
+  const blockTop=blockRect.top+window.scrollY;
+  const divH=block.querySelector('.day-div')?.getBoundingClientRect().height||40;
+  const target=Math.max(0, blockTop+divH+topPx-stickyH-60);
+
+  const dbg=document.getElementById('devDebug');
+  if(dbg)dbg.textContent=[
+    'date: '+targetDate,
+    'targetMin: '+targetMin+' (dayStart: '+dayStart+')',
+    'topPx: '+Math.round(topPx)+'px',
+    'blockTop: '+Math.round(blockTop)+'px',
+    'divH: '+Math.round(divH)+'px  stickyH: '+stickyH+'px',
+    'scrollTo: '+Math.round(target)+'px / pageH: '+document.body.scrollHeight+'px',
+  ].join('\n');
+
+  console.log('[stn]',{targetDate,targetMin,dayStart,topPx,blockTop,divH,stickyH,target});
+  window.scrollTo({top:target,behavior:'smooth'});
+}
+
 function openM(ev){
   currentEv=ev;
   const color=tc(ev.tr),icon=ti(ev.tr);
@@ -631,18 +718,11 @@ if(location.search.includes('dev')){
 }
 function applyDevTime(){
   devMin=parseInt(document.getElementById('devTime').value);
-  const dateVal=document.getElementById('devDate').value;
-  const idx=DAYS.findIndex(d=>d.date===dateVal);
-  if(idx>=0){
-    aday=idx;
-    document.querySelectorAll('.dta').forEach((t,i)=>{
-      t.classList.toggle('active',i===idx);
-      t.classList.toggle('today',DAYS[i]?.date===dateVal);
-    });
-  }
-  rd(aday);
-  scrollToNow();
+  rd();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>scrollToNow()));
 }
+
+/* ── LOAD ── */
 function showStatus(msg,isError){
   document.getElementById('mainContent').innerHTML=`<p class="ed" style="color:${isError?'#ff4560':'var(--yellow)'}">${msg}</p>`;
 }
@@ -659,6 +739,7 @@ async function loadSchedule(){
   initUI();
 }
 loadSchedule();
+
 </script>
 </body>
 </html>
