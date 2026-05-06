@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>kontakt — das Kulturfestival 2026</title>
+<meta name="description" content="Programm & Spielplan für kontakt — das Kulturfestival 2026. 21.–24. Mai, Metalluk-Gelände Bamberg.">
+<meta property="og:title" content="kontakt — das Kulturfestival 2026">
+<meta property="og:description" content="Programm & Spielplan. 21.–24. Mai, Metalluk-Gelände Bamberg.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#3d1a2e">
+<link rel="icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
@@ -150,6 +157,11 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
 /* ── MISC ── */
 .ed{font-family:'Share Tech Mono',monospace;color:var(--muted);font-size:0.82rem;padding:3rem 0 3rem 0;letter-spacing:0.12em;text-transform:uppercase;text-align:center}
 
+@media(min-width:601px) and (max-width:1024px){
+  .rc{flex:0 0 220px}
+  .frame{border-width:7px}
+  .fav-panel{width:280px}
+}
 @media(max-width:600px){
   .frame{border-width:5px}
   main{padding:0.25rem 0 3rem 0}
@@ -187,7 +199,7 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
   </div>
 </header>
 <div class="sb">
-  <div class="dt" id="dayTabs"></div>
+  <div class="dt" id="dayTabs" role="tablist" aria-label="Festivaltage"></div>
   <div class="srow"><input class="si" id="search" type="search" placeholder="Suche nach Act, Workshop, Ort …" autocomplete="off"></div>
   <div class="fi" id="trackFilters"><span class="fil">Format:</span></div>
   <div class="fi" id="roomFilters"><span class="fil">Raum:</span></div>
@@ -212,11 +224,12 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
     <div id="devDebug" style="margin-top:0.5rem;font-size:0.55rem;opacity:0.8;line-height:1.6;white-space:pre"></div>
   </div>
 </div>
-<button class="fav-btn" id="favBtn" title="Mein Plan">★<span class="fbadge" id="favBadge">0</span></button>
+<button class="fav-btn" id="favBtn" title="Mein Plan" aria-label="Mein Plan">★<span class="fbadge" id="favBadge">0</span></button>
 <div class="fav-panel" id="favPanel">
   <div class="fav-panel-h">
     <span>★ Mein Plan</span>
-    <button onclick="closeFavPanel()">✕</button>
+    <button id="icalExportBtn" title="Als Kalender exportieren (.ics)" aria-label="Als iCal exportieren" style="background:none;border:1px solid rgba(245,216,0,0.3);color:var(--yellow);border-radius:2px;padding:0.15rem 0.45rem;font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;cursor:pointer;transition:all 0.12s">↓ .ics</button>
+    <button aria-label="Schließen">✕</button>
   </div>
   <div id="favList"></div>
 </div>
@@ -224,7 +237,7 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
 <!-- Modal -->
 <div class="mo" id="mo">
   <div class="md">
-    <button class="mcl" id="mcl">✕</button>
+    <button class="mcl" id="mcl" aria-label="Schließen">✕</button>
     <div class="mhero-wrap" id="mheroWrap" style="display:none">
       <div class="mhero-bg" id="mheroBg"></div>
       <img class="mhero" id="mhero" src="" alt="">
@@ -246,15 +259,15 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
 
 <script>
 /* ── STARS ── */
-(function(){const c=document.getElementById('stars'),ctx=c.getContext('2d');let W,H,S=[];function r(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}function mk(){S=[];for(let i=0;i<200;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+0.2,a:Math.random(),s:(Math.random()-0.5)*0.006,cx:Math.random()>0.83})}function dr(){ctx.clearRect(0,0,W,H);S.forEach(s=>{s.a=Math.max(0.05,Math.min(1,s.a+s.s));if(s.a<=0.05||s.a>=1)s.s*=-1;ctx.globalAlpha=s.a;if(s.cx){ctx.fillStyle='#c8b0e0';ctx.fillRect(s.x-s.r*.4,s.y-s.r*2.2,s.r*.8,s.r*4.4);ctx.fillRect(s.x-s.r*2.2,s.y-s.r*.4,s.r*4.4,s.r*.8)}else{ctx.fillStyle=s.r>1?'#b8a8d8':'#e0d8f0';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill()}});ctx.globalAlpha=1;requestAnimationFrame(dr)}r();mk();dr();window.addEventListener('resize',()=>{r();mk()})})();
+(function(){const c=document.getElementById('stars'),ctx=c.getContext('2d');let W,H,S=[];function r(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}function mk(){S=[];for(let i=0;i<200;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+0.2,a:Math.random(),s:(Math.random()-0.5)*0.006,cx:Math.random()>0.83})}function dr(){if(document.hidden)return;ctx.clearRect(0,0,W,H);S.forEach(s=>{s.a=Math.max(0.05,Math.min(1,s.a+s.s));if(s.a<=0.05||s.a>=1)s.s*=-1;ctx.globalAlpha=s.a;if(s.cx){ctx.fillStyle='#c8b0e0';ctx.fillRect(s.x-s.r*.4,s.y-s.r*2.2,s.r*.8,s.r*4.4);ctx.fillRect(s.x-s.r*2.2,s.y-s.r*.4,s.r*4.4,s.r*.8)}else{ctx.fillStyle=s.r>1?'#b8a8d8':'#e0d8f0';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill()}});ctx.globalAlpha=1;requestAnimationFrame(dr)}r();mk();dr();window.addEventListener('resize',()=>{r();mk()});document.addEventListener('visibilitychange',()=>{if(!document.hidden)dr();})})();
 
 /* ── CONFIG ── */
 const TR={'Konzert':{color:'#f5d800',icon:'🎸'},'DJ-Set':{color:'#ff4560',icon:'🎛️'},'Workshop':{color:'#00e5a0',icon:'🛠️'},'Vortrag':{color:'#a78bfa',icon:'🎤'},'Performance':{color:'#ff9f40',icon:'🎭'},'Theater':{color:'#c084fc',icon:'🎬'},'Tanz':{color:'#38d9f5',icon:'💃'},'Film':{color:'#4ade80',icon:'🎞️'},'Jamsession':{color:'#fb923c',icon:'🥁'}};
 const RI={'Triebwerk':'🔊','Maschinenraum':'⚙️','Zeitkapsel':'⏳','Funkraum':'📡','Rohteilchenbeschleuniger':'⚡','Landeplatz':'🛸','Satelit':'🌙','Sternenwiese':'🌟','B.U.S.':'🚌'};
 const RO=['Triebwerk','Rohteilchenbeschleuniger','Satelit','Zeitkapsel','Sternenwiese','Landeplatz','Funkraum','Maschinenraum','B.U.S.'];
 const SK=new Set(['Team-Einreichung','Soundcheck']);
-const tc=t=>TR[t]?.color||'rgba(240,232,221,0.35)';
-const ti=t=>TR[t]?.icon||'✦';
+const trackColor=t=>TR[t]?.color||'rgba(240,232,221,0.35)';
+const trackIcon=t=>TR[t]?.icon||'✦';
 const BASE='https://cfp.kntkt.de';
 const XML_URL='https://cfp.kntkt.de/kontakt-2026/schedule/export/schedule.xml';
 const PROXY='https://corsproxy.io/?url=';
@@ -262,45 +275,46 @@ const FEST_DATES=['2026-05-21','2026-05-22','2026-05-23','2026-05-24'];
 
 /* ── STATE ── */
 const WDAY=['So','Mo','Di','Mi','Do','Fr','Sa'];
-function dlbl(ds){const d=new Date(ds+'T12:00:00');return`${WDAY[d.getDay()]} ${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')}`}
-let aday=0,afil=new Set(),rfil=new Set(),DAYS=[],query='',currentEv=null;
+function dayLabel(ds){const d=new Date(ds+'T12:00:00');return`${WDAY[d.getDay()]} ${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')}`}
+let activeDay=0,activeFormats=new Set(),activeRooms=new Set(),DAYS=[],query='',currentEv=null;
 let favs=new Set(JSON.parse(localStorage.getItem('kontakt_favs')||'[]'));
 
 /* ── TIME UTILS ── */
-function toMin(t){const[h,m]=t.split(':').map(Number);const tot=h*60+m;return tot<360?tot+1440:tot;}
-function fd(d){const[h,m]=d.split(':').map(Number);return!h?`${m}min`:!m?`${h}h`:`${h}h${m}`}
+function localDateStr(d){const dd=d||new Date();return`${dd.getFullYear()}-${String(dd.getMonth()+1).padStart(2,'0')}-${String(dd.getDate()).padStart(2,'0')}`;}
+function timeToMinutes(t){const[h,m]=t.split(':').map(Number);const tot=h*60+m;return tot<360?tot+1440:tot;}
+function formatDuration(d){const[h,m]=d.split(':').map(Number);return!h?`${m}min`:!m?`${h}h`:`${h}h${m}`}
 
 /* ── NOW (with dev override) ── */
 let devMin=null; // set via ?dev mode
-function nowMin(){
+function currentMinutes(){
   const raw=devMin!==null?devMin:(new Date().getHours()*60+new Date().getMinutes());
   return raw<360?raw+1440:raw;
 }
 function todayDate(){
-  if(devMin!==null)return document.getElementById('devDate')?.value||new Date().toISOString().slice(0,10);
-  return new Date().toISOString().slice(0,10);
+  if(devMin!==null)return document.getElementById('devDate')?.value||localDateStr();
+  return localDateStr();
 }
 function programmeDate(){
   // Which calendar date is the current "programme day"?
   if(devMin!==null){
     const devDate=document.getElementById('devDate')?.value;
-    if(!devDate)return new Date().toISOString().slice(0,10);
+    if(!devDate)return localDateStr();
     if(devMin<360){
       const d=new Date(devDate+'T12:00:00');d.setDate(d.getDate()-1);
-      return d.toISOString().slice(0,10);
+      return localDateStr(d);
     }
     return devDate;
   }
   const h=new Date().getHours();
   if(h<6){
     const d=new Date();d.setDate(d.getDate()-1);
-    return d.toISOString().slice(0,10);
+    return localDateStr(d);
   }
-  return new Date().toISOString().slice(0,10);
+  return localDateStr();
 }
 function isLive(ev){
   if(ev.date!==programmeDate())return false;
-  const now=nowMin();const start=toMin(ev.s);
+  const now=currentMinutes();const start=timeToMinutes(ev.s);
   const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
   const end=start+(dh*60+dm);
   return now>=start&&now<end;
@@ -334,18 +348,18 @@ function parseXML(xmlText){
 }
 
 /* ── URL STATE ── */
-function pushState(){
+function syncUrlState(){
   const p=new URLSearchParams();
-  if(afil.size)p.set('format',[...afil].join(','));
-  if(rfil.size)p.set('raum',[...rfil].join(','));
+  if(activeFormats.size)p.set('format',[...activeFormats].join(','));
+  if(activeRooms.size)p.set('raum',[...activeRooms].join(','));
   if(query)p.set('q',query);
   const s=p.toString();
   history.replaceState(null,'',s?'?'+s:location.pathname);
 }
-function readState(){
+function loadUrlState(){
   const p=new URLSearchParams(location.search);
-  if(p.has('format'))p.get('format').split(',').forEach(f=>afil.add(f));
-  if(p.has('raum'))p.get('raum').split(',').forEach(r=>rfil.add(r));
+  if(p.has('format'))p.get('format').split(',').forEach(f=>activeFormats.add(f));
+  if(p.has('raum'))p.get('raum').split(',').forEach(r=>activeRooms.add(r));
   if(p.has('q'))query=p.get('q');
   if(p.has('date'))window.__scrollToDate=p.get('date');
 }
@@ -365,7 +379,7 @@ function showSkeleton(){
 /* ── FAVOURITES ── */
 function favKey(ev){return`${ev.date}|${ev.s}|${ev.t}`;}
 function saveFavs(){localStorage.setItem('kontakt_favs',JSON.stringify([...favs]));}
-function toggleFav(ev){const k=favKey(ev);favs.has(k)?favs.delete(k):favs.add(k);saveFavs();updateFavBtn();renderFavPanel();rd();}
+function toggleFav(ev){const k=favKey(ev);favs.has(k)?favs.delete(k):favs.add(k);saveFavs();updateFavBtn();renderFavPanel();renderSchedule();}
 function toggleFavFromModal(){if(currentEv)toggleFav(currentEv);updateModalFavBtn();}
 function updateFavBtn(){
   const btn=document.getElementById('favBtn');
@@ -375,6 +389,8 @@ function updateFavBtn(){
   btn.classList.toggle('visible',n>0);
 }
 function closeFavPanel(){document.getElementById('favPanel').classList.remove('open');}
+document.getElementById('icalExportBtn').addEventListener('click', exportIcal);
+document.querySelector('.fav-panel-h button:last-child').addEventListener('click', closeFavPanel);
 document.getElementById('favBtn').addEventListener('click',()=>{
   document.getElementById('favPanel').classList.toggle('open');
   renderFavPanel();
@@ -391,13 +407,13 @@ function updateModalFavBtn(){
 function hasConflict(ev){
   const k=favKey(ev);
   if(!favs.has(k))return false;
-  const s1=toMin(ev.s);const[dh,dm]=(ev.d||'00:30').split(':').map(Number);const e1=s1+dh*60+dm;
+  const s1=timeToMinutes(ev.s);const[dh,dm]=(ev.d||'00:30').split(':').map(Number);const e1=s1+dh*60+dm;
   for(const day of DAYS){
     for(const evs of Object.values(day.rooms)){
       for(const other of evs){
         if(favKey(other)===k||!favs.has(favKey(other)))continue;
         if(other.date!==ev.date)continue;
-        const s2=toMin(other.s);const[dh2,dm2]=(other.d||'00:30').split(':').map(Number);const e2=s2+dh2*60+dm2;
+        const s2=timeToMinutes(other.s);const[dh2,dm2]=(other.d||'00:30').split(':').map(Number);const e2=s2+dh2*60+dm2;
         if(s1<e2&&e1>s2)return true;
       }
     }
@@ -417,25 +433,104 @@ function renderFavPanel(){
       }
     }
   }
-  all.sort((a,b)=>a.date.localeCompare(b.date)||toMin(a.s)-toMin(b.s));
-  let html='',lastDate='';
+  all.sort((a,b)=>a.date.localeCompare(b.date)||timeToMinutes(a.s)-timeToMinutes(b.s));
+  list.innerHTML='';
+  let lastDate='';
   all.forEach(ev=>{
     const conflict=hasConflict(ev);
     if(ev.date!==lastDate){
-      html+=`<div style="padding:0.4rem 1rem 0.2rem;font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--yellow);border-bottom:1px solid rgba(245,216,0,0.1)">${dlbl(ev.date)}</div>`;
+      const sep=document.createElement('div');
+      sep.style.cssText="padding:0.4rem 1rem 0.2rem;font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--yellow);border-bottom:1px solid rgba(245,216,0,0.1)";
+      sep.textContent=dayLabel(ev.date);
+      list.appendChild(sep);
       lastDate=ev.date;
     }
-    html+=`<div class="fav-item${conflict?' fav-conflict':''}" onclick="openMbyKey('${favKey(ev).replace(/'/g,"\\'")}')">
-      <div class="fav-item-time">${ev.s} · ${fd(ev.d)}</div>
-      <div class="fav-item-title">${ev.t}</div>
-      <div class="fav-item-room">${RI[ev.room]||'◆'} ${ev.room}</div>
-    </div>`;
+    const item=document.createElement('div');
+    item.className='fav-item'+(conflict?' fav-conflict':'');
+    item.dataset.favkey=favKey(ev);
+    item.addEventListener('click',()=>openMbyKey(item.dataset.favkey));
+    const timeEl=document.createElement('div');timeEl.className='fav-item-time';timeEl.textContent=ev.s+' · '+formatDuration(ev.d);
+    const titleEl=document.createElement('div');titleEl.className='fav-item-title';titleEl.textContent=ev.t;
+    const roomEl=document.createElement('div');roomEl.className='fav-item-room';roomEl.textContent=(RI[ev.room]||'◆')+' '+ev.room;
+    item.appendChild(timeEl);item.appendChild(titleEl);item.appendChild(roomEl);
+    list.appendChild(item);
   });
-  list.innerHTML=html;
+}
+
+function exportIcal() {
+  if (!favs.size) return;
+  const all = [];
+  for (const day of DAYS)
+    for (const evs of Object.values(day.rooms))
+      for (const ev of evs)
+        if (favs.has(favKey(ev))) all.push(ev);
+
+  if (!all.length) return;
+
+  const pad = n => String(n).padStart(2, '0');
+  function toIcalDT(dateStr, timeStr) {
+    const [y, mo, d] = dateStr.split('-');
+    const [h, mi] = timeStr.split(':');
+    return `${y}${pad(mo)}${pad(d)}T${pad(h)}${pad(mi)}00`;
+  }
+  function addDuration(dateStr, timeStr, durStr) {
+    const [dh, dm] = durStr.split(':').map(Number);
+    const [h, mi] = timeStr.split(':').map(Number);
+    const totalMin = h * 60 + mi + dh * 60 + dm;
+    const endH = Math.floor(totalMin / 60) % 24;
+    const endM = totalMin % 60;
+    let [y, mo, d2] = dateStr.split('-').map(Number);
+    if (totalMin >= 1440) {
+      const dt = new Date(y, mo - 1, d2 + 1);
+      y = dt.getFullYear(); mo = dt.getMonth() + 1; d2 = dt.getDate();
+    }
+    return `${y}${pad(mo)}${pad(d2)}T${pad(endH)}${pad(endM)}00`;
+  }
+
+  const uid_base = Date.now();
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//kontakt 2026//Programm//DE',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'X-WR-CALNAME:kontakt 2026 – Mein Plan',
+    'X-WR-TIMEZONE:Europe/Berlin',
+  ];
+
+  all.forEach((ev, i) => {
+    const dtstart = toIcalDT(ev.date, ev.s);
+    const dtend = addDuration(ev.date, ev.s, ev.d || '00:30');
+    const summary = ev.t.replace(/[\\;,]/g, c => '\\' + c);
+    const location = ev.room.replace(/[\\;,]/g, c => '\\' + c);
+    const desc = (ev.desc || '').replace(/\n/g, '\\n').replace(/[\\;,]/g, c => '\\' + c).slice(0, 500);
+    const persons = ev.p?.length ? `Mitwirkende: ${ev.p.join(', ')}\\n` : '';
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:kontakt2026-${uid_base}-${i}@kntkt.de`,
+      `DTSTART;TZID=Europe/Berlin:${dtstart}`,
+      `DTEND;TZID=Europe/Berlin:${dtend}`,
+      `SUMMARY:${summary}`,
+      `LOCATION:${location}`,
+      `DESCRIPTION:${persons}${desc}`,
+    );
+    if (ev.u) lines.push(`URL:${ev.u}`);
+    lines.push('END:VEVENT');
+  });
+  lines.push('END:VCALENDAR');
+
+  const ics = lines.join('\r\n');
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'kontakt2026-meinplan.ics';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function openMbyKey(k){
-  for(const day of DAYS){for(const evs of Object.values(day.rooms)){for(const ev of evs){if(favKey(ev)===k){closeFavPanel();openM(ev);return;}}}}
+  for(const day of DAYS){for(const evs of Object.values(day.rooms)){for(const ev of evs){if(favKey(ev)===k){closeFavPanel();openEventModal(ev);return;}}}}
 }
 
 function matchesQuery(ev){
@@ -443,8 +538,157 @@ function matchesQuery(ev){
   return ev.t.toLowerCase().includes(query)||ev.p.some(p=>p.toLowerCase().includes(query))||(ev.tr||'').toLowerCase().includes(query)||ev.room.toLowerCase().includes(query);
 }
 
-function initUI(){
-  readState();
+/* ── RENDER: continuous timeline, all days ── */
+const PX_PER_MIN=1.8;
+const CARD_MIN_H=82;
+const COL_PAD_BOTTOM=60;
+
+function buildScheduleDOM(){
+  const main=document.getElementById('mainContent');
+  main.innerHTML='';
+  if(!DAYS.length){main.innerHTML='<p class="ed">✦ Keine Programmpunkte</p>';return;}
+
+  DAYS.forEach(day=>{
+    const today=todayDate();
+    const isToday=day.date===today;
+    const rooms=[...RO.filter(r=>day.rooms[r]?.length),...Object.keys(day.rooms).filter(r=>!RO.includes(r)&&day.rooms[r]?.length).sort()];
+
+    // Day block
+    const block=document.createElement('div');
+    block.className='day-block';
+    block.dataset.date=day.date;
+
+    // Sticky day divider
+    const div=document.createElement('div');
+    div.className='day-div'+(isToday?' today':'');
+    div.innerHTML=`<span class="day-div-label">${dayLabel(day.date)}</span><span class="day-div-dot"></span>`;
+    block.appendChild(div);
+
+    // Grid for this day
+    const grid=document.createElement('div');
+    grid.className='rg';
+    grid.dataset.date=day.date;
+
+    let dayStart=Infinity,dayEnd=0;
+    rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{
+      const s=timeToMinutes(ev.s);
+      const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
+      const e=s+dh*60+dm;
+      if(s<dayStart)dayStart=s;
+      if(e>dayEnd)dayEnd=e;
+    }));
+    const colH=Math.max((dayEnd-dayStart)*PX_PER_MIN+COL_PAD_BOTTOM,300);
+
+    rooms.forEach(rn=>{
+      const events=[...day.rooms[rn]].sort((a,b)=>timeToMinutes(a.s)-timeToMinutes(b.s));
+      const col=document.createElement('div');col.className='rc';col.dataset.room=rn;
+      const rhEl=document.createElement('div');rhEl.className='rh';
+      rhEl.innerHTML=`<span>${RI[rn]||'◆'}</span>${rn}`;
+      col.appendChild(rhEl);
+      const evW=document.createElement('div');evW.className='re';
+      evW.style.height=colH+'px';
+      col.appendChild(evW);
+      let placedCards=[];
+      events.forEach(ev=>{
+        if(SK.has(ev.tr))return;
+        const color=trackColor(ev.tr),icon=trackIcon(ev.tr);
+        const live=isLive(ev);
+        const faved=favs.has(favKey(ev));
+        const conflict=hasConflict(ev);
+        const idealTop=(timeToMinutes(ev.s)-dayStart)*PX_PER_MIN;
+        const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
+        const durMin=dh*60+dm;
+        const idealH=Math.max(durMin*PX_PER_MIN,CARD_MIN_H);
+        let top=idealTop;
+        for(const p of placedCards){if(top<p.bottom+4)top=p.bottom+4;}
+        placedCards.push({top,bottom:top+idealH});
+        const card=document.createElement('div');
+        card.__ev=ev;
+        card.className='ec'+(live?' live':'')+(faved?' faved':'');
+        card.dataset.evkey=favKey(ev);
+        card.style.setProperty('--tc',color);
+        card.style.top=top+'px';
+        card.style.height=idealH+'px';
+        if(conflict)card.style.boxShadow='inset 0 0 0 1px #ff456060';
+        if(ev.l){
+          const ew=document.createElement('div');ew.className='ew';
+          const bg=document.createElement('div');bg.className='ew-bg';bg.style.backgroundImage=`url('${ev.l}')`;
+          const img=document.createElement('img');img.className='et';img.alt='';img.loading='lazy';img.src=ev.l;
+          img.onerror=()=>{ew.remove();card.classList.add('noimg')};
+          ew.appendChild(bg);ew.appendChild(img);card.appendChild(ew);
+          const scrim=document.createElement('div');scrim.className='escrim';card.appendChild(scrim);
+        } else {card.classList.add('noimg');}
+        const ov=document.createElement('div');ov.className='eov';
+        // Time / duration row
+        const eto=document.createElement('div');eto.className='eto';
+        const etm=document.createElement('span');etm.className='etm';etm.textContent=ev.s;
+        const edu=document.createElement('span');edu.className='edu';edu.textContent=formatDuration(ev.d);
+        eto.appendChild(etm);eto.appendChild(edu);ov.appendChild(eto);
+        // Title
+        const eti=document.createElement('div');eti.className='eti';eti.textContent=ev.t;ov.appendChild(eti);
+        // Track badge
+        const em=document.createElement('div');em.className='em';
+        if(ev.tr){
+          const eb=document.createElement('span');eb.className='eb';eb.style.background=color;
+          const bi=document.createElement('span');bi.className='bi';bi.textContent=icon;
+          eb.appendChild(bi);
+          eb.appendChild(document.createTextNode(ev.tr));
+          em.appendChild(eb);
+        }
+        ov.appendChild(em);
+        // Performers
+        if(ev.p?.length){const ea=document.createElement('div');ea.className='ea';ea.textContent=ev.p.join(', ');ov.appendChild(ea);}
+        const star=document.createElement('span');star.className='fav';star.textContent=faved?'★':'☆';
+        star.addEventListener('click',e=>{e.stopPropagation();toggleFav(ev);});
+        card.appendChild(ov);card.appendChild(star);
+        card.addEventListener('click',()=>openEventModal(ev));
+        evW.appendChild(card);
+      });
+      grid.appendChild(col);
+    });
+    block.appendChild(grid);
+    main.appendChild(block);
+  });
+}
+
+function renderSchedule(){
+  let visibleCount=0;
+  document.querySelectorAll('.ec').forEach(card=>{
+    const ev=card.__ev;
+    if(!ev)return;
+    const matchQ=matchesQuery(ev);
+    const matchF=activeFormats.size===0||(ev.tr&&activeFormats.has(ev.tr));
+    const show=matchQ&&matchF;
+    card.classList.toggle('dm',!show);
+    if(show)visibleCount++;
+  });
+  // Update room column order + opacity based on activeRooms filter
+  document.querySelectorAll('.rc').forEach(col=>{
+    const rn=col.dataset.room;
+    if(!rn)return;
+    const isActive=activeRooms.has(rn);
+    col.style.opacity=activeRooms.size>0&&!isActive?'0.1':'';
+    col.style.order=activeRooms.size>0?(isActive?'0':'1'):'';
+  });
+  // No-results state
+  const main=document.getElementById('mainContent');
+  const existing=main.querySelector('.ed');
+  if(visibleCount===0){
+    if(!existing){
+      const p=document.createElement('p');
+      p.className='ed';
+      p.textContent='✦ Keine Ergebnisse für diese Filter';
+      main.appendChild(p);
+    }
+  } else if(existing){
+    existing.remove();
+  }
+}
+
+function initFiltersAndTabs(){
+  window.__evMap=new Map();
+  for(const day of DAYS)for(const evs of Object.values(day.rooms))for(const ev of evs)window.__evMap.set(favKey(ev),ev);
+  loadUrlState();
   const allT=new Set();
   DAYS.forEach(d=>Object.values(d.rooms).forEach(evs=>evs.forEach(e=>{if(e.tr&&!SK.has(e.tr))allT.add(e.tr)})));
   const allR=new Set();
@@ -455,10 +699,11 @@ function initUI(){
   const fiEl=document.getElementById('trackFilters');
   while(fiEl.children.length>1)fiEl.removeChild(fiEl.lastChild);
   allT.forEach(track=>{
-    const p=document.createElement('button');p.className='tp'+(afil.has(track)?' active':'');
-    p.style.setProperty('--pc',tc(track));
-    p.innerHTML=`<span class="pi">${ti(track)}</span>${track}`;
-    p.addEventListener('click',()=>{if(afil.has(track)){afil.delete(track);p.classList.remove('active')}else{afil.add(track);p.classList.add('active')}pushState();rd()});
+    const p=document.createElement('button');p.className='tp'+(activeFormats.has(track)?' active':'');
+    p.style.setProperty('--pc',trackColor(track));
+    p.setAttribute('aria-pressed',activeFormats.has(track)?'true':'false');
+    p.innerHTML=`<span class="pi">${trackIcon(track)}</span>${track}`;
+    p.addEventListener('click',()=>{if(activeFormats.has(track)){activeFormats.delete(track);p.classList.remove('active')}else{activeFormats.add(track);p.classList.add('active')}p.setAttribute('aria-pressed',activeFormats.has(track)?'true':'false');syncUrlState();renderSchedule()});
     fiEl.appendChild(p);
   });
 
@@ -467,10 +712,11 @@ function initUI(){
   while(rfEl.children.length>1)rfEl.removeChild(rfEl.lastChild);
   const roomOrder=[...RO.filter(r=>allR.has(r)),...[...allR].filter(r=>!RO.includes(r)).sort()];
   roomOrder.forEach(rn=>{
-    const p=document.createElement('button');p.className='tp'+(rfil.has(rn)?' active':'');
+    const p=document.createElement('button');p.className='tp'+(activeRooms.has(rn)?' active':'');
     p.style.setProperty('--pc','rgba(240,232,221,0.55)');
+    p.setAttribute('aria-pressed',activeRooms.has(rn)?'true':'false');
     p.innerHTML=`<span class="pi">${RI[rn]||'◆'}</span>${rn}`;
-    p.addEventListener('click',()=>{if(rfil.has(rn)){rfil.delete(rn);p.classList.remove('active')}else{rfil.add(rn);p.classList.add('active')}pushState();rd()});
+    p.addEventListener('click',()=>{if(activeRooms.has(rn)){activeRooms.delete(rn);p.classList.remove('active')}else{activeRooms.add(rn);p.classList.add('active')}p.setAttribute('aria-pressed',activeRooms.has(rn)?'true':'false');syncUrlState();renderSchedule()});
     rfEl.appendChild(p);
   });
 
@@ -481,14 +727,27 @@ function initUI(){
     const isToday=day.date===today;
     const tab=document.createElement('div');
     tab.className='dta'+(isToday?' today':'');
-    tab.innerHTML=dlbl(day.date)+'<span class="livedot"></span>';
+    tab.setAttribute('role','tab');
+    tab.innerHTML=dayLabel(day.date)+'<span class="livedot"></span>';
     tab.addEventListener('click',()=>scrollToDate(day.date));
     tabEl.appendChild(tab);
   });
 
   updateFavBtn();
-  if(document.getElementById('search'))document.getElementById('search').value=query;
-  rd();
+  const searchEl=document.getElementById('search');
+  if(searchEl){
+    searchEl.value=query;
+    let _debTimer;
+    searchEl.addEventListener('input',()=>{
+      clearTimeout(_debTimer);
+      _debTimer=setTimeout(()=>{query=searchEl.value.trim().toLowerCase();renderSchedule();syncUrlState();},250);
+    });
+  }
+
+  // Build DOM once, then apply initial filter state
+  buildScheduleDOM();
+  renderSchedule();
+
   // Wait until main has real height (layout complete) before scrolling
   const main=document.getElementById('mainContent');
   const doScroll=()=>{
@@ -513,115 +772,12 @@ function initUI(){
   setInterval(()=>{
     document.querySelectorAll('.ec').forEach(card=>{
       const k=card.dataset.evkey;if(!k)return;
-      for(const day of DAYS){for(const evs of Object.values(day.rooms)){for(const ev of evs){
-        if(favKey(ev)===k){card.classList.toggle('live',isLive(ev));return;}
-      }}}
+      const ev=window.__evMap?.get(k);if(!ev)return;
+      card.classList.toggle('live',isLive(ev));
     });
     const today=todayDate();
     document.querySelectorAll('.dta').forEach((t,i)=>t.classList.toggle('today',DAYS[i]?.date===today));
   },30000);
-}
-
-/* ── RENDER: continuous timeline, all days ── */
-const PX_PER_MIN=1.8;
-const CARD_MIN_H=82;
-const COL_PAD_BOTTOM=60;
-
-function rd(){
-  const main=document.getElementById('mainContent');main.innerHTML='';
-  if(!DAYS.length){main.innerHTML='<p class="ed">✦ Keine Programmpunkte</p>';return;}
-
-  DAYS.forEach(day=>{
-    const today=todayDate();
-    const isToday=day.date===today;
-    const rooms=[...RO.filter(r=>day.rooms[r]?.length),...Object.keys(day.rooms).filter(r=>!RO.includes(r)&&day.rooms[r]?.length).sort()];
-    const orderedRooms=rfil.size>0?[...rooms.filter(r=>rfil.has(r)),...rooms.filter(r=>!rfil.has(r))]:rooms;
-
-    // Day block
-    const block=document.createElement('div');
-    block.className='day-block';
-    block.dataset.date=day.date;
-
-    // Sticky day divider
-    const div=document.createElement('div');
-    div.className='day-div'+(isToday?' today':'');
-    div.innerHTML=`<span class="day-div-label">${dlbl(day.date)}</span><span class="day-div-dot"></span>`;
-    block.appendChild(div);
-
-    // Grid for this day
-    const grid=document.createElement('div');
-    grid.className='rg';
-    grid.dataset.date=day.date;
-
-    let dayStart=Infinity,dayEnd=0;
-    rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{
-      const s=toMin(ev.s);
-      const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
-      const e=s+dh*60+dm;
-      if(s<dayStart)dayStart=s;
-      if(e>dayEnd)dayEnd=e;
-    }));
-    const colH=Math.max((dayEnd-dayStart)*PX_PER_MIN+COL_PAD_BOTTOM,300);
-
-    orderedRooms.forEach(rn=>{
-      const events=[...day.rooms[rn]].sort((a,b)=>toMin(a.s)-toMin(b.s));
-      const col=document.createElement('div');col.className='rc';col.dataset.room=rn;
-      if(rfil.size>0&&!rfil.has(rn))col.style.opacity='0.1';
-      const rhEl=document.createElement('div');rhEl.className='rh';
-      rhEl.innerHTML=`<span>${RI[rn]||'◆'}</span>${rn}`;
-      col.appendChild(rhEl);
-      const evW=document.createElement('div');evW.className='re';
-      evW.style.height=colH+'px';
-      col.appendChild(evW);
-      let placedCards=[];
-      events.forEach(ev=>{
-        if(SK.has(ev.tr))return;
-        const matchQ=matchesQuery(ev);
-        const matchF=afil.size===0||(ev.tr&&afil.has(ev.tr));
-        const color=tc(ev.tr),icon=ti(ev.tr);
-        const live=isLive(ev);
-        const faved=favs.has(favKey(ev));
-        const conflict=hasConflict(ev);
-        const idealTop=(toMin(ev.s)-dayStart)*PX_PER_MIN;
-        const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
-        const durMin=dh*60+dm;
-        const idealH=Math.max(durMin*PX_PER_MIN,CARD_MIN_H);
-        let top=idealTop;
-        for(const p of placedCards){if(top<p.bottom+4)top=p.bottom+4;}
-        placedCards.push({top,bottom:top+idealH});
-        const card=document.createElement('div');
-        card.className='ec'+(matchQ&&matchF?'':' dm')+(live?' live':'')+(faved?' faved':'');
-        card.dataset.evkey=favKey(ev);
-        card.style.setProperty('--tc',color);
-        card.style.top=top+'px';
-        card.style.height=idealH+'px';
-        if(conflict)card.style.boxShadow='inset 0 0 0 1px #ff456060';
-        if(ev.l){
-          const ew=document.createElement('div');ew.className='ew';
-          const bg=document.createElement('div');bg.className='ew-bg';bg.style.backgroundImage=`url('${ev.l}')`;
-          const img=document.createElement('img');img.className='et';img.alt='';img.loading='lazy';img.src=ev.l;
-          img.onerror=()=>{ew.remove();card.classList.add('noimg')};
-          ew.appendChild(bg);ew.appendChild(img);card.appendChild(ew);
-          const scrim=document.createElement('div');scrim.className='escrim';card.appendChild(scrim);
-        } else {card.classList.add('noimg');}
-        const ov=document.createElement('div');ov.className='eov';
-        let h=`<div class="eto"><span class="etm">${ev.s}</span><span class="edu">${fd(ev.d)}</span></div>`;
-        h+=`<div class="eti">${ev.t}</div><div class="em">`;
-        if(ev.tr)h+=`<span class="eb" style="background:${color}"><span class="bi">${icon}</span>${ev.tr}</span>`;
-        h+='</div>';
-        if(ev.p?.length)h+=`<div class="ea">${ev.p.join(', ')}</div>`;
-        ov.innerHTML=h;
-        const star=document.createElement('span');star.className='fav';star.textContent=faved?'★':'☆';
-        star.addEventListener('click',e=>{e.stopPropagation();toggleFav(ev);});
-        card.appendChild(ov);card.appendChild(star);
-        card.addEventListener('click',()=>openM(ev));
-        evW.appendChild(card);
-      });
-      grid.appendChild(col);
-    });
-    block.appendChild(grid);
-    main.appendChild(block);
-  });
 }
 
 /* ── SCROLL HELPERS ── */
@@ -635,14 +791,14 @@ function scrollToDate(date){
 
 function scrollToNow(){
   const targetDate=programmeDate();
-  const targetMin=devMin!==null?(devMin<360?devMin+1440:devMin):nowMin();
+  const targetMin=devMin!==null?(devMin<360?devMin+1440:devMin):currentMinutes();
 
   const day=DAYS.find(d=>d.date===targetDate);
   if(!day){console.log('[stn] day not found',targetDate);return;}
 
   let dayStart=Infinity;
   Object.values(day.rooms).forEach(evs=>evs.forEach(ev=>{
-    const m=toMin(ev.s);if(m<dayStart)dayStart=m;
+    const m=timeToMinutes(ev.s);if(m<dayStart)dayStart=m;
   }));
   if(targetMin<dayStart){console.log('[stn] before start',targetMin,dayStart);return;}
 
@@ -673,9 +829,9 @@ function scrollToNow(){
   window.scrollTo({top:target,behavior:'smooth'});
 }
 
-function openM(ev){
+function openEventModal(ev){
   currentEv=ev;
-  const color=tc(ev.tr),icon=ti(ev.tr);
+  const color=trackColor(ev.tr),icon=trackIcon(ev.tr);
   const wrap=document.getElementById('mheroWrap');
   const hero=document.getElementById('mhero');
   const bg=document.getElementById('mheroBg');
@@ -684,29 +840,45 @@ function openM(ev){
   const live=isLive(ev);
   document.getElementById('mlive').style.display=live?'flex':'none';
   const tb=document.getElementById('mtb');
-  tb.innerHTML=`<span class="bi">${icon}</span>${ev.tr||'Programm'}`;tb.style.background=color;
+  tb.innerHTML='';tb.style.background=color;
+  const tbIcon=document.createElement('span');tbIcon.className='bi';tbIcon.textContent=icon;
+  tb.appendChild(tbIcon);tb.appendChild(document.createTextNode(ev.tr||'Programm'));
   document.getElementById('mn').textContent=ev.t;
-  let inf=`<span>⬡ ${ev.s} Uhr</span><span>◷ ${fd(ev.d)}</span>`;
-  if(ev.p?.length)inf+=`<span>✦ ${ev.p.join(', ')}</span>`;
-  if(ev.room)inf+=`<span>${RI[ev.room]||'◆'} ${ev.room}</span>`;
-  document.getElementById('minf').innerHTML=inf;
+  const minf=document.getElementById('minf');minf.innerHTML='';
+  const minfTime=document.createElement('span');minfTime.textContent='⬡ '+ev.s+' Uhr';minf.appendChild(minfTime);
+  const minfDur=document.createElement('span');minfDur.textContent='◷ '+formatDuration(ev.d);minf.appendChild(minfDur);
+  if(ev.p?.length){const minfP=document.createElement('span');minfP.textContent='✦ '+ev.p.join(', ');minf.appendChild(minfP);}
+  if(ev.room){const minfR=document.createElement('span');minfR.textContent=(RI[ev.room]||'◆')+' '+ev.room;minf.appendChild(minfR);}
   document.getElementById('mde').textContent=(ev.desc||'').trim();
-  document.getElementById('mlink').href=ev.u||'#';
+  const safeU=(ev.u&&(ev.u.startsWith('https://')||ev.u.startsWith('http://')))?ev.u:'#';
+  document.getElementById('mlink').href=safeU;
   updateModalFavBtn();
   document.getElementById('mo').classList.add('open');
   document.body.style.overflow='hidden';
+  document.getElementById('mcl').focus();
   // update URL with event context
   const p=new URLSearchParams(location.search);
   p.set('event',ev.t.slice(0,40));
   history.replaceState(null,'','?'+p.toString());
 }
-function closeM(){document.getElementById('mo').classList.remove('open');document.body.style.overflow='';pushState();}
-document.getElementById('mcl').addEventListener('click',closeM);
-document.getElementById('mo').addEventListener('click',e=>{if(e.target===e.currentTarget)closeM();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('mo').classList.contains('open'))closeM();else closeFavPanel();}});
+function closeEventModal(){document.getElementById('mo').classList.remove('open');document.body.style.overflow='';syncUrlState();}
+document.getElementById('mcl').addEventListener('click',closeEventModal);
+document.getElementById('mo').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEventModal();});
+document.addEventListener('keydown',e=>{
+  const moOpen=document.getElementById('mo').classList.contains('open');
+  if(e.key==='Escape'){if(moOpen)closeEventModal();else closeFavPanel();}
+  if(e.key==='Tab'&&moOpen){
+    const focusable=[...document.querySelector('.md').querySelectorAll('button,[href],input,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled);
+    if(!focusable.length)return;
+    const idx=focusable.indexOf(document.activeElement);
+    if(e.shiftKey){e.preventDefault();focusable[idx<=0?focusable.length-1:idx-1].focus();}
+    else{e.preventDefault();focusable[idx>=focusable.length-1?0:idx+1].focus();}
+  }
+});
 
 /* ── DEV MODE ── */
-if(location.search.includes('dev')){
+const isLocalhost = ['localhost','127.0.0.1',''].includes(location.hostname);
+if(isLocalhost && new URLSearchParams(location.search).get('dev')==='1'){
   document.getElementById('devPanel').style.display='block';
   const slider=document.getElementById('devTime');
   const label=document.getElementById('devTimeLabel');
@@ -718,7 +890,8 @@ if(location.search.includes('dev')){
 }
 function applyDevTime(){
   devMin=parseInt(document.getElementById('devTime').value);
-  rd();
+  buildScheduleDOM();
+  renderSchedule();
   requestAnimationFrame(()=>requestAnimationFrame(()=>scrollToNow()));
 }
 
@@ -729,17 +902,32 @@ function showStatus(msg,isError){
 async function loadSchedule(){
   showSkeleton();
   let xml;
-  try{const r=await fetch(XML_URL,{cache:'no-cache'});if(!r.ok)throw 0;xml=await r.text();}
-  catch{
-    try{showStatus('✦ Verbinde via Proxy …');const r=await fetch(PROXY+encodeURIComponent(XML_URL),{cache:'no-cache'});if(!r.ok)throw 0;xml=await r.text();}
-    catch{showStatus('✗ Programm konnte nicht geladen werden. Bitte Seite neu laden.',true);return;}
+  const CACHE_KEY='kontakt_xml';
+  const CACHE_TTL=5*60*1000;
+  const cached=sessionStorage.getItem(CACHE_KEY);
+  const cachedAt=parseInt(sessionStorage.getItem(CACHE_KEY+'_ts')||'0');
+  if(cached&&Date.now()-cachedAt<CACHE_TTL){
+    xml=cached;
+  } else {
+    try{const r=await fetch(XML_URL,{cache:'no-cache'});if(!r.ok)throw 0;xml=await r.text();sessionStorage.setItem(CACHE_KEY,xml);sessionStorage.setItem(CACHE_KEY+'_ts',Date.now());}
+    catch{
+      try{showStatus('✦ Verbinde via Proxy …');const r=await fetch(PROXY+encodeURIComponent(XML_URL),{cache:'no-cache'});if(!r.ok)throw 0;xml=await r.text();sessionStorage.setItem(CACHE_KEY,xml);sessionStorage.setItem(CACHE_KEY+'_ts',Date.now());}
+      catch{showStatus('✗ Programm konnte nicht geladen werden. Bitte Seite neu laden.',true);return;}
+    }
   }
   DAYS=parseXML(xml);
   if(!DAYS.length){showStatus('✗ Keine Daten gefunden.',true);return;}
-  initUI();
+  initFiltersAndTabs();
 }
 loadSchedule();
 
 </script>
+<noscript>
+  <div style="font-family:sans-serif;text-align:center;padding:3rem;background:#3d1a2e;color:#f0e8dd;min-height:100vh">
+    <h1 style="margin-bottom:1rem">kontakt 2026</h1>
+    <p>Bitte JavaScript aktivieren, um das Programm zu sehen.</p>
+    <p style="margin-top:0.5rem;opacity:0.6">Das Programm ist auch unter <a href="https://cfp.kntkt.de/kontakt-2026/schedule/" style="color:#f5d800">cfp.kntkt.de</a> verfügbar.</p>
+  </div>
+</noscript>
 </body>
 </html>
