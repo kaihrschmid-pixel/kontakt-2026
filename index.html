@@ -78,13 +78,15 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 
 /* ── GRID ── */
 main{padding:0.5rem 0 4rem 0;overflow:visible}
-.rg{display:flex;gap:0.9rem;overflow-x:auto;overflow-y:clip;padding-top:var(--rnames-h,34px);padding-right:1.25rem;padding-left:1.25rem;padding-bottom:1.5rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.rg{display:flex;gap:0.9rem;overflow-x:auto;overflow-y:clip;padding-top:var(--rnames-h,34px);padding-right:0;padding-left:0;padding-bottom:1.5rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.rg::before,.rg::after{content:'';flex:0 0 1.25rem;}
 .rg::-webkit-scrollbar{height:4px}
 .rg::-webkit-scrollbar-track{background:rgba(255,255,255,0.04)}
 .rg::-webkit-scrollbar-thumb{background:rgba(245,216,0,0.28);border-radius:2px}
 .rc{flex:0 0 272px;scroll-snap-align:start;display:flex;flex-direction:column;transition:opacity 0.3s}
 .rh{display:none}
-.rnames{display:flex;gap:0.9rem;overflow:hidden;padding-right:1.25rem;padding-left:1.25rem;background:var(--deep2);border-bottom:1px solid rgba(245,216,0,0.15)}
+.rnames{display:flex;gap:0.9rem;overflow:hidden;padding-right:0;padding-left:0;background:var(--deep2);border-bottom:1px solid rgba(245,216,0,0.15)}
+.rnames::before,.rnames::after{content:'';flex:0 0 1.25rem;}
 .rname-item{flex:0 0 272px;font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--yellow);padding:0.3rem 0;border-top:2px solid var(--yellow);display:flex;align-items:center;gap:0.35rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .re{position:relative;/* height set by JS */}
 
