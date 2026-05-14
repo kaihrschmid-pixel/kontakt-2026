@@ -68,7 +68,7 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 
 /* ── GRID ── */
 main{padding:0.5rem 0 4rem 0;overflow:visible}
-.rg{display:flex;gap:0.9rem;overflow-x:auto;padding-right:1.25rem;padding-bottom:1.5rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.rg{display:flex;gap:0.9rem;overflow-x:auto;overflow-y:clip;padding-right:1.25rem;padding-bottom:1.5rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
 .rg::-webkit-scrollbar{height:4px}
 .rg::-webkit-scrollbar-track{background:rgba(255,255,255,0.04)}
 .rg::-webkit-scrollbar-thumb{background:rgba(245,216,0,0.28);border-radius:2px}
@@ -579,6 +579,7 @@ function buildScheduleDOM(){
       if(e>dayEnd)dayEnd=e;
     }));
     const colH=Math.max((dayEnd-dayStart)*PX_PER_MIN+COL_PAD_BOTTOM,300);
+    const columnData=[];
 
     rooms.forEach(rn=>{
       const events=[...day.rooms[rn]].sort((a,b)=>timeToMinutes(a.s)-timeToMinutes(b.s));
@@ -645,8 +646,17 @@ function buildScheduleDOM(){
         card.addEventListener('click',()=>openEventModal(ev));
         evW.appendChild(card);
       });
+      // Track actual height needed (push-down may exceed colH)
+      const maxBottom=placedCards.length>0?Math.max(...placedCards.map(p=>p.bottom)):0;
+      const actualH=Math.max(colH,maxBottom+COL_PAD_BOTTOM);
+      columnData.push({evW,actualH});
       grid.appendChild(col);
     });
+    // Equalize all columns to the tallest (keeps timeline alignment)
+    if(columnData.length>0){
+      const maxH=Math.max(...columnData.map(d=>d.actualH));
+      columnData.forEach(d=>{d.evW.style.height=maxH+'px';});
+    }
     block.appendChild(grid);
     main.appendChild(block);
   });
