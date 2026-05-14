@@ -79,14 +79,13 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 /* ── GRID ── */
 main{padding:0.5rem 0 4rem 0;overflow:visible}
 .rg{display:flex;gap:0.9rem;overflow-x:auto;overflow-y:clip;padding-top:var(--rnames-h,34px);padding-right:0;padding-left:0;padding-bottom:1.5rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
-.rg::before,.rg::after{content:'';flex:0 0 1.25rem;}
+.rg-spacer{flex:0 0 1.25rem;}
 .rg::-webkit-scrollbar{height:4px}
 .rg::-webkit-scrollbar-track{background:rgba(255,255,255,0.04)}
 .rg::-webkit-scrollbar-thumb{background:rgba(245,216,0,0.28);border-radius:2px}
 .rc{flex:0 0 272px;scroll-snap-align:start;display:flex;flex-direction:column;transition:opacity 0.3s}
 .rh{display:none}
-.rnames{display:flex;gap:0.9rem;overflow:hidden;padding-right:0;padding-left:0;background:var(--deep2);border-bottom:1px solid rgba(245,216,0,0.15)}
-.rnames::before,.rnames::after{content:'';flex:0 0 1.25rem;}
+.rnames{display:flex;gap:0.9rem;overflow:hidden;padding-right:1.25rem;padding-left:1.25rem;background:var(--deep2);border-bottom:1px solid rgba(245,216,0,0.15)}
 .rname-item{flex:0 0 272px;font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--yellow);padding:0.3rem 0;border-top:2px solid var(--yellow);display:flex;align-items:center;gap:0.35rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .re{position:relative;/* height set by JS */}
 
@@ -640,6 +639,10 @@ function buildScheduleDOM(){
     const colH=Math.max((dayEnd-dayStart)*PX_PER_MIN+COL_PAD_BOTTOM,300);
     const columnData=[];
 
+    // Left spacer — a real flex item so browsers can't ignore it (unlike ::before)
+    const spacerL=document.createElement('div');spacerL.className='rg-spacer';
+    grid.appendChild(spacerL);
+
     rooms.forEach(rn=>{
       const events=[...day.rooms[rn]].sort((a,b)=>timeToMinutes(a.s)-timeToMinutes(b.s));
       const col=document.createElement('div');col.className='rc';col.dataset.room=rn;
@@ -716,6 +719,10 @@ function buildScheduleDOM(){
       const maxH=Math.max(...columnData.map(d=>d.actualH));
       columnData.forEach(d=>{d.evW.style.height=maxH+'px';});
     }
+    // Right spacer
+    const spacerR=document.createElement('div');spacerR.className='rg-spacer';
+    grid.appendChild(spacerR);
+
     // Sync horizontal scroll: grid → rnames (rnames has overflow:hidden, driven by grid)
     grid.addEventListener('scroll',()=>{rnamesEl.scrollLeft=grid.scrollLeft;},{passive:true});
     block.appendChild(grid);
