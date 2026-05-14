@@ -580,7 +580,7 @@ function buildScheduleDOM(){
     const rnamesEl=document.createElement('div');
     rnamesEl.className='rnames';
     rooms.forEach(rn=>{
-      const item=document.createElement('div');item.className='rname-item';
+      const item=document.createElement('div');item.className='rname-item';item.dataset.room=rn;
       const icon=document.createElement('span');icon.textContent=RI[rn]||'◆';
       item.appendChild(icon);item.appendChild(document.createTextNode(' '+rn));
       rnamesEl.appendChild(item);
@@ -705,6 +705,14 @@ function renderSchedule(){
     const isActive=activeRooms.has(rn);
     col.style.opacity=activeRooms.size>0&&!isActive?'0.1':'';
     col.style.order=activeRooms.size>0?(isActive?'0':'1'):'';
+  });
+  // Mirror order + opacity on room-name header items
+  document.querySelectorAll('.rname-item').forEach(item=>{
+    const rn=item.dataset.room;
+    if(!rn)return;
+    const isActive=activeRooms.has(rn);
+    item.style.opacity=activeRooms.size>0&&!isActive?'0.1':'';
+    item.style.order=activeRooms.size>0?(isActive?'0':'1'):'';
   });
   // No-results state
   const main=document.getElementById('mainContent');
