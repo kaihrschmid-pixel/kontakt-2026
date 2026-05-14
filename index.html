@@ -79,7 +79,7 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 /* ── GRID ── */
 main{padding:0.5rem 0 4rem 0;overflow:visible}
 .rg{display:flex;gap:0.9rem;overflow-x:auto;overflow-y:clip;padding-top:var(--rnames-h,34px);padding-right:0;padding-left:0;padding-bottom:1.5rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
-.rg-spacer{flex:0 0 1.25rem;}
+.rg-spacer{flex:0 0 0.35rem;}/* gap(0.9rem)+spacer(0.35rem)=1.25rem → matches .rnames padding-left */
 .rg::-webkit-scrollbar{height:4px}
 .rg::-webkit-scrollbar-track{background:rgba(255,255,255,0.04)}
 .rg::-webkit-scrollbar-thumb{background:rgba(245,216,0,0.28);border-radius:2px}
