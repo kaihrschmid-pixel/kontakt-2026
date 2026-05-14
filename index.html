@@ -19,8 +19,9 @@
 :root{--bg:#e8e0d5;--deep:#3d1a2e;--deep2:#2a0f1f;--cream:#f0e8dd;--yellow:#f5d800;--yellow2:#e8c800;--card-bg:rgba(255,255,255,0.06);--card-border:rgba(240,232,221,0.13);--muted:rgba(240,232,221,0.42)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh}
-#stars{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.35}
-.frame{position:relative;z-index:1;background:var(--deep);min-height:100vh;border:10px solid var(--bg)}
+#galaxy{position:fixed;inset:0;pointer-events:none;z-index:0;background:url('Social_Media_Assets.png') center/cover no-repeat var(--deep)}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.18}
+.frame{position:relative;z-index:2;background:rgba(61,26,46,0.72);min-height:100vh;border:10px solid var(--bg)}
 
 /* ── HEADER ── */
 header{position:relative;overflow:hidden;padding:2.5rem 2rem 1.8rem;text-align:center;border-bottom:2px solid rgba(245,216,0,0.18)}
@@ -34,7 +35,7 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 .hl{font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.16em;text-transform:uppercase;margin-top:0.35rem}
 
 /* ── STICKY BAR ── */
-.sb{position:sticky;top:0;z-index:200;background:var(--deep2);border-bottom:2px solid rgba(245,216,0,0.2)}
+.sb{position:sticky;top:0;z-index:200;background:rgba(42,15,31,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:2px solid rgba(245,216,0,0.2)}
 .dt{display:flex;overflow-x:auto;padding:0 0.5rem;scrollbar-width:none;border-bottom:1px solid rgba(245,216,0,0.08)}
 .dt::-webkit-scrollbar{display:none}
 .dta{padding:0.65rem 1rem;font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.15s;user-select:none;position:relative}
@@ -47,7 +48,7 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
 /* day divider in continuous timeline */
 .day-block{margin-bottom:2rem}
-.day-header{position:sticky;top:var(--sb-height,0px);z-index:100;background:var(--deep2)}
+.day-header{position:sticky;top:var(--sb-height,0px);z-index:100;background:rgba(42,15,31,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .day-div{background:var(--deep2);border-top:2px solid var(--yellow);border-bottom:1px solid rgba(245,216,0,0.15);padding:0.4rem 1.25rem;display:flex;align-items:center;gap:0.75rem;margin-bottom:0}
 .day-div-label{font-family:'Share Tech Mono',monospace;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--yellow)}
 .day-div-dot{width:6px;height:6px;border-radius:50%;background:#ff4560;animation:pulse 1.4s ease-in-out infinite;display:none}
@@ -196,6 +197,7 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
 </style>
 </head>
 <body>
+<div id="galaxy"></div>
 <canvas id="stars"></canvas>
 <div class="frame">
 <header>
