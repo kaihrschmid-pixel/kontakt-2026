@@ -40,13 +40,14 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 .dta{padding:0.65rem 1rem;font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.15s;user-select:none;position:relative}
 .dta:hover{color:var(--cream)}
 .dta.today{color:var(--cream)}
+.dta.scrollactive{border-bottom-color:rgba(245,216,0,0.6);color:var(--cream)}
 /* live dot on today tab */
 .dta .livedot{display:none;width:5px;height:5px;border-radius:50%;background:#ff4560;position:absolute;top:6px;right:6px;animation:pulse 1.4s ease-in-out infinite}
 .dta.today .livedot{display:block}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
 /* day divider in continuous timeline */
 .day-block{margin-bottom:2rem}
-.day-div{position:sticky;top:0;z-index:100;background:var(--deep2);border-top:2px solid var(--yellow);border-bottom:1px solid rgba(245,216,0,0.15);padding:0.4rem 1.25rem;display:flex;align-items:center;gap:0.75rem;margin-bottom:0}
+.day-div{position:sticky;top:var(--sb-height,0px);z-index:100;background:var(--deep2);border-top:2px solid var(--yellow);border-bottom:1px solid rgba(245,216,0,0.15);padding:0.4rem 1.25rem;display:flex;align-items:center;gap:0.75rem;margin-bottom:0}
 .day-div-label{font-family:'Share Tech Mono',monospace;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--yellow)}
 .day-div-dot{width:6px;height:6px;border-radius:50%;background:#ff4560;animation:pulse 1.4s ease-in-out infinite;display:none}
 .day-div.today .day-div-dot{display:block}
@@ -73,7 +74,7 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
 .rg::-webkit-scrollbar-track{background:rgba(255,255,255,0.04)}
 .rg::-webkit-scrollbar-thumb{background:rgba(245,216,0,0.28);border-radius:2px}
 .rc{flex:0 0 272px;scroll-snap-align:start;display:flex;flex-direction:column;transition:opacity 0.3s}
-.rh{font-family:'Share Tech Mono',monospace;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--yellow);padding:0.45rem 0;border-top:2px solid var(--yellow);margin-bottom:0.55rem;display:flex;align-items:center;gap:0.4rem}
+.rh{font-family:'Share Tech Mono',monospace;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--yellow);padding:0.45rem 0;border-top:2px solid var(--yellow);margin-bottom:0.55rem;display:flex;align-items:center;gap:0.4rem;position:sticky;top:var(--rh-top,0px);z-index:50;background:var(--deep)}
 .re{position:relative;/* height set by JS */}
 
 /* ── CARDS ── */
@@ -758,6 +759,33 @@ function initFiltersAndTabs(){
   // Build DOM once, then apply initial filter state
   buildScheduleDOM();
   renderSchedule();
+
+  // ── Sticky offset calculation ──
+  // Three sticky layers: .sb (filterbar) → .day-div (day header) → .rh (room name)
+  // Each needs to stick below the previous one.
+  function updateStickyOffsets(){
+    const sbH=document.querySelector('.sb')?.offsetHeight||0;
+    const divH=document.querySelector('.day-div')?.offsetHeight||36;
+    document.documentElement.style.setProperty('--sb-height',sbH+'px');
+    document.documentElement.style.setProperty('--rh-top',(sbH+divH)+'px');
+  }
+  updateStickyOffsets();
+  new ResizeObserver(updateStickyOffsets).observe(document.querySelector('.sb'));
+
+  // ── Active-day scroll tracking ──
+  // Highlights the day tab that's currently visible in the viewport.
+  let _sraf;
+  window.addEventListener('scroll',()=>{
+    cancelAnimationFrame(_sraf);
+    _sraf=requestAnimationFrame(()=>{
+      const threshold=(document.querySelector('.sb')?.offsetHeight||0)+(document.querySelector('.day-div')?.offsetHeight||36)+8;
+      let cur=null;
+      document.querySelectorAll('.day-block').forEach(b=>{
+        if(b.getBoundingClientRect().top<=threshold)cur=b.dataset.date;
+      });
+      document.querySelectorAll('.dta').forEach((t,i)=>t.classList.toggle('scrollactive',DAYS[i]?.date===cur));
+    });
+  },{passive:true});
 
   // Wait until main has real height (layout complete) before scrolling
   const main=document.getElementById('mainContent');
