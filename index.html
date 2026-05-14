@@ -306,7 +306,7 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
 /* ── CONFIG ── */
 const TR={'Konzert':{color:'#EF7B1E',icon:'♪'},'DJ-Set':{color:'#5BAF60',icon:'◈'},'Workshop':{color:'#0E70AB',icon:'◆'},'Vortrag':{color:'#316044',icon:'▸'},'Performance':{color:'#C062A3',icon:'◇'},'Theater':{color:'#5F5BA5',icon:'△'},'Tanz':{color:'#FAB313',icon:'✦'},'Film':{color:'#9EA7CD',icon:'▶'},'Jamsession':{color:'#EF7B1E',icon:'♫'}};
 const RI={'Triebwerk':'▶','Maschinenraum':'◈','Zeitkapsel':'◎','Funkraum':'◉','Rohteilchenbeschleuniger':'✦','Landeplatz':'▽','Satelit':'◆','Sternenwiese':'✧','B.U.S.':'■'};
-const RO=['Triebwerk','Rohteilchenbeschleuniger','Satelit','Zeitkapsel','Sternenwiese','Landeplatz','Funkraum','Maschinenraum','B.U.S.'];
+const RO=['Triebwerk','Maschinenraum','Zeitkapsel','Funkraum','Rohteilchenbeschleuniger','Landeplatz','Satelit','Sternenwiese','B.U.S.'];
 const SK=new Set(['Team-Einreichung','Soundcheck']);
 const trackColor=t=>TR[t]?.color||'rgba(240,232,221,0.35)';
 const trackIcon=t=>TR[t]?.icon||'✦';
@@ -827,18 +827,27 @@ function initFiltersAndTabs(){
   renderSchedule();
 
   // ── Cross-day scroll synchronisation ──
-  // Keeps all .rg containers at the same scrollLeft so room columns
-  // stay aligned when the user scrolls horizontally on any day.
+  // Only the grid the user is actively touching/dragging acts as source.
+  // All others are updated imperatively without firing new scroll events
+  // (setting scrollLeft on non-source grids won't loop because we only
+  // listen when _activeGrid matches).
   (function(){
     const grids=Array.from(document.querySelectorAll('.rg'));
-    let _syncing=false;
+    if(grids.length<2)return;
+    let _active=null;
+
+    // Mark which grid the pointer is inside
+    grids.forEach(g=>{
+      g.addEventListener('pointerenter',()=>{_active=g;},{passive:true});
+      g.addEventListener('pointerleave',()=>{if(_active===g)_active=null;},{passive:true});
+    });
+
+    // On scroll, propagate only from the active (pointer-inside) grid
     grids.forEach(g=>{
       g.addEventListener('scroll',()=>{
-        if(_syncing)return;
-        _syncing=true;
+        if(_active&&_active!==g)return; // being programmatically driven — ignore
         const x=g.scrollLeft;
         grids.forEach(other=>{if(other!==g)other.scrollLeft=x;});
-        requestAnimationFrame(()=>{_syncing=false;});
       },{passive:true});
     });
   })();
