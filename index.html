@@ -74,7 +74,9 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
 .rg::-webkit-scrollbar-track{background:rgba(255,255,255,0.04)}
 .rg::-webkit-scrollbar-thumb{background:rgba(245,216,0,0.28);border-radius:2px}
 .rc{flex:0 0 272px;scroll-snap-align:start;display:flex;flex-direction:column;transition:opacity 0.3s}
-.rh{font-family:'Share Tech Mono',monospace;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--yellow);padding:0.45rem 0;border-top:2px solid var(--yellow);margin-bottom:0.55rem;display:flex;align-items:center;gap:0.4rem;position:sticky;top:var(--rh-top,0px);z-index:50;background:var(--deep)}
+.rh{display:none}
+.rnames{display:flex;gap:0.9rem;overflow:hidden;padding-right:1.25rem;position:sticky;top:var(--rnames-top,0px);z-index:90;background:var(--deep2);border-bottom:1px solid rgba(245,216,0,0.15)}
+.rname-item{flex:0 0 272px;font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--yellow);padding:0.3rem 0;border-top:2px solid var(--yellow);display:flex;align-items:center;gap:0.35rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .re{position:relative;/* height set by JS */}
 
 /* ── CARDS ── */
@@ -161,6 +163,7 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
 
 @media(min-width:601px) and (max-width:1024px){
   .rc{flex:0 0 220px}
+  .rname-item{flex:0 0 220px}
   .frame{border-width:7px}
   .fav-panel{width:280px}
 }
@@ -183,6 +186,8 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
   .tp{font-size:0.56rem;padding:0.13rem 0.38rem;white-space:nowrap;flex-shrink:0}
   .rg{gap:0;padding:0 0 0 0;scroll-snap-type:x mandatory}
   .rc{flex:0 0 calc(100vw - 10px);padding:0 0.75rem;box-sizing:border-box}
+  .rnames{gap:0}
+  .rname-item{flex:0 0 calc(100vw - 10px);padding-left:0.75rem;box-sizing:border-box}
   .day-div{padding:0.4rem 0.75rem;top:0}
   .fav-panel{width:calc(100vw - 3rem);right:1rem;bottom:5rem}
   .fav-btn{bottom:1rem;right:1rem}
@@ -566,6 +571,17 @@ function buildScheduleDOM(){
     div.innerHTML=`<span class="day-div-label">${dayLabel(day.date)}</span><span class="day-div-dot"></span>`;
     block.appendChild(div);
 
+    // Room-names sticky row (outside .rg so sticky works across overflow boundary)
+    const rnamesEl=document.createElement('div');
+    rnamesEl.className='rnames';
+    rooms.forEach(rn=>{
+      const item=document.createElement('div');item.className='rname-item';
+      const icon=document.createElement('span');icon.textContent=RI[rn]||'◆';
+      item.appendChild(icon);item.appendChild(document.createTextNode(' '+rn));
+      rnamesEl.appendChild(item);
+    });
+    block.appendChild(rnamesEl);
+
     // Grid for this day
     const grid=document.createElement('div');
     grid.className='rg';
@@ -658,6 +674,8 @@ function buildScheduleDOM(){
       const maxH=Math.max(...columnData.map(d=>d.actualH));
       columnData.forEach(d=>{d.evW.style.height=maxH+'px';});
     }
+    // Sync horizontal scroll: grid → rnames (rnames has overflow:hidden, driven by grid)
+    grid.addEventListener('scroll',()=>{rnamesEl.scrollLeft=grid.scrollLeft;},{passive:true});
     block.appendChild(grid);
     main.appendChild(block);
   });
@@ -767,7 +785,7 @@ function initFiltersAndTabs(){
     const sbH=document.querySelector('.sb')?.offsetHeight||0;
     const divH=document.querySelector('.day-div')?.offsetHeight||36;
     document.documentElement.style.setProperty('--sb-height',sbH+'px');
-    document.documentElement.style.setProperty('--rh-top',(sbH+divH)+'px');
+    document.documentElement.style.setProperty('--rnames-top',(sbH+divH)+'px');
   }
   updateStickyOffsets();
   new ResizeObserver(updateStickyOffsets).observe(document.querySelector('.sb'));
@@ -778,7 +796,7 @@ function initFiltersAndTabs(){
   window.addEventListener('scroll',()=>{
     cancelAnimationFrame(_sraf);
     _sraf=requestAnimationFrame(()=>{
-      const threshold=(document.querySelector('.sb')?.offsetHeight||0)+(document.querySelector('.day-div')?.offsetHeight||36)+8;
+      const threshold=(document.querySelector('.sb')?.offsetHeight||0)+(document.querySelector('.day-div')?.offsetHeight||36)+(document.querySelector('.rnames')?.offsetHeight||28)+8;
       let cur=null;
       document.querySelectorAll('.day-block').forEach(b=>{
         if(b.getBoundingClientRect().top<=threshold)cur=b.dataset.date;
