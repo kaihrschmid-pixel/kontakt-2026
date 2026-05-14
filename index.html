@@ -28,14 +28,17 @@ header{position:relative;overflow:hidden;padding:2.5rem 2rem 1.8rem;text-align:c
 header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(100,40,80,0.65) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 70%,rgba(80,20,60,0.45) 0%,transparent 60%);pointer-events:none}
 .hi{position:relative;z-index:1}
 .wm{font-family:'Press Start 2P',monospace;font-size:clamp(2rem,7vw,4.8rem);letter-spacing:0.04em;line-height:1.1;color:var(--yellow);text-transform:uppercase;text-shadow:4px 4px 0 rgba(0,0,0,0.55)}
-.sl{font-family:'Share Tech Mono',monospace;font-size:clamp(0.7rem,1.8vw,0.9rem);letter-spacing:0.22em;text-transform:uppercase;color:var(--cream);margin-top:0.5rem;opacity:0.65}
+.sl{font-family:'Press Start 2P',monospace;font-size:clamp(0.48rem,1.3vw,0.78rem);letter-spacing:0.02em;text-transform:uppercase;color:var(--cream);margin-top:0.7rem;line-height:1.7;opacity:0.92}
 /* ── POSTER STARS ── */
 .hstar{position:absolute;color:#9EA7CD;pointer-events:none;user-select:none;line-height:1;animation:startwinkle var(--dur,3.2s) var(--d,0s) ease-in-out infinite}
 @keyframes startwinkle{0%,100%{opacity:var(--op,0.75);transform:scale(1) rotate(0deg)}50%{opacity:calc(var(--op,0.75)*0.35);transform:scale(0.72) rotate(18deg)}}
-.hm{display:flex;align-items:center;justify-content:center;gap:1.25rem;margin-top:1.1rem;flex-wrap:wrap}
-.hb{display:inline-flex;align-items:center;gap:0.3rem;background:var(--yellow);color:var(--deep2);font-family:'Share Tech Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;padding:0.28rem 0.85rem;clip-path:polygon(8% 0%,92% 0%,100% 50%,92% 100%,8% 100%,0% 50%);text-transform:uppercase}
-.hd{font-family:'Share Tech Mono',monospace;font-size:clamp(0.95rem,2.5vw,1.5rem);color:var(--cream);letter-spacing:0.08em}
-.hl{font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.16em;text-transform:uppercase;margin-top:0.35rem}
+/* ── BADGE ── */
+.hbadge-wrap{display:flex;justify-content:center;margin-top:1rem}
+.hbadge svg{width:clamp(150px,24vw,210px);height:clamp(150px,24vw,210px);filter:drop-shadow(0 6px 20px rgba(245,216,0,0.35))}
+/* ── DATE / LOCATION ── */
+.hm{display:flex;align-items:center;justify-content:center;gap:1.25rem;margin-top:0.9rem;flex-wrap:wrap}
+.hd{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.1rem,3vw,1.9rem);font-weight:700;color:var(--cream);letter-spacing:0.05em}
+.hl{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(0.72rem,1.6vw,0.98rem);color:rgba(240,232,221,0.75);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.3rem}
 
 /* ── STICKY BAR ── */
 .sb{position:sticky;top:0;z-index:200;background:rgba(42,15,31,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:2px solid rgba(245,216,0,0.2)}
@@ -217,8 +220,27 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
   <span class="hstar" style="right:35%;top:88%;font-size:1.1rem;--d:0.9s;--dur:4s;--op:0.6">✦</span>
   <div class="hi">
     <div class="wm">KONTAKT</div>
-    <div class="sl">durch raum und zeit &nbsp;·&nbsp; das Kulturfestival &nbsp;·&nbsp; 20 Jahre</div>
-    <div class="hm"><span class="hd">21.–24.05.2026</span><span class="hb">★ 20 Jahre</span></div>
+    <div class="sl">DURCH RAUM UND ZEIT</div>
+    <!-- Yellow starburst badge (inline SVG) -->
+    <div class="hbadge-wrap">
+      <div class="hbadge">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="kontakt — Das Kulturfestival · 20 Jahre">
+          <polygon fill="#f5d800" points="100,4 117.9,44.8 156.4,22.3 146.9,65.9 191.3,70.3 158,100 191.3,129.7 146.9,134.1 156.4,177.7 117.9,155.2 100,196 82.1,155.2 43.6,177.7 53.1,134.1 8.7,129.7 42,100 8.7,70.3 53.1,65.9 43.6,22.3 82.1,44.8"/>
+          <!-- Logo mark: two circles with ❯ ❮ -->
+          <circle cx="85" cy="71" r="13" fill="#1a0a15"/>
+          <text x="85" y="77" text-anchor="middle" font-size="14" fill="#f5d800" font-family="Arial, sans-serif" font-weight="900">❯</text>
+          <circle cx="115" cy="71" r="13" fill="#1a0a15"/>
+          <text x="115" y="77" text-anchor="middle" font-size="14" fill="#f5d800" font-family="Arial, sans-serif" font-weight="900">❮</text>
+          <!-- kontakt wordmark -->
+          <text x="100" y="104" text-anchor="middle" font-size="18" font-weight="700" font-family="Space Grotesk, sans-serif" fill="#1a0a15">kontakt</text>
+          <!-- Das Kulturfestival -->
+          <text x="100" y="120" text-anchor="middle" font-size="9.5" font-family="Space Grotesk, sans-serif" fill="#1a0a15">Das Kulturfestival</text>
+          <!-- 20 JAHRE -->
+          <text x="100" y="140" text-anchor="middle" font-size="9" font-weight="700" font-family="Press Start 2P, monospace" fill="#1a0a15">20 JAHRE</text>
+        </svg>
+      </div>
+    </div>
+    <div class="hm"><span class="hd">21.–24.05.2026</span></div>
     <div class="hl">Metalluk-Gelände &nbsp;·&nbsp; Ohmstraße 8 &nbsp;·&nbsp; Bamberg</div>
   </div>
 </header>
