@@ -47,7 +47,8 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
 /* day divider in continuous timeline */
 .day-block{margin-bottom:2rem}
-.day-div{position:sticky;top:var(--sb-height,0px);z-index:100;background:var(--deep2);border-top:2px solid var(--yellow);border-bottom:1px solid rgba(245,216,0,0.15);padding:0.4rem 1.25rem;display:flex;align-items:center;gap:0.75rem;margin-bottom:0}
+.day-header{position:sticky;top:var(--sb-height,0px);z-index:100;background:var(--deep2)}
+.day-div{background:var(--deep2);border-top:2px solid var(--yellow);border-bottom:1px solid rgba(245,216,0,0.15);padding:0.4rem 1.25rem;display:flex;align-items:center;gap:0.75rem;margin-bottom:0}
 .day-div-label{font-family:'Share Tech Mono',monospace;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--yellow)}
 .day-div-dot{width:6px;height:6px;border-radius:50%;background:#ff4560;animation:pulse 1.4s ease-in-out infinite;display:none}
 .day-div.today .day-div-dot{display:block}
@@ -69,13 +70,13 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 
 /* ── GRID ── */
 main{padding:0.5rem 0 4rem 0;overflow:visible}
-.rg{display:flex;gap:0.9rem;overflow-x:auto;overflow-y:clip;padding-right:1.25rem;padding-bottom:1.5rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.rg{display:flex;gap:0.9rem;overflow-x:auto;overflow-y:clip;padding-top:var(--rnames-h,34px);padding-right:1.25rem;padding-bottom:1.5rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
 .rg::-webkit-scrollbar{height:4px}
 .rg::-webkit-scrollbar-track{background:rgba(255,255,255,0.04)}
 .rg::-webkit-scrollbar-thumb{background:rgba(245,216,0,0.28);border-radius:2px}
 .rc{flex:0 0 272px;scroll-snap-align:start;display:flex;flex-direction:column;transition:opacity 0.3s}
 .rh{display:none}
-.rnames{display:flex;gap:0.9rem;overflow:hidden;padding-right:1.25rem;position:sticky;top:var(--rnames-top,0px);z-index:90;background:var(--deep2);border-bottom:1px solid rgba(245,216,0,0.15)}
+.rnames{display:flex;gap:0.9rem;overflow:hidden;padding-right:1.25rem;background:var(--deep2);border-bottom:1px solid rgba(245,216,0,0.15)}
 .rname-item{flex:0 0 272px;font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--yellow);padding:0.3rem 0;border-top:2px solid var(--yellow);display:flex;align-items:center;gap:0.35rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .re{position:relative;/* height set by JS */}
 
@@ -184,11 +185,11 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
   .fi::-webkit-scrollbar{display:none}
   .fil{display:none}
   .tp{font-size:0.56rem;padding:0.13rem 0.38rem;white-space:nowrap;flex-shrink:0}
-  .rg{gap:0;padding:0 0 0 0;scroll-snap-type:x mandatory}
+  .rg{gap:0;padding:var(--rnames-h,34px) 0 0 0;scroll-snap-type:x mandatory}
   .rc{flex:0 0 calc(100vw - 10px);padding:0 0.75rem;box-sizing:border-box}
   .rnames{gap:0}
   .rname-item{flex:0 0 calc(100vw - 10px);padding-left:0.75rem;box-sizing:border-box}
-  .day-div{padding:0.4rem 0.75rem;top:0}
+  .day-div{padding:0.4rem 0.75rem}
   .fav-panel{width:calc(100vw - 3rem);right:1rem;bottom:5rem}
   .fav-btn{bottom:1rem;right:1rem}
 }
@@ -565,13 +566,17 @@ function buildScheduleDOM(){
     block.className='day-block';
     block.dataset.date=day.date;
 
-    // Sticky day divider
+    // Sticky header: day-div + room names in one sticky wrapper
+    const dayHeader=document.createElement('div');
+    dayHeader.className='day-header';
+
+    // Day divider
     const div=document.createElement('div');
     div.className='day-div'+(isToday?' today':'');
     div.innerHTML=`<span class="day-div-label">${dayLabel(day.date)}</span><span class="day-div-dot"></span>`;
-    block.appendChild(div);
+    dayHeader.appendChild(div);
 
-    // Room-names sticky row (outside .rg so sticky works across overflow boundary)
+    // Room-names row (no longer sticky itself — .day-header handles that)
     const rnamesEl=document.createElement('div');
     rnamesEl.className='rnames';
     rooms.forEach(rn=>{
@@ -580,7 +585,8 @@ function buildScheduleDOM(){
       item.appendChild(icon);item.appendChild(document.createTextNode(' '+rn));
       rnamesEl.appendChild(item);
     });
-    block.appendChild(rnamesEl);
+    dayHeader.appendChild(rnamesEl);
+    block.appendChild(dayHeader);
 
     // Grid for this day
     const grid=document.createElement('div');
@@ -779,13 +785,12 @@ function initFiltersAndTabs(){
   renderSchedule();
 
   // ── Sticky offset calculation ──
-  // Three sticky layers: .sb (filterbar) → .day-div (day header) → .rh (room name)
-  // Each needs to stick below the previous one.
+  // .day-header sticks below .sb; --rnames-h pads .rg so cards don't start under the room-name row.
   function updateStickyOffsets(){
     const sbH=document.querySelector('.sb')?.offsetHeight||0;
-    const divH=document.querySelector('.day-div')?.offsetHeight||36;
+    const rnamesH=document.querySelector('.rnames')?.offsetHeight||34;
     document.documentElement.style.setProperty('--sb-height',sbH+'px');
-    document.documentElement.style.setProperty('--rnames-top',(sbH+divH)+'px');
+    document.documentElement.style.setProperty('--rnames-h',rnamesH+'px');
   }
   updateStickyOffsets();
   new ResizeObserver(updateStickyOffsets).observe(document.querySelector('.sb'));
@@ -796,7 +801,7 @@ function initFiltersAndTabs(){
   window.addEventListener('scroll',()=>{
     cancelAnimationFrame(_sraf);
     _sraf=requestAnimationFrame(()=>{
-      const threshold=(document.querySelector('.sb')?.offsetHeight||0)+(document.querySelector('.day-div')?.offsetHeight||36)+(document.querySelector('.rnames')?.offsetHeight||28)+8;
+      const threshold=(document.querySelector('.sb')?.offsetHeight||0)+(document.querySelector('.day-header')?.offsetHeight||66)+8;
       let cur=null;
       document.querySelectorAll('.day-block').forEach(b=>{
         if(b.getBoundingClientRect().top<=threshold)cur=b.dataset.date;
