@@ -34,7 +34,7 @@ header::before{content:'';position:absolute;inset:0;background:radial-gradient(e
 @keyframes startwinkle{0%,100%{opacity:var(--op,0.75);transform:scale(1) rotate(0deg)}50%{opacity:calc(var(--op,0.75)*0.35);transform:scale(0.72) rotate(18deg)}}
 /* ── BADGE ── */
 .hbadge-wrap{display:flex;justify-content:center;align-items:center;flex-shrink:0}
-.hbadge svg{width:clamp(100px,14vw,150px);height:clamp(100px,14vw,150px);filter:drop-shadow(0 4px 14px rgba(245,216,0,0.35))}
+.hbadge img{width:clamp(100px,14vw,150px);height:clamp(100px,14vw,150px);filter:drop-shadow(0 4px 14px rgba(245,216,0,0.35))}
 /* ── DATE / LOCATION ── */
 .hinfo{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;text-align:left}
 .hm{margin:0;padding:0}
@@ -184,7 +184,7 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
   .hi>div[style]{text-align:center!important;flex:none;min-width:0}
   .wm{font-size:clamp(1.6rem,10vw,2.6rem)}
   .sl{font-size:0.38rem;margin-top:0.2rem}
-  .hbadge svg{width:90px;height:90px}
+  .hbadge img{width:90px;height:90px}
   .hd{font-size:1rem}
   .hl{font-size:0.58rem;margin-top:0.1rem}
   .dt{padding:0}
@@ -229,16 +229,7 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
     <!-- Center: starburst badge -->
     <div class="hbadge-wrap">
       <div class="hbadge">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="kontakt — Das Kulturfestival · 20 Jahre">
-          <polygon fill="#f5d800" points="100,4 117.9,44.8 156.4,22.3 146.9,65.9 191.3,70.3 158,100 191.3,129.7 146.9,134.1 156.4,177.7 117.9,155.2 100,196 82.1,155.2 43.6,177.7 53.1,134.1 8.7,129.7 42,100 8.7,70.3 53.1,65.9 43.6,22.3 82.1,44.8"/>
-          <circle cx="85" cy="71" r="13" fill="#1a0a15"/>
-          <text x="85" y="77" text-anchor="middle" font-size="14" fill="#f5d800" font-family="Arial, sans-serif" font-weight="900">❯</text>
-          <circle cx="115" cy="71" r="13" fill="#1a0a15"/>
-          <text x="115" y="77" text-anchor="middle" font-size="14" fill="#f5d800" font-family="Arial, sans-serif" font-weight="900">❮</text>
-          <text x="100" y="104" text-anchor="middle" font-size="18" font-weight="700" font-family="Space Grotesk, sans-serif" fill="#1a0a15">kontakt</text>
-          <text x="100" y="120" text-anchor="middle" font-size="9.5" font-family="Space Grotesk, sans-serif" fill="#1a0a15">Das Kulturfestival</text>
-          <text x="100" y="140" text-anchor="middle" font-size="9" font-weight="700" font-family="Press Start 2P, monospace" fill="#1a0a15">20 JAHRE</text>
-        </svg>
+        <img src="badge.png" alt="kontakt — Das Kulturfestival · 20 Jahre">
       </div>
     </div>
     <!-- Right: date + location -->
