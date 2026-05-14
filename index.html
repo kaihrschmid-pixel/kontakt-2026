@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#e8e0d5;--deep:#3d1a2e;--deep2:#2a0f1f;--cream:#f0e8dd;--yellow:#f5d800;--yellow2:#e8c800;--card-bg:rgba(255,255,255,0.06);--card-border:rgba(240,232,221,0.13);--muted:rgba(240,232,221,0.42)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -27,8 +27,11 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--cre
 header{position:relative;overflow:hidden;padding:2.5rem 2rem 1.8rem;text-align:center;border-bottom:2px solid rgba(245,216,0,0.18)}
 header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(100,40,80,0.65) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 70%,rgba(80,20,60,0.45) 0%,transparent 60%);pointer-events:none}
 .hi{position:relative;z-index:1}
-.wm{font-family:'Share Tech Mono',monospace;font-size:clamp(2.8rem,9vw,5.5rem);letter-spacing:0.12em;line-height:0.9;color:var(--yellow);text-transform:uppercase;text-shadow:4px 4px 0 rgba(0,0,0,0.5)}
+.wm{font-family:'Press Start 2P',monospace;font-size:clamp(2rem,7vw,4.8rem);letter-spacing:0.04em;line-height:1.1;color:var(--yellow);text-transform:uppercase;text-shadow:4px 4px 0 rgba(0,0,0,0.55)}
 .sl{font-family:'Share Tech Mono',monospace;font-size:clamp(0.7rem,1.8vw,0.9rem);letter-spacing:0.22em;text-transform:uppercase;color:var(--cream);margin-top:0.5rem;opacity:0.65}
+/* ── POSTER STARS ── */
+.hstar{position:absolute;color:#9EA7CD;pointer-events:none;user-select:none;line-height:1;animation:startwinkle var(--dur,3.2s) var(--d,0s) ease-in-out infinite}
+@keyframes startwinkle{0%,100%{opacity:var(--op,0.75);transform:scale(1) rotate(0deg)}50%{opacity:calc(var(--op,0.75)*0.35);transform:scale(0.72) rotate(18deg)}}
 .hm{display:flex;align-items:center;justify-content:center;gap:1.25rem;margin-top:1.1rem;flex-wrap:wrap}
 .hb{display:inline-flex;align-items:center;gap:0.3rem;background:var(--yellow);color:var(--deep2);font-family:'Share Tech Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;padding:0.28rem 0.85rem;clip-path:polygon(8% 0%,92% 0%,100% 50%,92% 100%,8% 100%,0% 50%);text-transform:uppercase}
 .hd{font-family:'Share Tech Mono',monospace;font-size:clamp(0.95rem,2.5vw,1.5rem);color:var(--cream);letter-spacing:0.08em}
@@ -201,6 +204,17 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
 <canvas id="stars"></canvas>
 <div class="frame">
 <header>
+  <!-- Poster-style star accents -->
+  <span class="hstar" style="left:4%;top:12%;font-size:2.2rem;--d:0s;--dur:3.8s;--op:0.8">✦</span>
+  <span class="hstar" style="left:11%;top:58%;font-size:1rem;--d:1.2s;--dur:2.9s;--op:0.55">✦</span>
+  <span class="hstar" style="left:18%;top:82%;font-size:1.5rem;--d:0.4s;--dur:4.1s;--op:0.65">✧</span>
+  <span class="hstar" style="left:6%;top:38%;font-size:0.7rem;--d:2s;--dur:3.3s;--op:0.5">✦</span>
+  <span class="hstar" style="right:5%;top:8%;font-size:1.4rem;--d:0.7s;--dur:3.6s;--op:0.7">✧</span>
+  <span class="hstar" style="right:12%;top:45%;font-size:2.4rem;--d:1.8s;--dur:4.4s;--op:0.8">✦</span>
+  <span class="hstar" style="right:22%;top:78%;font-size:0.9rem;--d:0.3s;--dur:3.1s;--op:0.5">✦</span>
+  <span class="hstar" style="right:4%;top:68%;font-size:1.6rem;--d:2.4s;--dur:3.7s;--op:0.6">✧</span>
+  <span class="hstar" style="left:38%;top:6%;font-size:0.8rem;--d:1.5s;--dur:2.8s;--op:0.45">✦</span>
+  <span class="hstar" style="right:35%;top:88%;font-size:1.1rem;--d:0.9s;--dur:4s;--op:0.6">✦</span>
   <div class="hi">
     <div class="wm">KONTAKT</div>
     <div class="sl">durch raum und zeit &nbsp;·&nbsp; das Kulturfestival &nbsp;·&nbsp; 20 Jahre</div>
