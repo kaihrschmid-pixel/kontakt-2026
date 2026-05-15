@@ -11,6 +11,10 @@ jobs:
 
       - uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
+          exclude: |
+            **/.git*
+            **/.git*/**
+            README.md
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           server: ha01s014.org-dns.com
