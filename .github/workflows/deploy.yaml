@@ -1,0 +1,17 @@
+name: Deploy
+
+on: [push]
+
+jobs:
+  upload:
+    name: Upload files to kntkt.de/programm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          server: ha01s014.org-dns.com
+          username: kntkt.de-programm
