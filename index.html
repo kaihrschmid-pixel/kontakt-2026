@@ -12,9 +12,14 @@
 <link rel="icon" href="favicon.ico">
 <link rel="icon" type="image/png" href="apple-touch-icon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ── Vendored fonts (no external requests) ── */
+@font-face{font-family:'Press Start 2P';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/press-start-2p-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Press Start 2P';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/press-start-2p-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Share Tech Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/share-tech-mono-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:400 700;font-display:swap;src:url('fonts/space-grotesk-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:400 700;font-display:swap;src:url('fonts/space-grotesk-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+</style>
 <style>
 :root{--bg:#ddd3bc;--deep:#3d1a2e;--deep2:#2a0f1f;--cream:#f0e8dd;--yellow:#f5d800;--yellow2:#e8c800;--card-bg:rgba(255,255,255,0.06);--card-border:rgba(240,232,221,0.13);--muted:rgba(240,232,221,0.42)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -312,7 +317,6 @@ const trackColor=t=>TR[t]?.color||'rgba(240,232,221,0.35)';
 const trackIcon=t=>TR[t]?.icon||'✦';
 const BASE='https://cfp.kntkt.de';
 const XML_URL='https://cfp.kntkt.de/kontakt-2026/schedule/export/schedule.xml';
-const PROXY='https://corsproxy.io/?url=';
 const FEST_DATES=['2026-05-21','2026-05-22','2026-05-23','2026-05-24'];
 
 /* ── STATE ── */
@@ -1041,10 +1045,7 @@ async function loadSchedule(){
     xml=cached;
   } else {
     try{const r=await fetch(XML_URL,{cache:'no-cache'});if(!r.ok)throw 0;xml=await r.text();sessionStorage.setItem(CACHE_KEY,xml);sessionStorage.setItem(CACHE_KEY+'_ts',Date.now());}
-    catch{
-      try{showStatus('✦ Verbinde via Proxy …');const r=await fetch(PROXY+encodeURIComponent(XML_URL),{cache:'no-cache'});if(!r.ok)throw 0;xml=await r.text();sessionStorage.setItem(CACHE_KEY,xml);sessionStorage.setItem(CACHE_KEY+'_ts',Date.now());}
-      catch{showStatus('✗ Programm konnte nicht geladen werden. Bitte Seite neu laden.',true);return;}
-    }
+    catch{showStatus('✗ Programm konnte nicht geladen werden. Bitte Seite neu laden.',true);return;}
   }
   DAYS=parseXML(xml);
   if(!DAYS.length){showStatus('✗ Keine Daten gefunden.',true);return;}
@@ -1057,7 +1058,7 @@ loadSchedule();
   <div style="font-family:sans-serif;text-align:center;padding:3rem;background:#3d1a2e;color:#f0e8dd;min-height:100vh">
     <h1 style="margin-bottom:1rem">kontakt 2026</h1>
     <p>Bitte JavaScript aktivieren, um das Programm zu sehen.</p>
-    <p style="margin-top:0.5rem;opacity:0.6">Das Programm ist auch unter <a href="https://cfp.kntkt.de/kontakt-2026/schedule/" style="color:#f5d800">cfp.kntkt.de</a> verfügbar.</p>
+    <p style="margin-top:0.5rem;opacity:0.6">Das Programm ist auch <a href="https://cfp.kntkt.de/kontakt-2026/schedule/nojs/" style="color:#f5d800">ohne JavaScript verfügbar</a>.</p>
   </div>
 </noscript>
 </body>
