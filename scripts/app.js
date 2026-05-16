@@ -201,10 +201,13 @@ let historyOverlaySync = false;
 let renderedDayBlocks = new Map();
 let syncedGrids = [];
 let activeScrollGrid = null;
+let horizontalScrollSettleTimer = 0;
 let stickyResizeObserver = null;
 let dayBlockObserver = null;
 let cardImageObserver = null;
 let progressiveRenderToken = 0;
+let programmaticDayScroll = false;
+let dayScrollSettleTimer = 0;
 
 /* ── TIME UTILS ── */
 
@@ -539,6 +542,24 @@ function syncDayTabs(date) {
   });
 }
 
+function beginProgrammaticDayScroll(date) {
+  programmaticDayScroll = true;
+  syncDayTabs(date);
+}
+
+function scheduleProgrammaticDayScrollRelease() {
+  if (!programmaticDayScroll) {
+    return;
+  }
+
+  clearTimeout(dayScrollSettleTimer);
+  dayScrollSettleTimer = setTimeout(() => {
+    programmaticDayScroll = false;
+  }, 140);
+}
+
+window.addEventListener('scroll', scheduleProgrammaticDayScrollRelease, { passive: true });
+
 function refreshDayBlockObserver() {
   if (dayBlockObserver) {
     dayBlockObserver.disconnect();
@@ -548,6 +569,10 @@ function refreshDayBlockObserver() {
 
   dayBlockObserver = new IntersectionObserver(
     entries => {
+      if (programmaticDayScroll) {
+        return;
+      }
+
       const visible = entries
         .filter(entry => entry.isIntersecting)
         .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
@@ -579,37 +604,21 @@ function updateStickyOffsets() {
 
 function registerGrid(grid, roomNamesEl) {
   grid.addEventListener(
-    'pointerenter',
-    () => {
-      activeScrollGrid = grid;
-    },
-    { passive: true },
-  );
-
-  grid.addEventListener(
-    'pointerleave',
-    () => {
-      if (activeScrollGrid === grid) {
-        activeScrollGrid = null;
-      }
-    },
-    { passive: true },
-  );
-
-  grid.addEventListener(
-    'scroll',
-    () => {
-      roomNamesEl.scrollLeft = grid.scrollLeft;
-    },
-    { passive: true },
-  );
-
-  grid.addEventListener(
     'scroll',
     () => {
       if (activeScrollGrid && activeScrollGrid !== grid) {
         return;
       }
+
+      activeScrollGrid = grid;
+      clearTimeout(horizontalScrollSettleTimer);
+      horizontalScrollSettleTimer = setTimeout(() => {
+        if (activeScrollGrid === grid) {
+          activeScrollGrid = null;
+        }
+      }, 120);
+
+      roomNamesEl.scrollLeft = grid.scrollLeft;
 
       const x = grid.scrollLeft;
       syncedGrids.forEach(other => {
@@ -1716,10 +1725,14 @@ function scrollToDate(date) {
   const stickyBarHeight = document.querySelector('.sb')?.offsetHeight || 0;
   const blockTop = block.getBoundingClientRect().top + window.scrollY;
 
+  beginProgrammaticDayScroll(date);
+
   window.scrollTo({
     top: Math.max(0, blockTop - stickyBarHeight - 8),
     behavior: 'smooth',
   });
+
+  scheduleProgrammaticDayScrollRelease();
 }
 
 function scrollToNow() {
@@ -1789,7 +1802,9 @@ function scrollToNow() {
     target,
   });
 
+  beginProgrammaticDayScroll(targetDate);
   window.scrollTo({ top: target, behavior: 'smooth' });
+  scheduleProgrammaticDayScrollRelease();
 }
 
 function openEventModal(ev, opts = {}) {
