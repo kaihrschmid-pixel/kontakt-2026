@@ -175,6 +175,10 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
 /* ── MISC ── */
 .ed{font-family:'Share Tech Mono',monospace;color:var(--muted);font-size:0.82rem;padding:3rem 0 3rem 0;letter-spacing:0.12em;text-transform:uppercase;text-align:center}
 
+@media (prefers-reduced-motion: reduce){
+  .hstar,.dta .livedot,.day-div-dot,.ec.live,.ec.live::after,.skel-h,.skel-c{animation:none!important}
+}
+
 @media(min-width:601px) and (max-width:1024px){
   .rc{flex:0 0 220px}
   .rname-item{flex:0 0 220px}
@@ -306,7 +310,36 @@ main{padding:0.5rem 0 4rem 0;overflow:visible}
 
 <script>
 /* ── STARS ── */
-(function(){const c=document.getElementById('stars'),ctx=c.getContext('2d');let W,H,S=[];function r(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}function mk(){S=[];for(let i=0;i<200;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+0.2,a:Math.random(),s:(Math.random()-0.5)*0.006,cx:Math.random()>0.83})}function dr(){if(document.hidden)return;ctx.clearRect(0,0,W,H);S.forEach(s=>{s.a=Math.max(0.05,Math.min(1,s.a+s.s));if(s.a<=0.05||s.a>=1)s.s*=-1;ctx.globalAlpha=s.a;if(s.cx){ctx.fillStyle='#c8b0e0';ctx.fillRect(s.x-s.r*.4,s.y-s.r*2.2,s.r*.8,s.r*4.4);ctx.fillRect(s.x-s.r*2.2,s.y-s.r*.4,s.r*4.4,s.r*.8)}else{ctx.fillStyle=s.r>1?'#b8a8d8':'#e0d8f0';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill()}});ctx.globalAlpha=1;requestAnimationFrame(dr)}r();mk();dr();window.addEventListener('resize',()=>{r();mk()});document.addEventListener('visibilitychange',()=>{if(!document.hidden)dr();})})();
+(function(){
+  const c=document.getElementById('stars'),ctx=c.getContext('2d');
+  if(!ctx)return;
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  let W=0,H=0,S=[],raf=0,lastTs=0;
+  function starCount(){return reducedMotion.matches?0:(window.innerWidth<700?60:120);}
+  function r(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+  function mk(){S=[];for(let i=0;i<starCount();i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+0.2,a:Math.random(),s:(Math.random()-0.5)*0.006,cx:Math.random()>0.83})}
+  function dr(ts){
+    if(document.hidden||reducedMotion.matches)return;
+    if(lastTs&&ts-lastTs<1000/24){raf=requestAnimationFrame(dr);return;}
+    lastTs=ts;
+    ctx.clearRect(0,0,W,H);
+    S.forEach(s=>{s.a=Math.max(0.05,Math.min(1,s.a+s.s));if(s.a<=0.05||s.a>=1)s.s*=-1;ctx.globalAlpha=s.a;if(s.cx){ctx.fillStyle='#c8b0e0';ctx.fillRect(s.x-s.r*.4,s.y-s.r*2.2,s.r*.8,s.r*4.4);ctx.fillRect(s.x-s.r*2.2,s.y-s.r*.4,s.r*4.4,s.r*.8)}else{ctx.fillStyle=s.r>1?'#b8a8d8':'#e0d8f0';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill()}});
+    ctx.globalAlpha=1;
+    raf=requestAnimationFrame(dr);
+  }
+  function restart(){
+    cancelAnimationFrame(raf);
+    lastTs=0;
+    if(reducedMotion.matches){c.style.display='none';return;}
+    c.style.display='';
+    raf=requestAnimationFrame(dr);
+  }
+  r();mk();restart();
+  window.addEventListener('resize',()=>{r();mk();},{passive:true});
+  if(reducedMotion.addEventListener)reducedMotion.addEventListener('change',()=>{mk();restart();});
+  else if(reducedMotion.addListener)reducedMotion.addListener(()=>{mk();restart();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(raf);else restart();});
+})();
 
 /* ── CONFIG ── */
 const TR={'Konzert':{color:'#EF7B1E',icon:'♪'},'DJ-Set':{color:'#5BAF60',icon:'◈'},'Workshop':{color:'#0E70AB',icon:'◆'},'Vortrag':{color:'#316044',icon:'▸'},'Performance':{color:'#C062A3',icon:'◇'},'Theater':{color:'#5F5BA5',icon:'△'},'Tanz':{color:'#FAB313',icon:'✦'},'Film':{color:'#9EA7CD',icon:'▶'},'Jamsession':{color:'#EF7B1E',icon:'♫'}};
@@ -325,6 +358,7 @@ function dayLabel(ds){const d=new Date(ds+'T12:00:00');return`${WDAY[d.getDay()]
 let activeDay=0,activeFormats=new Set(),activeRooms=new Set(),DAYS=[],query='',currentEv=null;
 let favs=new Set(JSON.parse(localStorage.getItem('kontakt_favs')||'[]'));
 let historyOverlaySync=false;
+let renderedDayBlocks=new Map(),syncedGrids=[],activeScrollGrid=null,stickyResizeObserver=null,dayBlockObserver=null,cardImageObserver=null,progressiveRenderToken=0;
 
 /* ── TIME UTILS ── */
 function localDateStr(d){const dd=d||new Date();return`${dd.getFullYear()}-${String(dd.getMonth()+1).padStart(2,'0')}-${String(dd.getDate()).padStart(2,'0')}`;}
@@ -420,26 +454,83 @@ function setImgSrc(img,src,srcset,sizes){
   if(sizes)img.sizes=sizes;else img.removeAttribute('sizes');
   img.src=src;
 }
-function attachEventImage(img,bg,ev,variant,onMissing){
+function observeCardImage(el,load){
+  if(!('IntersectionObserver' in window)){load();return;}
+  if(!cardImageObserver){
+    cardImageObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting)return;
+        const loader=entry.target.__lazyImageLoader;
+        if(!loader)return;
+        delete entry.target.__lazyImageLoader;
+        cardImageObserver.unobserve(entry.target);
+        loader();
+      });
+    },{rootMargin:'320px 0px'});
+  }
+  el.__lazyImageLoader=load;
+  cardImageObserver.observe(el);
+}
+function attachEventImage(img,bg,ev,variant,onMissing,opts={}){
+  const {defer=false,background='eager'}=opts;
   const base=imageBasePath(ev);
   const localSrc=`${base}-${variant}.webp`;
   const localSrc2x=`${base}-${variant}@2x.webp`;
   const fallback=ev.l||'';
   const fail=()=>{if(onMissing)onMissing();};
   img.decoding='async';
+  img.onload=()=>{
+    if(background==='after-load')setBgImage(bg,img.currentSrc||img.src,'');
+  };
   img.onerror=()=>{
     if(fallback&&img.dataset.fallbackLoaded!=='1'){
       img.dataset.fallbackLoaded='1';
-      setBgImage(bg,fallback,'');
+      if(background==='eager')setBgImage(bg,fallback,'');
       setImgSrc(img,fallback,'','');
       return;
     }
     img.onerror=null;
     fail();
   };
-  setBgImage(bg,localSrc,localSrc2x);
-  setImgSrc(img,localSrc,`${localSrc} 1x, ${localSrc2x} 2x`,variant==='hero'?'(max-width: 600px) calc(100vw - 3rem), 560px':'(max-width: 600px) calc(100vw - 1.5rem), 272px');
+  const load=()=>{
+    if(background==='eager')setBgImage(bg,localSrc,localSrc2x);
+    setImgSrc(img,localSrc,`${localSrc} 1x, ${localSrc2x} 2x`,variant==='hero'?'(max-width: 600px) calc(100vw - 3rem), 560px':'(max-width: 600px) calc(100vw - 1.5rem), 272px');
+  };
+  if(defer)observeCardImage(img,load);
+  else load();
   return true;
+}
+
+function syncDayTabs(date){
+  document.querySelectorAll('.dta').forEach((t,i)=>t.classList.toggle('scrollactive',DAYS[i]?.date===date));
+}
+function refreshDayBlockObserver(){
+  if(dayBlockObserver)dayBlockObserver.disconnect();
+  const threshold=(document.querySelector('.sb')?.offsetHeight||0)+(document.querySelector('.day-header')?.offsetHeight||66)+8;
+  dayBlockObserver=new IntersectionObserver(entries=>{
+    const visible=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top);
+    if(visible[0])syncDayTabs(visible[0].target.dataset.date);
+  },{rootMargin:`-${threshold}px 0px -65% 0px`,threshold:[0,0.01]});
+  document.querySelectorAll('.day-block').forEach(block=>dayBlockObserver.observe(block));
+}
+function updateStickyOffsets(){
+  const sbH=document.querySelector('.sb')?.offsetHeight||0;
+  const rnamesH=document.querySelector('.rnames')?.offsetHeight||34;
+  document.documentElement.style.setProperty('--sb-height',sbH+'px');
+  document.documentElement.style.setProperty('--rnames-h',rnamesH+'px');
+  if(document.querySelector('.day-block'))refreshDayBlockObserver();
+}
+function registerGrid(grid,rnamesEl){
+  grid.addEventListener('pointerenter',()=>{activeScrollGrid=grid;},{passive:true});
+  grid.addEventListener('pointerleave',()=>{if(activeScrollGrid===grid)activeScrollGrid=null;},{passive:true});
+  grid.addEventListener('scroll',()=>{rnamesEl.scrollLeft=grid.scrollLeft;},{passive:true});
+  grid.addEventListener('scroll',()=>{
+    if(activeScrollGrid&&activeScrollGrid!==grid)return;
+    const x=grid.scrollLeft;
+    syncedGrids.forEach(other=>{if(other!==grid)other.scrollLeft=x;});
+  },{passive:true});
+  if(syncedGrids.length)grid.scrollLeft=syncedGrids[0].scrollLeft;
+  syncedGrids.push(grid);
 }
 
 /* ── URL STATE ── */
@@ -692,141 +783,157 @@ const PX_PER_MIN=1.8;
 const CARD_MIN_H=82;
 const COL_PAD_BOTTOM=60;
 
+function buildDayBlock(day){
+  const today=todayDate();
+  const isToday=day.date===today;
+  const rooms=[...RO.filter(r=>day.rooms[r]?.length),...Object.keys(day.rooms).filter(r=>!RO.includes(r)&&day.rooms[r]?.length).sort()];
+
+  const block=document.createElement('div');
+  block.className='day-block';
+  block.dataset.date=day.date;
+
+  const dayHeader=document.createElement('div');
+  dayHeader.className='day-header';
+
+  const div=document.createElement('div');
+  div.className='day-div'+(isToday?' today':'');
+  div.innerHTML=`<span class="day-div-label">${dayLabel(day.date)}</span><span class="day-div-dot"></span>`;
+  dayHeader.appendChild(div);
+
+  const rnamesEl=document.createElement('div');
+  rnamesEl.className='rnames';
+  rooms.forEach(rn=>{
+    const item=document.createElement('div');item.className='rname-item';item.dataset.room=rn;
+    const icon=document.createElement('span');icon.textContent=RI[rn]||'◆';
+    item.appendChild(icon);item.appendChild(document.createTextNode(' '+rn));
+    rnamesEl.appendChild(item);
+  });
+  dayHeader.appendChild(rnamesEl);
+  block.appendChild(dayHeader);
+
+  const grid=document.createElement('div');
+  grid.className='rg';
+  grid.dataset.date=day.date;
+
+  let dayStart=Infinity,dayEnd=0;
+  rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{
+    const s=timeToMinutes(ev.s);
+    const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
+    const e=s+dh*60+dm;
+    if(s<dayStart)dayStart=s;
+    if(e>dayEnd)dayEnd=e;
+  }));
+  const colH=Math.max((dayEnd-dayStart)*PX_PER_MIN+COL_PAD_BOTTOM,300);
+  const columnData=[];
+
+  rooms.forEach(rn=>{
+    const events=[...day.rooms[rn]].sort((a,b)=>timeToMinutes(a.s)-timeToMinutes(b.s));
+    const col=document.createElement('div');col.className='rc';col.dataset.room=rn;
+    const rhEl=document.createElement('div');rhEl.className='rh';
+    rhEl.innerHTML=`<span>${RI[rn]||'◆'}</span>${rn}`;
+    col.appendChild(rhEl);
+    const evW=document.createElement('div');evW.className='re';
+    evW.style.height=colH+'px';
+    col.appendChild(evW);
+    let placedCards=[];
+    events.forEach(ev=>{
+      if(SK.has(ev.tr))return;
+      const color=trackColor(ev.tr),icon=trackIcon(ev.tr);
+      const live=isLive(ev);
+      const faved=favs.has(favKey(ev));
+      const conflict=hasConflict(ev);
+      const idealTop=(timeToMinutes(ev.s)-dayStart)*PX_PER_MIN;
+      const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
+      const durMin=dh*60+dm;
+      const idealH=Math.max(durMin*PX_PER_MIN,CARD_MIN_H);
+      let top=idealTop;
+      for(const p of placedCards){if(top<p.bottom+4)top=p.bottom+4;}
+      placedCards.push({top,bottom:top+idealH});
+      const card=document.createElement('div');
+      card.__ev=ev;
+      card.className='ec'+(live?' live':'')+(faved?' faved':'');
+      card.dataset.evkey=favKey(ev);
+      card.style.setProperty('--tc',color);
+      card.style.top=top+'px';
+      card.style.height=idealH+'px';
+      if(conflict)card.style.boxShadow='inset 0 0 0 1px #ff456060';
+      if(ev.l){
+        const ew=document.createElement('div');ew.className='ew';
+        const bg=document.createElement('div');bg.className='ew-bg';
+        const img=document.createElement('img');img.className='et';img.alt='';img.loading='lazy';img.fetchPriority='low';
+        attachEventImage(img,bg,ev,'card',()=>{ew.remove();card.classList.add('noimg')},{defer:true,background:'after-load'});
+        ew.appendChild(bg);ew.appendChild(img);card.appendChild(ew);
+        const scrim=document.createElement('div');scrim.className='escrim';card.appendChild(scrim);
+      } else {card.classList.add('noimg');}
+      const ov=document.createElement('div');ov.className='eov';
+      const eto=document.createElement('div');eto.className='eto';
+      const etm=document.createElement('span');etm.className='etm';etm.textContent=ev.s;
+      const edu=document.createElement('span');edu.className='edu';edu.textContent=formatDuration(ev.d);
+      eto.appendChild(etm);eto.appendChild(edu);ov.appendChild(eto);
+      const eti=document.createElement('div');eti.className='eti';eti.textContent=ev.t;ov.appendChild(eti);
+      const em=document.createElement('div');em.className='em';
+      if(ev.tr){
+        const eb=document.createElement('span');eb.className='eb';eb.style.background=color;
+        const bi=document.createElement('span');bi.className='bi';bi.textContent=icon;
+        eb.appendChild(bi);
+        eb.appendChild(document.createTextNode(ev.tr));
+        em.appendChild(eb);
+      }
+      ov.appendChild(em);
+      if(ev.p?.length){const ea=document.createElement('div');ea.className='ea';ea.textContent=ev.p.join(', ');ov.appendChild(ea);}
+      const star=document.createElement('span');star.className='fav';star.textContent=faved?'★':'☆';
+      star.addEventListener('click',e=>{e.stopPropagation();toggleFav(ev);});
+      card.appendChild(ov);card.appendChild(star);
+      card.addEventListener('click',()=>openEventModal(ev));
+      evW.appendChild(card);
+    });
+    const maxBottom=placedCards.length>0?Math.max(...placedCards.map(p=>p.bottom)):0;
+    const actualH=Math.max(colH,maxBottom+COL_PAD_BOTTOM);
+    columnData.push({evW,actualH});
+    grid.appendChild(col);
+  });
+  if(columnData.length>0){
+    const maxH=Math.max(...columnData.map(d=>d.actualH));
+    columnData.forEach(d=>{d.evW.style.height=maxH+'px';});
+  }
+  registerGrid(grid,rnamesEl);
+  block.appendChild(grid);
+  renderedDayBlocks.set(day.date,block);
+  if(dayBlockObserver)dayBlockObserver.observe(block);
+  return block;
+}
+
 function buildScheduleDOM(){
   const main=document.getElementById('mainContent');
   main.innerHTML='';
+  renderedDayBlocks.clear();
+  syncedGrids=[];
+  activeScrollGrid=null;
+  progressiveRenderToken++;
+  if(dayBlockObserver)dayBlockObserver.disconnect();
+  if(cardImageObserver)cardImageObserver.disconnect();
   if(!DAYS.length){main.innerHTML='<p class="ed">✦ Keine Programmpunkte</p>';return;}
 
-  DAYS.forEach(day=>{
-    const today=todayDate();
-    const isToday=day.date===today;
-    const rooms=[...RO.filter(r=>day.rooms[r]?.length),...Object.keys(day.rooms).filter(r=>!RO.includes(r)&&day.rooms[r]?.length).sort()];
+  const initialDate=window.__scrollToDate||programmeDate();
+  const ordered=[...DAYS].sort((a,b)=>a.date===initialDate?-1:b.date===initialDate?1:DAYS.indexOf(a)-DAYS.indexOf(b));
+  const [firstDay,...restDays]=ordered;
+  if(firstDay)main.appendChild(buildDayBlock(firstDay));
+  renderSchedule();
+  updateStickyOffsets();
+  syncDayTabs(firstDay?.date||null);
 
-    // Day block
-    const block=document.createElement('div');
-    block.className='day-block';
-    block.dataset.date=day.date;
-
-    // Sticky header: day-div + room names in one sticky wrapper
-    const dayHeader=document.createElement('div');
-    dayHeader.className='day-header';
-
-    // Day divider
-    const div=document.createElement('div');
-    div.className='day-div'+(isToday?' today':'');
-    div.innerHTML=`<span class="day-div-label">${dayLabel(day.date)}</span><span class="day-div-dot"></span>`;
-    dayHeader.appendChild(div);
-
-    // Room-names row (no longer sticky itself — .day-header handles that)
-    const rnamesEl=document.createElement('div');
-    rnamesEl.className='rnames';
-    rooms.forEach(rn=>{
-      const item=document.createElement('div');item.className='rname-item';item.dataset.room=rn;
-      const icon=document.createElement('span');icon.textContent=RI[rn]||'◆';
-      item.appendChild(icon);item.appendChild(document.createTextNode(' '+rn));
-      rnamesEl.appendChild(item);
-    });
-    dayHeader.appendChild(rnamesEl);
-    block.appendChild(dayHeader);
-
-    // Grid for this day
-    const grid=document.createElement('div');
-    grid.className='rg';
-    grid.dataset.date=day.date;
-
-    let dayStart=Infinity,dayEnd=0;
-    rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{
-      const s=timeToMinutes(ev.s);
-      const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
-      const e=s+dh*60+dm;
-      if(s<dayStart)dayStart=s;
-      if(e>dayEnd)dayEnd=e;
-    }));
-    const colH=Math.max((dayEnd-dayStart)*PX_PER_MIN+COL_PAD_BOTTOM,300);
-    const columnData=[];
-
-    // Left spacer — a real flex item so browsers can't ignore it (unlike ::before)
-    rooms.forEach(rn=>{
-      const events=[...day.rooms[rn]].sort((a,b)=>timeToMinutes(a.s)-timeToMinutes(b.s));
-      const col=document.createElement('div');col.className='rc';col.dataset.room=rn;
-      const rhEl=document.createElement('div');rhEl.className='rh';
-      rhEl.innerHTML=`<span>${RI[rn]||'◆'}</span>${rn}`;
-      col.appendChild(rhEl);
-      const evW=document.createElement('div');evW.className='re';
-      evW.style.height=colH+'px';
-      col.appendChild(evW);
-      let placedCards=[];
-      events.forEach(ev=>{
-        if(SK.has(ev.tr))return;
-        const color=trackColor(ev.tr),icon=trackIcon(ev.tr);
-        const live=isLive(ev);
-        const faved=favs.has(favKey(ev));
-        const conflict=hasConflict(ev);
-        const idealTop=(timeToMinutes(ev.s)-dayStart)*PX_PER_MIN;
-        const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
-        const durMin=dh*60+dm;
-        const idealH=Math.max(durMin*PX_PER_MIN,CARD_MIN_H);
-        let top=idealTop;
-        for(const p of placedCards){if(top<p.bottom+4)top=p.bottom+4;}
-        placedCards.push({top,bottom:top+idealH});
-        const card=document.createElement('div');
-        card.__ev=ev;
-        card.className='ec'+(live?' live':'')+(faved?' faved':'');
-        card.dataset.evkey=favKey(ev);
-        card.style.setProperty('--tc',color);
-        card.style.top=top+'px';
-        card.style.height=idealH+'px';
-        if(conflict)card.style.boxShadow='inset 0 0 0 1px #ff456060';
-        if(ev.l){
-          const ew=document.createElement('div');ew.className='ew';
-          const bg=document.createElement('div');bg.className='ew-bg';
-          const img=document.createElement('img');img.className='et';img.alt='';img.loading='lazy';
-          attachEventImage(img,bg,ev,'card',()=>{ew.remove();card.classList.add('noimg')});
-          ew.appendChild(bg);ew.appendChild(img);card.appendChild(ew);
-          const scrim=document.createElement('div');scrim.className='escrim';card.appendChild(scrim);
-        } else {card.classList.add('noimg');}
-        const ov=document.createElement('div');ov.className='eov';
-        // Time / duration row
-        const eto=document.createElement('div');eto.className='eto';
-        const etm=document.createElement('span');etm.className='etm';etm.textContent=ev.s;
-        const edu=document.createElement('span');edu.className='edu';edu.textContent=formatDuration(ev.d);
-        eto.appendChild(etm);eto.appendChild(edu);ov.appendChild(eto);
-        // Title
-        const eti=document.createElement('div');eti.className='eti';eti.textContent=ev.t;ov.appendChild(eti);
-        // Track badge
-        const em=document.createElement('div');em.className='em';
-        if(ev.tr){
-          const eb=document.createElement('span');eb.className='eb';eb.style.background=color;
-          const bi=document.createElement('span');bi.className='bi';bi.textContent=icon;
-          eb.appendChild(bi);
-          eb.appendChild(document.createTextNode(ev.tr));
-          em.appendChild(eb);
-        }
-        ov.appendChild(em);
-        // Performers
-        if(ev.p?.length){const ea=document.createElement('div');ea.className='ea';ea.textContent=ev.p.join(', ');ov.appendChild(ea);}
-        const star=document.createElement('span');star.className='fav';star.textContent=faved?'★':'☆';
-        star.addEventListener('click',e=>{e.stopPropagation();toggleFav(ev);});
-        card.appendChild(ov);card.appendChild(star);
-        card.addEventListener('click',()=>openEventModal(ev));
-        evW.appendChild(card);
-      });
-      // Track actual height needed (push-down may exceed colH)
-      const maxBottom=placedCards.length>0?Math.max(...placedCards.map(p=>p.bottom)):0;
-      const actualH=Math.max(colH,maxBottom+COL_PAD_BOTTOM);
-      columnData.push({evW,actualH});
-      grid.appendChild(col);
-    });
-    // Equalize all columns to the tallest (keeps timeline alignment)
-    if(columnData.length>0){
-      const maxH=Math.max(...columnData.map(d=>d.actualH));
-      columnData.forEach(d=>{d.evW.style.height=maxH+'px';});
-    }
-    // Sync horizontal scroll: grid → rnames (rnames has overflow:hidden, driven by grid)
-    grid.addEventListener('scroll',()=>{rnamesEl.scrollLeft=grid.scrollLeft;},{passive:true});
-    block.appendChild(grid);
-    main.appendChild(block);
-  });
+  const token=progressiveRenderToken;
+  const defer=window.requestIdleCallback?cb=>window.requestIdleCallback(cb,{timeout:180}):cb=>setTimeout(cb,16);
+  const scheduleMore=idx=>{
+    if(token!==progressiveRenderToken)return;
+    if(idx>=restDays.length){updateStickyOffsets();return;}
+    const day=restDays[idx];
+    if(day&&!renderedDayBlocks.has(day.date))main.appendChild(buildDayBlock(day));
+    renderSchedule();
+    updateStickyOffsets();
+    defer(()=>scheduleMore(idx+1));
+  };
+  defer(()=>scheduleMore(0));
 }
 
 function renderSchedule(){
@@ -945,57 +1052,12 @@ function initFiltersAndTabs(){
     }
   }
 
-  // ── Cross-day scroll synchronisation ──
-  // Only the grid the user is actively touching/dragging acts as source.
-  // All others are updated imperatively without firing new scroll events
-  // (setting scrollLeft on non-source grids won't loop because we only
-  // listen when _activeGrid matches).
-  (function(){
-    const grids=Array.from(document.querySelectorAll('.rg'));
-    if(grids.length<2)return;
-    let _active=null;
-
-    // Mark which grid the pointer is inside
-    grids.forEach(g=>{
-      g.addEventListener('pointerenter',()=>{_active=g;},{passive:true});
-      g.addEventListener('pointerleave',()=>{if(_active===g)_active=null;},{passive:true});
-    });
-
-    // On scroll, propagate only from the active (pointer-inside) grid
-    grids.forEach(g=>{
-      g.addEventListener('scroll',()=>{
-        if(_active&&_active!==g)return; // being programmatically driven — ignore
-        const x=g.scrollLeft;
-        grids.forEach(other=>{if(other!==g)other.scrollLeft=x;});
-      },{passive:true});
-    });
-  })();
-
   // ── Sticky offset calculation ──
   // .day-header sticks below .sb; --rnames-h pads .rg so cards don't start under the room-name row.
-  function updateStickyOffsets(){
-    const sbH=document.querySelector('.sb')?.offsetHeight||0;
-    const rnamesH=document.querySelector('.rnames')?.offsetHeight||34;
-    document.documentElement.style.setProperty('--sb-height',sbH+'px');
-    document.documentElement.style.setProperty('--rnames-h',rnamesH+'px');
-  }
   updateStickyOffsets();
-  new ResizeObserver(updateStickyOffsets).observe(document.querySelector('.sb'));
-
-  // ── Active-day scroll tracking ──
-  // Highlights the day tab that's currently visible in the viewport.
-  let _sraf;
-  window.addEventListener('scroll',()=>{
-    cancelAnimationFrame(_sraf);
-    _sraf=requestAnimationFrame(()=>{
-      const threshold=(document.querySelector('.sb')?.offsetHeight||0)+(document.querySelector('.day-header')?.offsetHeight||66)+8;
-      let cur=null;
-      document.querySelectorAll('.day-block').forEach(b=>{
-        if(b.getBoundingClientRect().top<=threshold)cur=b.dataset.date;
-      });
-      document.querySelectorAll('.dta').forEach((t,i)=>t.classList.toggle('scrollactive',DAYS[i]?.date===cur));
-    });
-  },{passive:true});
+  if(stickyResizeObserver)stickyResizeObserver.disconnect();
+  stickyResizeObserver=new ResizeObserver(updateStickyOffsets);
+  stickyResizeObserver.observe(document.querySelector('.sb'));
 
   // Wait until main has real height (layout complete) before scrolling
   const main=document.getElementById('mainContent');
@@ -1031,7 +1093,16 @@ function initFiltersAndTabs(){
 
 /* ── SCROLL HELPERS ── */
 function scrollToDate(date){
-  const block=document.querySelector('.day-block[data-date="'+date+'"]');
+  let block=renderedDayBlocks.get(date)||document.querySelector('.day-block[data-date="'+date+'"]');
+  if(!block){
+    const day=DAYS.find(d=>d.date===date);
+    if(day){
+      block=buildDayBlock(day);
+      document.getElementById('mainContent').appendChild(block);
+      renderSchedule();
+      updateStickyOffsets();
+    }
+  }
   if(!block)return;
   const stickyH=document.querySelector('.sb')?.offsetHeight||0;
   const blockTop=block.getBoundingClientRect().top+window.scrollY;
