@@ -238,6 +238,19 @@ function formatDuration(d) {
   return `${hours}h${minutes}`;
 }
 
+function scheduleRoomOrder() {
+  const allRooms = new Set();
+
+  DAYS.forEach(day => RO.filter(room => day.rooms[room]?.length).forEach(room => allRooms.add(room)));
+  DAYS.forEach(day => {
+    Object.keys(day.rooms)
+      .filter(room => !RO.includes(room) && day.rooms[room]?.length)
+      .forEach(room => allRooms.add(room));
+  });
+
+  return [...RO.filter(room => allRooms.has(room)), ...[...allRooms].filter(room => !RO.includes(room)).sort()];
+}
+
 /* ── NOW (with dev override) ── */
 
 let devMin = null;
@@ -1110,12 +1123,7 @@ const COL_PAD_BOTTOM = 60;
 function buildDayBlock(day) {
   const today = todayDate();
   const isToday = day.date === today;
-  const rooms = [
-    ...RO.filter(room => day.rooms[room]?.length),
-    ...Object.keys(day.rooms)
-      .filter(room => !RO.includes(room) && day.rooms[room]?.length)
-      .sort(),
-  ];
+  const rooms = scheduleRoomOrder();
 
   const block = document.createElement('div');
   block.className = 'day-block';
@@ -1156,7 +1164,7 @@ function buildDayBlock(day) {
   let dayEnd = 0;
 
   rooms.forEach(roomName => {
-    day.rooms[roomName].forEach(ev => {
+    (day.rooms[roomName] || []).forEach(ev => {
       const start = timeToMinutes(ev.s);
       const [durationHours, durationMinutes] = (ev.d || '00:30').split(':').map(Number);
       const end = start + durationHours * 60 + durationMinutes;
@@ -1175,7 +1183,7 @@ function buildDayBlock(day) {
   const columnData = [];
 
   rooms.forEach(roomName => {
-    const events = [...day.rooms[roomName]].sort((a, b) => timeToMinutes(a.s) - timeToMinutes(b.s));
+    const events = [...(day.rooms[roomName] || [])].sort((a, b) => timeToMinutes(a.s) - timeToMinutes(b.s));
 
     const column = document.createElement('div');
     column.className = 'rc';
@@ -1522,13 +1530,7 @@ function initFiltersAndTabs() {
     });
   });
 
-  const allRooms = new Set();
-  DAYS.forEach(day => RO.filter(room => day.rooms[room]?.length).forEach(room => allRooms.add(room)));
-  DAYS.forEach(day => {
-    Object.keys(day.rooms)
-      .filter(room => !RO.includes(room) && day.rooms[room]?.length)
-      .forEach(room => allRooms.add(room));
-  });
+  const roomOrder = scheduleRoomOrder();
 
   const formatFiltersEl = document.getElementById('trackFilters');
 
@@ -1565,8 +1567,6 @@ function initFiltersAndTabs() {
   while (roomFiltersEl.children.length > 1) {
     roomFiltersEl.removeChild(roomFiltersEl.lastChild);
   }
-
-  const roomOrder = [...RO.filter(room => allRooms.has(room)), ...[...allRooms].filter(room => !RO.includes(room)).sort()];
 
   roomOrder.forEach(roomName => {
     const button = document.createElement('button');
