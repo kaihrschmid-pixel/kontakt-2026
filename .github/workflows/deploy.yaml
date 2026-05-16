@@ -15,6 +15,10 @@ jobs:
             **/.git*
             **/.git*/**
             README.md
+            flake.lock
+            flake.nix
+            tools
+            tools/*
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           server: ha01s014.org-dns.com
