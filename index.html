@@ -1,1257 +1,174 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>kontakt — das Kulturfestival 2026</title>
-<meta name="description" content="Programm & Spielplan für kontakt — das Kulturfestival 2026. 21.–24. Mai, Metalluk-Gelände Bamberg.">
-<meta property="og:title" content="kontakt — das Kulturfestival 2026">
-<meta property="og:description" content="Programm & Spielplan. 21.–24. Mai, Metalluk-Gelände Bamberg.">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#3d1a2e">
-<link rel="icon" href="favicon.ico">
-<link rel="icon" type="image/png" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>
-/* ── Vendored fonts (no external requests) ── */
-@font-face{font-family:'Press Start 2P';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/press-start-2p-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:'Press Start 2P';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/press-start-2p-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Share Tech Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/share-tech-mono-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:400 700;font-display:swap;src:url('fonts/space-grotesk-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:400 700;font-display:swap;src:url('fonts/space-grotesk-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-</style>
-<style>
-:root{--bg:#ddd3bc;--deep:#3d1a2e;--deep2:#2a0f1f;--cream:#f0e8dd;--yellow:#f5d800;--yellow2:#e8c800;--card-bg:rgba(255,255,255,0.06);--card-border:rgba(240,232,221,0.13);--muted:rgba(240,232,221,0.42)}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh}
-#galaxy{position:fixed;inset:0;pointer-events:none;z-index:0;background:url('galaxy-bg.jpg') center/cover no-repeat #0e040a}
-#stars{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.18}
-.frame{position:relative;z-index:2;background:rgba(18,5,13,0.55);min-height:100vh;border:20px solid var(--bg)}
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kontakt — das Kulturfestival 2026</title>
+    <meta
+      name="description"
+      content="Programm & Spielplan für kontakt — das Kulturfestival 2026. 21.–24. Mai, Metalluk-Gelände Bamberg."
+    >
+    <meta property="og:title" content="kontakt — das Kulturfestival 2026">
+    <meta
+      property="og:description"
+      content="Programm & Spielplan. 21.–24. Mai, Metalluk-Gelände Bamberg."
+    >
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#3d1a2e">
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" type="image/png" href="apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="styles/fonts.css">
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body>
+    <div id="galaxy"></div>
+    <canvas id="stars"></canvas>
 
-/* ── HEADER ── */
-header{position:relative;overflow:hidden;padding:1.2rem 2rem 1rem;text-align:center;border-bottom:2px solid rgba(245,216,0,0.18)}
-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(100,40,80,0.65) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 70%,rgba(80,20,60,0.45) 0%,transparent 60%);pointer-events:none}
-.hi{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
-.wm{font-family:'Press Start 2P',monospace;font-size:clamp(1.6rem,5.5vw,3.8rem);letter-spacing:0.04em;line-height:1.1;color:var(--yellow);text-transform:uppercase;text-shadow:3px 3px 0 rgba(0,0,0,0.55)}
-.sl{font-family:'Press Start 2P',monospace;font-size:clamp(0.38rem,1vw,0.6rem);letter-spacing:0.02em;text-transform:uppercase;color:var(--cream);margin-top:0.4rem;line-height:1.7;opacity:0.92}
-/* ── POSTER STARS ── */
-.hstar{position:absolute;color:#9EA7CD;pointer-events:none;user-select:none;line-height:1;animation:startwinkle var(--dur,3.2s) var(--d,0s) ease-in-out infinite}
-@keyframes startwinkle{0%,100%{opacity:var(--op,0.75);transform:scale(1) rotate(0deg)}50%{opacity:calc(var(--op,0.75)*0.35);transform:scale(0.72) rotate(18deg)}}
-/* ── BADGE ── */
-.hbadge-wrap{display:flex;justify-content:center;align-items:center;flex-shrink:0}
-.hbadge img{width:clamp(100px,14vw,150px);height:clamp(100px,14vw,150px);filter:drop-shadow(0 4px 14px rgba(245,216,0,0.35))}
-/* ── DATE / LOCATION ── */
-.hinfo{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;text-align:left}
-.hm{margin:0;padding:0}
-.hd{font-family:'Space Grotesk',sans-serif;font-size:clamp(0.95rem,2.5vw,1.5rem);font-weight:700;color:var(--cream);letter-spacing:0.05em}
-.hl{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(0.72rem,1.6vw,0.98rem);color:rgba(240,232,221,0.75);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.3rem}
+    <div class="frame">
+      <header>
+        <!-- Poster-style star accents -->
+        <span class="hstar hstar-1">✦</span>
+        <span class="hstar hstar-2">✦</span>
+        <span class="hstar hstar-3">✧</span>
+        <span class="hstar hstar-4">✦</span>
+        <span class="hstar hstar-5">✧</span>
+        <span class="hstar hstar-6">✦</span>
+        <span class="hstar hstar-7">✦</span>
+        <span class="hstar hstar-8">✧</span>
+        <span class="hstar hstar-9">✦</span>
+        <span class="hstar hstar-10">✦</span>
 
-/* ── STICKY BAR ── */
-.sb{position:sticky;top:0;z-index:200;background:rgba(42,15,31,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:2px solid rgba(245,216,0,0.2)}
-.dt{display:flex;overflow-x:auto;padding:0 0.5rem;scrollbar-width:none;border-bottom:1px solid rgba(245,216,0,0.08)}
-.dt::-webkit-scrollbar{display:none}
-.dta{padding:0.65rem 1rem;font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.15s;user-select:none;position:relative}
-.dta:hover{color:var(--cream)}
-.dta.today{color:var(--cream)}
-.dta.scrollactive{border-bottom-color:rgba(245,216,0,0.6);color:var(--cream)}
-/* live dot on today tab */
-.dta .livedot{display:none;width:5px;height:5px;border-radius:50%;background:#ff4560;position:absolute;top:6px;right:6px;animation:pulse 1.4s ease-in-out infinite}
-.dta.today .livedot{display:block}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
-/* day divider in continuous timeline */
-.day-block{margin-bottom:2rem}
-.day-header{position:sticky;top:var(--sb-height,0px);z-index:100;background:rgba(42,15,31,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.day-div{background:var(--deep2);border-top:2px solid var(--yellow);border-bottom:1px solid rgba(245,216,0,0.15);padding:0.4rem 1.25rem;display:flex;align-items:center;gap:0.75rem;margin-bottom:0}
-.day-div-label{font-family:'Share Tech Mono',monospace;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--yellow)}
-.day-div-dot{width:6px;height:6px;border-radius:50%;background:#ff4560;animation:pulse 1.4s ease-in-out infinite;display:none}
-.day-div.today .day-div-dot{display:block}
+        <div class="hi">
+          <!-- Left: title + subtitle -->
+          <div class="hi-side hi-side-left">
+            <div class="wm">KONTAKT</div>
+            <div class="sl">DURCH RAUM UND ZEIT</div>
+          </div>
 
-/* ── SEARCH ── */
-.srow{padding:0.45rem 1rem;border-bottom:1px solid rgba(245,216,0,0.06)}
-.si{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(240,232,221,0.12);border-radius:3px;padding:0.32rem 0.75rem 0.32rem 2rem;font-family:'Share Tech Mono',monospace;font-size:0.68rem;letter-spacing:0.06em;color:var(--cream);outline:none;transition:border-color 0.15s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(240,232,221,0.4)' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:0.6rem center}
-.si::placeholder{color:var(--muted)}
-.si:focus{border-color:rgba(245,216,0,0.35)}
+          <!-- Center: starburst badge -->
+          <div class="hbadge-wrap">
+            <div class="hbadge">
+              <img src="badge.png" alt="kontakt — Das Kulturfestival · 20 Jahre">
+            </div>
+          </div>
 
-/* ── FILTERS ── */
-.fi{display:flex;gap:0.35rem;flex-wrap:wrap;padding:0.5rem 1rem;align-items:center}
-.fi+.fi{padding-top:0;border-top:none}
-.fil{font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-right:0.2rem}
-.tp{display:inline-flex;align-items:center;gap:0.28rem;padding:0.18rem 0.55rem;border-radius:3px;border:1px solid rgba(240,232,221,0.13);background:rgba(255,255,255,0.04);color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:0.62rem;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;transition:all 0.12s;user-select:none}
-.tp .pi{font-size:0.78rem;line-height:1}
-.tp:hover{border-color:rgba(240,232,221,0.28);color:var(--cream)}
-.tp.active{background:var(--pc,var(--yellow));color:var(--deep2);border-color:transparent;font-weight:700}
+          <!-- Right: date + location -->
+          <div class="hi-side hi-side-right">
+            <div class="hd">21.–24.05.2026</div>
+            <div class="hl">Metalluk-Gelände</div>
+            <div class="hl">Ohmstraße 8 · Bamberg</div>
+          </div>
+        </div>
+      </header>
 
-/* ── GRID ── */
-main{padding:0.5rem 0 4rem 0;overflow:visible}
-.rg{display:flex;gap:0.9rem;overflow-x:auto;overflow-y:clip;padding-top:var(--rnames-h,34px);padding-right:0;padding-left:0;padding-bottom:1.5rem;margin-left:1.25rem;margin-right:1.25rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
-.rg::-webkit-scrollbar{height:4px}
-.rg::-webkit-scrollbar-track{background:rgba(255,255,255,0.04)}
-.rg::-webkit-scrollbar-thumb{background:rgba(245,216,0,0.28);border-radius:2px}
-.rc{flex:0 0 272px;scroll-snap-align:start;display:flex;flex-direction:column;transition:opacity 0.3s}
-.rh{display:none}
-.rnames{display:flex;gap:0.9rem;overflow:hidden;padding-right:1.25rem;padding-left:1.25rem;background:var(--deep2);border-bottom:1px solid rgba(245,216,0,0.15)}
-.rname-item{flex:0 0 272px;font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--yellow);padding:0.3rem 0;border-top:2px solid var(--yellow);display:flex;align-items:center;gap:0.35rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.re{position:relative;/* height set by JS */}
+      <div class="sb">
+        <div class="dt" id="dayTabs" role="tablist" aria-label="Festivaltage"></div>
 
-/* ── CARDS ── */
-.ec{position:absolute;left:0;right:0;border:1px solid var(--card-border);border-radius:3px;cursor:pointer;transition:transform 0.12s,opacity 0.2s,border-color 0.12s;overflow:hidden;min-height:80px}
-.ec::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tc,rgba(240,232,221,0.3));z-index:3}
-.ec:hover{border-color:rgba(245,216,0,0.45);transform:translateY(-1px)}
-.ec.dm{opacity:0.1;pointer-events:none}
-.ec.noimg{background:var(--card-bg)}
-.ec.noimg .eov{min-height:unset}
-/* live event highlight */
-/* live scaleY pump animation */
-@keyframes liveswell{0%{transform:scale(1)}60%{transform:scale(1.06,1.1)}100%{transform:scale(1)}}
-.ec.live{border-color:#ff4560!important;box-shadow:0 0 0 1px #ff456060;transform-origin:center center;z-index:10;animation:liveswell 1.2s cubic-bezier(0.4,0,0.2,1) 0.3s 1 forwards}
-.ec.live::after{content:'● LIVE';position:absolute;top:5px;right:6px;font-family:'Share Tech Mono',monospace;font-size:0.5rem;letter-spacing:0.12em;color:#ff4560;z-index:4;animation:pulse 1.4s ease-in-out infinite}
-/* favourite star */
-.ec .fav{position:absolute;bottom:5px;right:6px;z-index:4;font-size:0.75rem;opacity:0.35;transition:opacity 0.15s,transform 0.15s;cursor:pointer;line-height:1}
-.ec .fav:hover,.ec.faved .fav{opacity:1}
-.ec.faved .fav{transform:scale(1.2)}
-.ew{position:absolute;inset:0;z-index:0}
-.ew-bg{position:absolute;inset:-12px;background-size:cover;background-position:center;filter:blur(14px) saturate(1.8) brightness(0.5);transform:scale(1.05)}
-.et{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;filter:saturate(0.85) brightness(0.88)}
-.escrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,2,8,0.92) 0%,rgba(10,2,8,0.55) 45%,rgba(10,2,8,0.1) 100%);z-index:1}
-.eov{position:relative;z-index:2;padding:0.55rem 0.7rem;display:flex;flex-direction:column;justify-content:flex-end;min-height:80px}
-.eto{display:flex;align-items:baseline;justify-content:space-between;gap:0.4rem;margin-bottom:0.2rem}
-.etm{font-family:'Share Tech Mono',monospace;font-size:0.68rem;letter-spacing:0.06em;color:var(--yellow)}
-.edu{font-family:'Share Tech Mono',monospace;font-size:0.56rem;color:rgba(240,232,221,0.55)}
-.eti{font-family:'Share Tech Mono',monospace;font-size:0.78rem;line-height:1.2;color:var(--cream);letter-spacing:0.03em;text-transform:uppercase;margin-bottom:0.25rem;text-shadow:0 1px 4px rgba(0,0,0,0.8)}
-.em{display:flex;align-items:center;gap:0.28rem;flex-wrap:wrap}
-.eb{display:inline-flex;align-items:center;gap:0.2rem;font-family:'Share Tech Mono',monospace;font-size:0.52rem;letter-spacing:0.07em;text-transform:uppercase;padding:0.1rem 0.32rem;border-radius:2px;background:var(--tc,rgba(240,232,221,0.3));color:var(--deep2);font-weight:700}
-.bi{font-size:0.65rem;line-height:1}
-.ea{font-size:0.6rem;color:rgba(240,232,221,0.5);margin-top:0.15rem}
+        <div class="srow">
+          <input
+            class="si"
+            id="search"
+            type="search"
+            placeholder="Suche nach Act, Workshop, Ort …"
+            autocomplete="off"
+          >
+        </div>
 
-/* ── SKELETON LOADER ── */
-.skel-grid{display:flex;gap:0.9rem;padding-right:1.25rem;padding-bottom:1.5rem}
-.skel-col{flex:0 0 272px;display:flex;flex-direction:column;gap:0.45rem}
-.skel-h{height:14px;border-radius:2px;background:rgba(245,216,0,0.12);margin-bottom:0.55rem;animation:shim 1.4s ease-in-out infinite}
-.skel-c{border-radius:3px;animation:shim 1.4s ease-in-out infinite;background:rgba(255,255,255,0.06)}
-@keyframes shim{0%,100%{opacity:0.5}50%{opacity:1}}
+        <div class="fi" id="trackFilters">
+          <span class="fil">Format:</span>
+        </div>
 
-/* ── MODAL ── */
-.mo{display:none;position:fixed;inset:0;background:rgba(15,3,10,0.88);backdrop-filter:blur(10px);z-index:1000;align-items:center;justify-content:center;padding:1.5rem}
-.mo.open{display:flex}
-.md{background:var(--deep);border:1px solid rgba(245,216,0,0.28);border-radius:4px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;position:relative;animation:mi 0.17s ease;box-shadow:0 0 80px rgba(245,216,0,0.08),0 24px 64px rgba(0,0,0,0.65)}
-@keyframes mi{from{transform:translateY(14px) scale(0.98);opacity:0}to{transform:none;opacity:1}}
-.mhero-wrap{position:relative;overflow:hidden;border-radius:3px 3px 0 0;min-height:120px;display:grid;align-items:center;justify-items:center}
-.mhero-bg{position:absolute;inset:-16px;background-size:cover;background-position:center;filter:blur(20px) saturate(2) brightness(0.45);transform:scale(1.05);z-index:0}
-.mhero{position:relative;z-index:1;width:100%;max-height:280px;object-fit:contain;object-position:center;filter:saturate(0.9);display:block}
-.mb{padding:1.4rem}
-.mtb{display:inline-flex;align-items:center;gap:0.32rem;font-family:'Share Tech Mono',monospace;font-size:0.63rem;letter-spacing:0.14em;text-transform:uppercase;padding:0.22rem 0.58rem;border-radius:2px;color:var(--deep2);margin-bottom:0.8rem;font-weight:700}
-.mn{font-family:'Share Tech Mono',monospace;font-size:clamp(1.2rem,4vw,1.8rem);letter-spacing:0.05em;text-transform:uppercase;color:var(--cream);line-height:1.1;margin-bottom:0.8rem}
-.minf{display:flex;gap:1.1rem;flex-wrap:wrap;margin-bottom:1rem;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--yellow);letter-spacing:0.08em}
-.mlive{display:inline-flex;align-items:center;gap:0.4rem;font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#ff4560;letter-spacing:0.1em;margin-bottom:0.6rem}
-.mdv{height:1px;background:rgba(245,216,0,0.12);margin-bottom:0.95rem}
-.mde{font-size:0.82rem;line-height:1.72;color:rgba(240,232,221,0.72);white-space:pre-line}
-.mbtns{display:flex;gap:0.75rem;margin-top:1.4rem;flex-wrap:wrap;align-items:center}
-.mlink{display:inline-flex;align-items:center;gap:0.35rem;padding:0.52rem 1rem;background:var(--yellow);color:var(--deep2);border-radius:2px;text-decoration:none;font-family:'Share Tech Mono',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;transition:background 0.12s}
-.mlink:hover{background:var(--yellow2)}
-.mfav{display:inline-flex;align-items:center;gap:0.35rem;padding:0.52rem 1rem;background:transparent;border:1px solid rgba(240,232,221,0.2);color:var(--cream);border-radius:2px;font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.12s}
-.mfav:hover{border-color:var(--yellow);color:var(--yellow)}
-.mfav.on{background:rgba(245,216,0,0.12);border-color:var(--yellow);color:var(--yellow)}
-.mcl{position:absolute;top:0.7rem;right:0.7rem;width:1.9rem;height:1.9rem;border-radius:2px;background:rgba(0,0,0,0.55);color:var(--cream);border:1px solid rgba(255,255,255,0.12);font-family:'Share Tech Mono',monospace;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background 0.12s}
-.mcl:hover{background:var(--yellow);color:var(--deep2)}
+        <div class="fi" id="roomFilters">
+          <span class="fil">Raum:</span>
+        </div>
+      </div>
 
-/* ── FAVORITES PANEL ── */
-.fav-btn{position:fixed;bottom:1.5rem;right:1.5rem;z-index:500;background:var(--deep2);border:1px solid rgba(245,216,0,0.35);border-radius:50%;width:3rem;height:3rem;display:none;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:all 0.15s;box-shadow:0 4px 20px rgba(0,0,0,0.5)}
-.fav-btn:hover{background:var(--yellow);border-color:var(--yellow)}
-.fav-btn.visible{display:flex}
-.fav-btn .fbadge{position:absolute;top:-4px;right:-4px;background:#ff4560;color:#fff;border-radius:50%;width:16px;height:16px;font-family:'Share Tech Mono',monospace;font-size:0.55rem;display:flex;align-items:center;justify-content:center;font-weight:700}
-.fav-panel{display:none;position:fixed;bottom:5.5rem;right:1.5rem;z-index:500;background:var(--deep);border:1px solid rgba(245,216,0,0.28);border-radius:4px;width:320px;max-height:70vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.7);animation:mi 0.17s ease}
-.fav-panel.open{display:block}
-.fav-panel-h{padding:0.75rem 1rem;border-bottom:1px solid rgba(245,216,0,0.12);font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--yellow);display:flex;justify-content:space-between;align-items:center}
-.fav-panel-h button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;font-family:'Share Tech Mono',monospace}
-.fav-item{padding:0.6rem 1rem;border-bottom:1px solid rgba(240,232,221,0.06);cursor:pointer;transition:background 0.1s;display:flex;flex-direction:column;gap:0.2rem}
-.fav-item:hover{background:rgba(255,255,255,0.04)}
-.fav-item-time{font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--yellow);letter-spacing:0.08em}
-.fav-item-title{font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--cream);text-transform:uppercase;letter-spacing:0.04em}
-.fav-item-room{font-size:0.6rem;color:var(--muted)}
-.fav-conflict{background:rgba(255,69,96,0.08);border-left:2px solid #ff4560}
-.fav-conflict .fav-item-time::after{content:' ⚡ Konflikt';color:#ff4560}
-.fav-empty{padding:1.5rem 1rem;font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--muted);text-align:center;letter-spacing:0.1em}
-
-/* ── MISC ── */
-.ed{font-family:'Share Tech Mono',monospace;color:var(--muted);font-size:0.82rem;padding:3rem 0 3rem 0;letter-spacing:0.12em;text-transform:uppercase;text-align:center}
-
-@media (prefers-reduced-motion: reduce){
-  .hstar,.dta .livedot,.day-div-dot,.ec.live,.ec.live::after,.skel-h,.skel-c{animation:none!important}
-}
-
-@media(min-width:601px) and (max-width:1024px){
-  .rc{flex:0 0 220px}
-  .rname-item{flex:0 0 220px}
-  .frame{border-width:12px}
-  .fav-panel{width:280px}
-}
-@media(max-width:600px){
-  .frame{border-width:8px}
-  main{padding:0.25rem 0 3rem 0}
-  header{padding:0.8rem 0.75rem}
-  .hi{flex-direction:column;align-items:center;gap:0.6rem}
-  .hi>div[style]{text-align:center!important;flex:none;min-width:0}
-  .wm{font-size:clamp(1.6rem,10vw,2.6rem)}
-  .sl{font-size:0.38rem;margin-top:0.2rem}
-  .hbadge img{width:90px;height:90px}
-  .hd{font-size:1rem}
-  .hl{font-size:0.58rem;margin-top:0.1rem}
-  .dt{padding:0}
-  .dta{flex:1;text-align:center;padding:0.6rem 0.2rem;font-size:0.6rem;letter-spacing:0.08em}
-  .srow{padding:0.35rem 0.75rem}
-  .fi{padding:0.35rem 0.75rem;gap:0.22rem;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
-  .fi::-webkit-scrollbar{display:none}
-  .fil{display:none}
-  .tp{font-size:0.56rem;padding:0.13rem 0.38rem;white-space:nowrap;flex-shrink:0}
-  .rg{gap:0;padding:var(--rnames-h,34px) 0 0 0;margin-left:0;margin-right:0;scroll-snap-type:x mandatory}
-  .rc{flex:0 0 calc(100vw - 10px);padding:0 0.75rem;box-sizing:border-box}
-  .rnames{gap:0}
-  .rname-item{flex:0 0 calc(100vw - 10px);padding-left:0.75rem;box-sizing:border-box}
-  .day-div{padding:0.4rem 0.75rem}
-  .fav-panel{width:calc(100vw - 3rem);right:1rem;bottom:5rem}
-  .fav-btn{bottom:1rem;right:1rem}
-}
-</style>
-</head>
-<body>
-<div id="galaxy"></div>
-<canvas id="stars"></canvas>
-<div class="frame">
-<header>
-  <!-- Poster-style star accents -->
-  <span class="hstar" style="left:4%;top:12%;font-size:2.2rem;--d:0s;--dur:3.8s;--op:0.8">✦</span>
-  <span class="hstar" style="left:11%;top:58%;font-size:1rem;--d:1.2s;--dur:2.9s;--op:0.55">✦</span>
-  <span class="hstar" style="left:18%;top:82%;font-size:1.5rem;--d:0.4s;--dur:4.1s;--op:0.65">✧</span>
-  <span class="hstar" style="left:6%;top:38%;font-size:0.7rem;--d:2s;--dur:3.3s;--op:0.5">✦</span>
-  <span class="hstar" style="right:5%;top:8%;font-size:1.4rem;--d:0.7s;--dur:3.6s;--op:0.7">✧</span>
-  <span class="hstar" style="right:12%;top:45%;font-size:2.4rem;--d:1.8s;--dur:4.4s;--op:0.8">✦</span>
-  <span class="hstar" style="right:22%;top:78%;font-size:0.9rem;--d:0.3s;--dur:3.1s;--op:0.5">✦</span>
-  <span class="hstar" style="right:4%;top:68%;font-size:1.6rem;--d:2.4s;--dur:3.7s;--op:0.6">✧</span>
-  <span class="hstar" style="left:38%;top:6%;font-size:0.8rem;--d:1.5s;--dur:2.8s;--op:0.45">✦</span>
-  <span class="hstar" style="right:35%;top:88%;font-size:1.1rem;--d:0.9s;--dur:4s;--op:0.6">✦</span>
-  <div class="hi">
-    <!-- Left: title + subtitle -->
-    <div style="text-align:left;flex:1;min-width:200px">
-      <div class="wm">KONTAKT</div>
-      <div class="sl">DURCH RAUM UND ZEIT</div>
+      <main id="mainContent"></main>
     </div>
-    <!-- Center: starburst badge -->
-    <div class="hbadge-wrap">
-      <div class="hbadge">
-        <img src="badge.png" alt="kontakt — Das Kulturfestival · 20 Jahre">
+
+    <!-- Dev time panel (only shown with ?dev in URL) -->
+    <div class="dev-panel" id="devPanel">
+      <div class="dev-panel-title">⚙ DEV · Zeitsteuerung</div>
+
+      <div class="dev-panel-body">
+        <div class="dev-panel-row">
+          <span>Datum</span>
+          <input class="dev-panel-date" id="devDate" type="date" value="2026-05-21">
+        </div>
+
+        <div class="dev-panel-row">
+          <span>Zeit</span>
+          <input class="dev-panel-range" id="devTime" type="range" min="0" max="1439" value="780">
+          <span class="dev-panel-label" id="devTimeLabel">13:00</span>
+        </div>
+
+        <button class="dev-panel-apply" id="devApplyBtn">Anwenden → Live testen</button>
+        <div class="dev-panel-debug" id="devDebug"></div>
       </div>
     </div>
-    <!-- Right: date + location -->
-    <div style="text-align:right;flex:1;min-width:200px">
-      <div class="hd">21.–24.05.2026</div>
-      <div class="hl">Metalluk-Gelände</div>
-      <div class="hl">Ohmstraße 8 · Bamberg</div>
-    </div>
-  </div>
-</header>
-<div class="sb">
-  <div class="dt" id="dayTabs" role="tablist" aria-label="Festivaltage"></div>
-  <div class="srow"><input class="si" id="search" type="search" placeholder="Suche nach Act, Workshop, Ort …" autocomplete="off"></div>
-  <div class="fi" id="trackFilters"><span class="fil">Format:</span></div>
-  <div class="fi" id="roomFilters"><span class="fil">Raum:</span></div>
-</div>
-<main id="mainContent"></main>
-</div>
 
-<!-- Dev time panel (only shown with ?dev in URL) -->
-<div id="devPanel" style="display:none;position:fixed;bottom:1rem;left:1rem;z-index:9999;background:#1a0a15;border:1px solid #ff4560;border-radius:4px;padding:0.75rem 1rem;font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#ff4560;letter-spacing:0.08em">
-  <div style="margin-bottom:0.5rem;opacity:0.7">⚙ DEV · Zeitsteuerung</div>
-  <div style="display:flex;flex-direction:column;gap:0.4rem">
-    <div style="display:flex;align-items:center;gap:0.5rem">
-      <span>Datum</span>
-      <input id="devDate" type="date" value="2026-05-21" style="background:#2a0f1f;border:1px solid #ff456060;border-radius:2px;color:#ff4560;font-family:'Share Tech Mono',monospace;font-size:0.62rem;padding:2px 4px">
-    </div>
-    <div style="display:flex;align-items:center;gap:0.5rem">
-      <span>Zeit</span>
-      <input id="devTime" type="range" min="0" max="1439" value="780" style="width:120px">
-      <span id="devTimeLabel" style="min-width:3rem">13:00</span>
-    </div>
-    <button onclick="applyDevTime()" style="background:#ff456020;border:1px solid #ff456060;color:#ff4560;border-radius:2px;padding:2px 8px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:0.62rem">Anwenden → Live testen</button>
-    <div id="devDebug" style="margin-top:0.5rem;font-size:0.55rem;opacity:0.8;line-height:1.6;white-space:pre"></div>
-  </div>
-</div>
-<button class="fav-btn" id="favBtn" title="Mein Plan" aria-label="Mein Plan">★<span class="fbadge" id="favBadge">0</span></button>
-<div class="fav-panel" id="favPanel">
-  <div class="fav-panel-h">
-    <span>★ Mein Plan</span>
-    <button id="icalExportBtn" title="Als Kalender exportieren (.ics)" aria-label="Als iCal exportieren" style="background:none;border:1px solid rgba(245,216,0,0.3);color:var(--yellow);border-radius:2px;padding:0.15rem 0.45rem;font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;cursor:pointer;transition:all 0.12s">↓ .ics</button>
-    <button aria-label="Schließen">✕</button>
-  </div>
-  <div id="favList"></div>
-</div>
+    <button class="fav-btn" id="favBtn" title="Mein Plan" aria-label="Mein Plan">
+      ★<span class="fbadge" id="favBadge">0</span>
+    </button>
 
-<!-- Modal -->
-<div class="mo" id="mo">
-  <div class="md">
-    <button class="mcl" id="mcl" aria-label="Schließen">✕</button>
-    <div class="mhero-wrap" id="mheroWrap" style="display:none">
-      <div class="mhero-bg" id="mheroBg"></div>
-      <img class="mhero" id="mhero" src="" alt="">
+    <div class="fav-panel" id="favPanel">
+      <div class="fav-panel-h">
+        <span>★ Mein Plan</span>
+        <button
+          class="fav-export-btn"
+          id="icalExportBtn"
+          title="Als Kalender exportieren (.ics)"
+          aria-label="Als iCal exportieren"
+        >
+          ↓ .ics
+        </button>
+        <button aria-label="Schließen">✕</button>
+      </div>
+
+      <div id="favList"></div>
     </div>
-    <div class="mb">
-      <div class="mlive" id="mlive" style="display:none"><span style="animation:pulse 1.4s ease-in-out infinite;display:inline-block">●</span> LÄUFT GERADE</div>
-      <div class="mtb" id="mtb"></div>
-      <div class="mn" id="mn"></div>
-      <div class="minf" id="minf"></div>
-      <div class="mdv"></div>
-      <div class="mde" id="mde"></div>
-      <div class="mbtns">
-        <a class="mlink" id="mlink" href="#" target="_blank">↗ Mehr auf cfp.kntkt.de</a>
-        <button class="mfav" id="mfavBtn" onclick="toggleFavFromModal()">☆ Merken</button>
+
+    <!-- Modal -->
+    <div class="mo" id="mo">
+      <div class="md">
+        <button class="mcl" id="mcl" aria-label="Schließen">✕</button>
+
+        <div class="mhero-wrap" id="mheroWrap">
+          <div class="mhero-bg" id="mheroBg"></div>
+          <img class="mhero" id="mhero" src="" alt="">
+        </div>
+
+        <div class="mb">
+          <div class="mlive" id="mlive">
+            <span class="mlive-dot">●</span> LÄUFT GERADE
+          </div>
+
+          <div class="mtb" id="mtb"></div>
+          <div class="mn" id="mn"></div>
+          <div class="minf" id="minf"></div>
+          <div class="mdv"></div>
+          <div class="mde" id="mde"></div>
+
+          <div class="mbtns">
+            <a class="mlink" id="mlink" href="#" target="_blank">↗ Mehr auf cfp.kntkt.de</a>
+            <button class="mfav" id="mfavBtn">☆ Merken</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<script>
-/* ── STARS ── */
-(function(){
-  const c=document.getElementById('stars'),ctx=c.getContext('2d');
-  if(!ctx)return;
-  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-  let W=0,H=0,S=[],raf=0,lastTs=0;
-  function starCount(){return reducedMotion.matches?0:(window.innerWidth<700?60:120);}
-  function r(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
-  function mk(){S=[];for(let i=0;i<starCount();i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+0.2,a:Math.random(),s:(Math.random()-0.5)*0.006,cx:Math.random()>0.83})}
-  function dr(ts){
-    if(document.hidden||reducedMotion.matches)return;
-    if(lastTs&&ts-lastTs<1000/24){raf=requestAnimationFrame(dr);return;}
-    lastTs=ts;
-    ctx.clearRect(0,0,W,H);
-    S.forEach(s=>{s.a=Math.max(0.05,Math.min(1,s.a+s.s));if(s.a<=0.05||s.a>=1)s.s*=-1;ctx.globalAlpha=s.a;if(s.cx){ctx.fillStyle='#c8b0e0';ctx.fillRect(s.x-s.r*.4,s.y-s.r*2.2,s.r*.8,s.r*4.4);ctx.fillRect(s.x-s.r*2.2,s.y-s.r*.4,s.r*4.4,s.r*.8)}else{ctx.fillStyle=s.r>1?'#b8a8d8':'#e0d8f0';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill()}});
-    ctx.globalAlpha=1;
-    raf=requestAnimationFrame(dr);
-  }
-  function restart(){
-    cancelAnimationFrame(raf);
-    lastTs=0;
-    if(reducedMotion.matches){c.style.display='none';return;}
-    c.style.display='';
-    raf=requestAnimationFrame(dr);
-  }
-  r();mk();restart();
-  window.addEventListener('resize',()=>{r();mk();},{passive:true});
-  if(reducedMotion.addEventListener)reducedMotion.addEventListener('change',()=>{mk();restart();});
-  else if(reducedMotion.addListener)reducedMotion.addListener(()=>{mk();restart();});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(raf);else restart();});
-})();
+    <script src="scripts/app.js"></script>
 
-/* ── CONFIG ── */
-const TR={'Konzert':{color:'#EF7B1E',icon:'♪'},'DJ-Set':{color:'#5BAF60',icon:'◈'},'Workshop':{color:'#0E70AB',icon:'◆'},'Vortrag':{color:'#316044',icon:'▸'},'Performance':{color:'#C062A3',icon:'◇'},'Theater':{color:'#5F5BA5',icon:'△'},'Tanz':{color:'#FAB313',icon:'✦'},'Film':{color:'#9EA7CD',icon:'▶'},'Jamsession':{color:'#EF7B1E',icon:'♫'}};
-const RI={'Triebwerk':'▶','Maschinenraum':'◈','Zeitkapsel':'◎','Funkraum':'◉','Rohteilchenbeschleuniger':'✦','Landeplatz':'▽','Satelit':'◆','Sternenwiese':'✧','B.U.S.':'■'};
-const RO=['Triebwerk','Maschinenraum','Zeitkapsel','Funkraum','Rohteilchenbeschleuniger','Landeplatz','Satelit','Sternenwiese','B.U.S.'];
-const SK=new Set(['Team-Einreichung','Soundcheck']);
-const trackColor=t=>TR[t]?.color||'rgba(240,232,221,0.35)';
-const trackIcon=t=>TR[t]?.icon||'✦';
-const BASE='https://cfp.kntkt.de';
-const XML_URL='https://cfp.kntkt.de/kontakt-2026/schedule/export/schedule.xml';
-const FEST_DATES=['2026-05-21','2026-05-22','2026-05-23','2026-05-24'];
-
-/* ── STATE ── */
-const WDAY=['So','Mo','Di','Mi','Do','Fr','Sa'];
-function dayLabel(ds){const d=new Date(ds+'T12:00:00');return`${WDAY[d.getDay()]} ${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')}`}
-let activeDay=0,activeFormats=new Set(),activeRooms=new Set(),DAYS=[],query='',currentEv=null;
-let favs=new Set(JSON.parse(localStorage.getItem('kontakt_favs')||'[]'));
-let historyOverlaySync=false;
-let renderedDayBlocks=new Map(),syncedGrids=[],activeScrollGrid=null,stickyResizeObserver=null,dayBlockObserver=null,cardImageObserver=null,progressiveRenderToken=0;
-
-/* ── TIME UTILS ── */
-function localDateStr(d){const dd=d||new Date();return`${dd.getFullYear()}-${String(dd.getMonth()+1).padStart(2,'0')}-${String(dd.getDate()).padStart(2,'0')}`;}
-function timeToMinutes(t){const[h,m]=t.split(':').map(Number);const tot=h*60+m;return tot<360?tot+1440:tot;}
-function formatDuration(d){const[h,m]=d.split(':').map(Number);return!h?`${m}min`:!m?`${h}h`:`${h}h${m}`}
-
-/* ── NOW (with dev override) ── */
-let devMin=null; // set via ?dev mode
-function currentMinutes(){
-  const raw=devMin!==null?devMin:(new Date().getHours()*60+new Date().getMinutes());
-  return raw<360?raw+1440:raw;
-}
-function todayDate(){
-  if(devMin!==null)return document.getElementById('devDate')?.value||localDateStr();
-  return localDateStr();
-}
-function programmeDate(){
-  // Which calendar date is the current "programme day"?
-  if(devMin!==null){
-    const devDate=document.getElementById('devDate')?.value;
-    if(!devDate)return localDateStr();
-    if(devMin<360){
-      const d=new Date(devDate+'T12:00:00');d.setDate(d.getDate()-1);
-      return localDateStr(d);
-    }
-    return devDate;
-  }
-  const h=new Date().getHours();
-  if(h<6){
-    const d=new Date();d.setDate(d.getDate()-1);
-    return localDateStr(d);
-  }
-  return localDateStr();
-}
-function isLive(ev){
-  if(ev.date!==programmeDate())return false;
-  const now=currentMinutes();const start=timeToMinutes(ev.s);
-  const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
-  const end=start+(dh*60+dm);
-  return now>=start&&now<end;
-}
-
-/* ── XML PARSER ── */
-function txt(el,tag){for(const c of el.children){if(c.tagName===tag)return c.textContent.trim();}return'';}
-function parseXML(xmlText){
-  const doc=new DOMParser().parseFromString(xmlText,'text/xml');
-  const days=[];
-  for(const dayEl of doc.getElementsByTagName('day')){
-    const date=dayEl.getAttribute('date');if(!date)continue;
-    const rooms={};
-    for(const roomEl of dayEl.children){
-      if(roomEl.tagName!=='room')continue;
-      const rn=roomEl.getAttribute('name');if(!rn)continue;
-      const evs=[];
-      for(const ev of roomEl.children){
-        if(ev.tagName!=='event')continue;
-        const track=txt(ev,'track');if(SK.has(track))continue;
-        const logo=txt(ev,'logo');
-        const persons=[];
-        for(const c of ev.children){if(c.tagName==='persons'){for(const p of c.children){if(p.tagName==='person'&&p.textContent.trim())persons.push(p.textContent.trim());}}}
-        evs.push({t:txt(ev,'title'),tr:track.replace(/ regional$/,'')||null,s:txt(ev,'start')||'00:00',d:txt(ev,'duration')||'00:30',l:logo?BASE+logo:'',desc:txt(ev,'description').replace(/^None$/,''),u:txt(ev,'url'),p:persons,room:rn,date});
-      }
-      if(evs.length)rooms[rn]=evs;
-    }
-    if(Object.keys(rooms).length)days.push({date,rooms});
-  }
-  return days.filter(d=>Object.keys(d.rooms).length>0);
-}
-
-function asciiSlug(value,maxLen){
-  const normalized=(value||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^\x00-\x7F]/g,'');
-  const slug=normalized.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
-  return slug.slice(0,maxLen).replace(/-+$/,'')||'event';
-}
-function eventId(ev){
-  return `${ev.date}-${ev.s.replace(':','')}-${asciiSlug(ev.room,24)}-${asciiSlug(ev.t,48)}`;
-}
-function imageBasePath(ev){
-  const room=asciiSlug(ev.room,24);
-  const title=asciiSlug(ev.t,48);
-  return `artist-images/${ev.date}-${ev.s.replace(':','')}-${room}-${title}`;
-}
-function setBgImage(bg,src,src2x){
-  if(!bg)return;
-  if(src&&src2x&&window.CSS?.supports?.('background-image',`image-set(url("${src}") 1x, url("${src2x}") 2x)`)){
-    bg.style.backgroundImage=`image-set(url('${src}') 1x, url('${src2x}') 2x)`;
-    return;
-  }
-  bg.style.backgroundImage=src?`url('${src}')`:'';
-}
-function setImgSrc(img,src,srcset,sizes){
-  if(srcset)img.srcset=srcset;else img.removeAttribute('srcset');
-  if(sizes)img.sizes=sizes;else img.removeAttribute('sizes');
-  img.src=src;
-}
-function observeCardImage(el,load){
-  if(!('IntersectionObserver' in window)){load();return;}
-  if(!cardImageObserver){
-    cardImageObserver=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{
-        if(!entry.isIntersecting)return;
-        const loader=entry.target.__lazyImageLoader;
-        if(!loader)return;
-        delete entry.target.__lazyImageLoader;
-        cardImageObserver.unobserve(entry.target);
-        loader();
-      });
-    },{rootMargin:'320px 0px'});
-  }
-  el.__lazyImageLoader=load;
-  cardImageObserver.observe(el);
-}
-function attachEventImage(img,bg,ev,variant,onMissing,opts={}){
-  const {defer=false,background='eager'}=opts;
-  const base=imageBasePath(ev);
-  const localSrc=`${base}-${variant}.webp`;
-  const localSrc2x=`${base}-${variant}@2x.webp`;
-  const fallback=ev.l||'';
-  const fail=()=>{if(onMissing)onMissing();};
-  img.decoding='async';
-  img.onload=()=>{
-    if(background==='after-load')setBgImage(bg,img.currentSrc||img.src,'');
-  };
-  img.onerror=()=>{
-    if(fallback&&img.dataset.fallbackLoaded!=='1'){
-      img.dataset.fallbackLoaded='1';
-      if(background==='eager')setBgImage(bg,fallback,'');
-      setImgSrc(img,fallback,'','');
-      return;
-    }
-    img.onerror=null;
-    fail();
-  };
-  const load=()=>{
-    if(background==='eager')setBgImage(bg,localSrc,localSrc2x);
-    setImgSrc(img,localSrc,`${localSrc} 1x, ${localSrc2x} 2x`,variant==='hero'?'(max-width: 600px) calc(100vw - 3rem), 560px':'(max-width: 600px) calc(100vw - 1.5rem), 272px');
-  };
-  if(defer)observeCardImage(img,load);
-  else load();
-  return true;
-}
-
-function syncDayTabs(date){
-  document.querySelectorAll('.dta').forEach((t,i)=>t.classList.toggle('scrollactive',DAYS[i]?.date===date));
-}
-function refreshDayBlockObserver(){
-  if(dayBlockObserver)dayBlockObserver.disconnect();
-  const threshold=(document.querySelector('.sb')?.offsetHeight||0)+(document.querySelector('.day-header')?.offsetHeight||66)+8;
-  dayBlockObserver=new IntersectionObserver(entries=>{
-    const visible=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top);
-    if(visible[0])syncDayTabs(visible[0].target.dataset.date);
-  },{rootMargin:`-${threshold}px 0px -65% 0px`,threshold:[0,0.01]});
-  document.querySelectorAll('.day-block').forEach(block=>dayBlockObserver.observe(block));
-}
-function updateStickyOffsets(){
-  const sbH=document.querySelector('.sb')?.offsetHeight||0;
-  const rnamesH=document.querySelector('.rnames')?.offsetHeight||34;
-  document.documentElement.style.setProperty('--sb-height',sbH+'px');
-  document.documentElement.style.setProperty('--rnames-h',rnamesH+'px');
-  if(document.querySelector('.day-block'))refreshDayBlockObserver();
-}
-function registerGrid(grid,rnamesEl){
-  grid.addEventListener('pointerenter',()=>{activeScrollGrid=grid;},{passive:true});
-  grid.addEventListener('pointerleave',()=>{if(activeScrollGrid===grid)activeScrollGrid=null;},{passive:true});
-  grid.addEventListener('scroll',()=>{rnamesEl.scrollLeft=grid.scrollLeft;},{passive:true});
-  grid.addEventListener('scroll',()=>{
-    if(activeScrollGrid&&activeScrollGrid!==grid)return;
-    const x=grid.scrollLeft;
-    syncedGrids.forEach(other=>{if(other!==grid)other.scrollLeft=x;});
-  },{passive:true});
-  if(syncedGrids.length)grid.scrollLeft=syncedGrids[0].scrollLeft;
-  syncedGrids.push(grid);
-}
-
-/* ── URL STATE ── */
-function overlaylessState(){return history.state?.overlay?null:history.state||null;}
-function urlWithState(extraParams){
-  const p=new URLSearchParams();
-  if(activeFormats.size)p.set('format',[...activeFormats].join(','));
-  if(activeRooms.size)p.set('raum',[...activeRooms].join(','));
-  if(query)p.set('q',query);
-  if(extraParams)for(const [key,value] of Object.entries(extraParams)){
-    if(value)p.set(key,value);
-  }
-  const s=p.toString();
-  return s?'?'+s:location.pathname;
-}
-function syncUrlState(){
-  history.replaceState(overlaylessState(),'',urlWithState());
-}
-function loadUrlState(){
-  const p=new URLSearchParams(location.search);
-  if(p.has('format'))p.get('format').split(',').forEach(f=>activeFormats.add(f));
-  if(p.has('raum'))p.get('raum').split(',').forEach(r=>activeRooms.add(r));
-  if(p.has('q'))query=p.get('q');
-  if(p.has('date'))window.__scrollToDate=p.get('date');
-  if(p.has('event'))window.__openEventId=p.get('event');
-}
-function pushOverlayState(state,extraParams){
-  history.pushState(state,'',urlWithState(extraParams));
-}
-function resolveEventFromUrlParam(value){
-  if(!value)return null;
-  return window.__evById?.get(value)||DAYS.flatMap(day=>Object.values(day.rooms).flat()).find(ev=>ev.t.slice(0,40)===value)||null;
-}
-function applyOverlayState(state){
-  const favPanel=document.getElementById('favPanel');
-  const modal=document.getElementById('mo');
-  const overlay=state?.overlay||null;
-  historyOverlaySync=true;
-  if(overlay==='event'&&state.eventKey){
-    const ev=window.__evMap?.get(state.eventKey);
-    if(ev)openEventModal(ev,{skipHistory:true});
-    else closeEventModal({skipHistory:true});
-    closeFavPanel({skipHistory:true});
-    historyOverlaySync=false;
-    return;
-  }
-  if(overlay==='favorites'){
-    if(!favPanel.classList.contains('open')){
-      favPanel.classList.add('open');
-      renderFavPanel();
-    }
-    closeEventModal({skipHistory:true});
-    historyOverlaySync=false;
-    return;
-  }
-  if(modal.classList.contains('open'))closeEventModal({skipHistory:true});
-  if(favPanel.classList.contains('open'))closeFavPanel({skipHistory:true});
-  historyOverlaySync=false;
-}
-window.addEventListener('popstate',e=>applyOverlayState(e.state));
-
-/* ── SKELETON ── */
-function showSkeleton(){
-  const m=document.getElementById('mainContent');
-  const g=document.createElement('div');g.className='skel-grid';g.style.padding='1.25rem 0 1.5rem 0';
-  for(let i=0;i<5;i++){
-    const c=document.createElement('div');c.className='skel-col';
-    c.innerHTML=`<div class="skel-h"></div>${[90,60,110,75].map(h=>`<div class="skel-c" style="height:${h}px;animation-delay:${i*0.1+Math.random()*0.2}s"></div>`).join('')}`;
-    g.appendChild(c);
-  }
-  m.innerHTML='';m.appendChild(g);
-}
-
-/* ── FAVOURITES ── */
-function favKey(ev){return`${ev.date}|${ev.s}|${ev.t}`;}
-function saveFavs(){localStorage.setItem('kontakt_favs',JSON.stringify([...favs]));}
-function toggleFav(ev){const k=favKey(ev);favs.has(k)?favs.delete(k):favs.add(k);saveFavs();updateFavBtn();renderFavPanel();renderSchedule();}
-function toggleFavFromModal(){if(currentEv)toggleFav(currentEv);updateModalFavBtn();}
-function updateFavBtn(){
-  const btn=document.getElementById('favBtn');
-  const badge=document.getElementById('favBadge');
-  const n=favs.size;
-  badge.textContent=n;
-  btn.classList.toggle('visible',n>0);
-}
-function closeFavPanel(opts={}){
-  const {skipHistory=false}=opts;
-  const panel=document.getElementById('favPanel');
-  if(!panel.classList.contains('open'))return;
-  if(!skipHistory&&!historyOverlaySync&&history.state?.overlay==='favorites'){history.back();return;}
-  panel.classList.remove('open');
-}
-document.getElementById('icalExportBtn').addEventListener('click', exportIcal);
-document.querySelector('.fav-panel-h button:last-child').addEventListener('click', closeFavPanel);
-document.getElementById('favBtn').addEventListener('click',()=>{
-  const panel=document.getElementById('favPanel');
-  if(panel.classList.contains('open')){
-    closeFavPanel();
-    return;
-  }
-  panel.classList.add('open');
-  renderFavPanel();
-  if(!historyOverlaySync)pushOverlayState({overlay:'favorites'});
-});
-function updateModalFavBtn(){
-  if(!currentEv)return;
-  const btn=document.getElementById('mfavBtn');
-  const on=favs.has(favKey(currentEv));
-  btn.classList.toggle('on',on);
-  btn.textContent=on?'★ Gemerkt':'☆ Merken';
-}
-
-/* detect conflicts: two fav events overlap on same date */
-function hasConflict(ev){
-  const k=favKey(ev);
-  if(!favs.has(k))return false;
-  const s1=timeToMinutes(ev.s);const[dh,dm]=(ev.d||'00:30').split(':').map(Number);const e1=s1+dh*60+dm;
-  for(const day of DAYS){
-    for(const evs of Object.values(day.rooms)){
-      for(const other of evs){
-        if(favKey(other)===k||!favs.has(favKey(other)))continue;
-        if(other.date!==ev.date)continue;
-        const s2=timeToMinutes(other.s);const[dh2,dm2]=(other.d||'00:30').split(':').map(Number);const e2=s2+dh2*60+dm2;
-        if(s1<e2&&e1>s2)return true;
-      }
-    }
-  }
-  return false;
-}
-
-function renderFavPanel(){
-  const list=document.getElementById('favList');
-  if(!favs.size){list.innerHTML='<div class="fav-empty">✦ Noch keine Acts gemerkt<br>Klick auf ☆ bei einem Act</div>';return;}
-  // Collect all faved events sorted by date+time
-  const all=[];
-  for(const day of DAYS){
-    for(const evs of Object.values(day.rooms)){
-      for(const ev of evs){
-        if(favs.has(favKey(ev)))all.push(ev);
-      }
-    }
-  }
-  all.sort((a,b)=>a.date.localeCompare(b.date)||timeToMinutes(a.s)-timeToMinutes(b.s));
-  list.innerHTML='';
-  let lastDate='';
-  all.forEach(ev=>{
-    const conflict=hasConflict(ev);
-    if(ev.date!==lastDate){
-      const sep=document.createElement('div');
-      sep.style.cssText="padding:0.4rem 1rem 0.2rem;font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--yellow);border-bottom:1px solid rgba(245,216,0,0.1)";
-      sep.textContent=dayLabel(ev.date);
-      list.appendChild(sep);
-      lastDate=ev.date;
-    }
-    const item=document.createElement('div');
-    item.className='fav-item'+(conflict?' fav-conflict':'');
-    item.dataset.favkey=favKey(ev);
-    item.addEventListener('click',()=>openMbyKey(item.dataset.favkey));
-    const timeEl=document.createElement('div');timeEl.className='fav-item-time';timeEl.textContent=ev.s+' · '+formatDuration(ev.d);
-    const titleEl=document.createElement('div');titleEl.className='fav-item-title';titleEl.textContent=ev.t;
-    const roomEl=document.createElement('div');roomEl.className='fav-item-room';roomEl.textContent=(RI[ev.room]||'◆')+' '+ev.room;
-    item.appendChild(timeEl);item.appendChild(titleEl);item.appendChild(roomEl);
-    list.appendChild(item);
-  });
-}
-
-function exportIcal() {
-  if (!favs.size) return;
-  const all = [];
-  for (const day of DAYS)
-    for (const evs of Object.values(day.rooms))
-      for (const ev of evs)
-        if (favs.has(favKey(ev))) all.push(ev);
-
-  if (!all.length) return;
-
-  const pad = n => String(n).padStart(2, '0');
-  function toIcalDT(dateStr, timeStr) {
-    const [y, mo, d] = dateStr.split('-');
-    const [h, mi] = timeStr.split(':');
-    return `${y}${pad(mo)}${pad(d)}T${pad(h)}${pad(mi)}00`;
-  }
-  function addDuration(dateStr, timeStr, durStr) {
-    const [dh, dm] = durStr.split(':').map(Number);
-    const [h, mi] = timeStr.split(':').map(Number);
-    const totalMin = h * 60 + mi + dh * 60 + dm;
-    const endH = Math.floor(totalMin / 60) % 24;
-    const endM = totalMin % 60;
-    let [y, mo, d2] = dateStr.split('-').map(Number);
-    if (totalMin >= 1440) {
-      const dt = new Date(y, mo - 1, d2 + 1);
-      y = dt.getFullYear(); mo = dt.getMonth() + 1; d2 = dt.getDate();
-    }
-    return `${y}${pad(mo)}${pad(d2)}T${pad(endH)}${pad(endM)}00`;
-  }
-
-  const uid_base = Date.now();
-  const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//kontakt 2026//Programm//DE',
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
-    'X-WR-CALNAME:kontakt 2026 – Mein Plan',
-    'X-WR-TIMEZONE:Europe/Berlin',
-  ];
-
-  all.forEach((ev, i) => {
-    const dtstart = toIcalDT(ev.date, ev.s);
-    const dtend = addDuration(ev.date, ev.s, ev.d || '00:30');
-    const summary = ev.t.replace(/[\\;,]/g, c => '\\' + c);
-    const location = ev.room.replace(/[\\;,]/g, c => '\\' + c);
-    const desc = (ev.desc || '').replace(/\n/g, '\\n').replace(/[\\;,]/g, c => '\\' + c).slice(0, 500);
-    const persons = ev.p?.length ? `Mitwirkende: ${ev.p.join(', ')}\\n` : '';
-    lines.push(
-      'BEGIN:VEVENT',
-      `UID:kontakt2026-${uid_base}-${i}@kntkt.de`,
-      `DTSTART;TZID=Europe/Berlin:${dtstart}`,
-      `DTEND;TZID=Europe/Berlin:${dtend}`,
-      `SUMMARY:${summary}`,
-      `LOCATION:${location}`,
-      `DESCRIPTION:${persons}${desc}`,
-    );
-    if (ev.u) lines.push(`URL:${ev.u}`);
-    lines.push('END:VEVENT');
-  });
-  lines.push('END:VCALENDAR');
-
-  const ics = lines.join('\r\n');
-  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'kontakt2026-meinplan.ics';
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function openMbyKey(k){
-  for(const day of DAYS){for(const evs of Object.values(day.rooms)){for(const ev of evs){if(favKey(ev)===k){closeFavPanel({skipHistory:true});openEventModal(ev);return;}}}}
-}
-
-function matchesQuery(ev){
-  if(!query)return true;
-  return ev.t.toLowerCase().includes(query)||ev.p.some(p=>p.toLowerCase().includes(query))||(ev.tr||'').toLowerCase().includes(query)||ev.room.toLowerCase().includes(query);
-}
-
-/* ── RENDER: continuous timeline, all days ── */
-const PX_PER_MIN=1.8;
-const CARD_MIN_H=82;
-const COL_PAD_BOTTOM=60;
-
-function buildDayBlock(day){
-  const today=todayDate();
-  const isToday=day.date===today;
-  const rooms=[...RO.filter(r=>day.rooms[r]?.length),...Object.keys(day.rooms).filter(r=>!RO.includes(r)&&day.rooms[r]?.length).sort()];
-
-  const block=document.createElement('div');
-  block.className='day-block';
-  block.dataset.date=day.date;
-
-  const dayHeader=document.createElement('div');
-  dayHeader.className='day-header';
-
-  const div=document.createElement('div');
-  div.className='day-div'+(isToday?' today':'');
-  div.innerHTML=`<span class="day-div-label">${dayLabel(day.date)}</span><span class="day-div-dot"></span>`;
-  dayHeader.appendChild(div);
-
-  const rnamesEl=document.createElement('div');
-  rnamesEl.className='rnames';
-  rooms.forEach(rn=>{
-    const item=document.createElement('div');item.className='rname-item';item.dataset.room=rn;
-    const icon=document.createElement('span');icon.textContent=RI[rn]||'◆';
-    item.appendChild(icon);item.appendChild(document.createTextNode(' '+rn));
-    rnamesEl.appendChild(item);
-  });
-  dayHeader.appendChild(rnamesEl);
-  block.appendChild(dayHeader);
-
-  const grid=document.createElement('div');
-  grid.className='rg';
-  grid.dataset.date=day.date;
-
-  let dayStart=Infinity,dayEnd=0;
-  rooms.forEach(rn=>day.rooms[rn].forEach(ev=>{
-    const s=timeToMinutes(ev.s);
-    const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
-    const e=s+dh*60+dm;
-    if(s<dayStart)dayStart=s;
-    if(e>dayEnd)dayEnd=e;
-  }));
-  const colH=Math.max((dayEnd-dayStart)*PX_PER_MIN+COL_PAD_BOTTOM,300);
-  const columnData=[];
-
-  rooms.forEach(rn=>{
-    const events=[...day.rooms[rn]].sort((a,b)=>timeToMinutes(a.s)-timeToMinutes(b.s));
-    const col=document.createElement('div');col.className='rc';col.dataset.room=rn;
-    const rhEl=document.createElement('div');rhEl.className='rh';
-    rhEl.innerHTML=`<span>${RI[rn]||'◆'}</span>${rn}`;
-    col.appendChild(rhEl);
-    const evW=document.createElement('div');evW.className='re';
-    evW.style.height=colH+'px';
-    col.appendChild(evW);
-    let placedCards=[];
-    events.forEach(ev=>{
-      if(SK.has(ev.tr))return;
-      const color=trackColor(ev.tr),icon=trackIcon(ev.tr);
-      const live=isLive(ev);
-      const faved=favs.has(favKey(ev));
-      const conflict=hasConflict(ev);
-      const idealTop=(timeToMinutes(ev.s)-dayStart)*PX_PER_MIN;
-      const[dh,dm]=(ev.d||'00:30').split(':').map(Number);
-      const durMin=dh*60+dm;
-      const idealH=Math.max(durMin*PX_PER_MIN,CARD_MIN_H);
-      let top=idealTop;
-      for(const p of placedCards){if(top<p.bottom+4)top=p.bottom+4;}
-      placedCards.push({top,bottom:top+idealH});
-      const card=document.createElement('div');
-      card.__ev=ev;
-      card.className='ec'+(live?' live':'')+(faved?' faved':'');
-      card.dataset.evkey=favKey(ev);
-      card.style.setProperty('--tc',color);
-      card.style.top=top+'px';
-      card.style.height=idealH+'px';
-      if(conflict)card.style.boxShadow='inset 0 0 0 1px #ff456060';
-      if(ev.l){
-        const ew=document.createElement('div');ew.className='ew';
-        const bg=document.createElement('div');bg.className='ew-bg';
-        const img=document.createElement('img');img.className='et';img.alt='';img.loading='lazy';img.fetchPriority='low';
-        attachEventImage(img,bg,ev,'card',()=>{ew.remove();card.classList.add('noimg')},{defer:true,background:'after-load'});
-        ew.appendChild(bg);ew.appendChild(img);card.appendChild(ew);
-        const scrim=document.createElement('div');scrim.className='escrim';card.appendChild(scrim);
-      } else {card.classList.add('noimg');}
-      const ov=document.createElement('div');ov.className='eov';
-      const eto=document.createElement('div');eto.className='eto';
-      const etm=document.createElement('span');etm.className='etm';etm.textContent=ev.s;
-      const edu=document.createElement('span');edu.className='edu';edu.textContent=formatDuration(ev.d);
-      eto.appendChild(etm);eto.appendChild(edu);ov.appendChild(eto);
-      const eti=document.createElement('div');eti.className='eti';eti.textContent=ev.t;ov.appendChild(eti);
-      const em=document.createElement('div');em.className='em';
-      if(ev.tr){
-        const eb=document.createElement('span');eb.className='eb';eb.style.background=color;
-        const bi=document.createElement('span');bi.className='bi';bi.textContent=icon;
-        eb.appendChild(bi);
-        eb.appendChild(document.createTextNode(ev.tr));
-        em.appendChild(eb);
-      }
-      ov.appendChild(em);
-      if(ev.p?.length){const ea=document.createElement('div');ea.className='ea';ea.textContent=ev.p.join(', ');ov.appendChild(ea);}
-      const star=document.createElement('span');star.className='fav';star.textContent=faved?'★':'☆';
-      star.addEventListener('click',e=>{e.stopPropagation();toggleFav(ev);});
-      card.appendChild(ov);card.appendChild(star);
-      card.addEventListener('click',()=>openEventModal(ev));
-      evW.appendChild(card);
-    });
-    const maxBottom=placedCards.length>0?Math.max(...placedCards.map(p=>p.bottom)):0;
-    const actualH=Math.max(colH,maxBottom+COL_PAD_BOTTOM);
-    columnData.push({evW,actualH});
-    grid.appendChild(col);
-  });
-  if(columnData.length>0){
-    const maxH=Math.max(...columnData.map(d=>d.actualH));
-    columnData.forEach(d=>{d.evW.style.height=maxH+'px';});
-  }
-  registerGrid(grid,rnamesEl);
-  block.appendChild(grid);
-  renderedDayBlocks.set(day.date,block);
-  if(dayBlockObserver)dayBlockObserver.observe(block);
-  return block;
-}
-
-function buildScheduleDOM(){
-  const main=document.getElementById('mainContent');
-  main.innerHTML='';
-  renderedDayBlocks.clear();
-  syncedGrids=[];
-  activeScrollGrid=null;
-  progressiveRenderToken++;
-  if(dayBlockObserver)dayBlockObserver.disconnect();
-  if(cardImageObserver)cardImageObserver.disconnect();
-  if(!DAYS.length){main.innerHTML='<p class="ed">✦ Keine Programmpunkte</p>';return;}
-
-  const initialDate=window.__scrollToDate||programmeDate();
-  const ordered=[...DAYS].sort((a,b)=>a.date===initialDate?-1:b.date===initialDate?1:DAYS.indexOf(a)-DAYS.indexOf(b));
-  const [firstDay,...restDays]=ordered;
-  if(firstDay)main.appendChild(buildDayBlock(firstDay));
-  renderSchedule();
-  updateStickyOffsets();
-  syncDayTabs(firstDay?.date||null);
-
-  const token=progressiveRenderToken;
-  const defer=window.requestIdleCallback?cb=>window.requestIdleCallback(cb,{timeout:180}):cb=>setTimeout(cb,16);
-  const scheduleMore=idx=>{
-    if(token!==progressiveRenderToken)return;
-    if(idx>=restDays.length){updateStickyOffsets();return;}
-    const day=restDays[idx];
-    if(day&&!renderedDayBlocks.has(day.date))main.appendChild(buildDayBlock(day));
-    renderSchedule();
-    updateStickyOffsets();
-    defer(()=>scheduleMore(idx+1));
-  };
-  defer(()=>scheduleMore(0));
-}
-
-function renderSchedule(){
-  let visibleCount=0;
-  document.querySelectorAll('.ec').forEach(card=>{
-    const ev=card.__ev;
-    if(!ev)return;
-    const matchQ=matchesQuery(ev);
-    const matchF=activeFormats.size===0||(ev.tr&&activeFormats.has(ev.tr));
-    const show=matchQ&&matchF;
-    card.classList.toggle('dm',!show);
-    if(show)visibleCount++;
-  });
-  // Update room column order + opacity based on activeRooms filter
-  document.querySelectorAll('.rc').forEach(col=>{
-    const rn=col.dataset.room;
-    if(!rn)return;
-    const isActive=activeRooms.has(rn);
-    col.style.opacity=activeRooms.size>0&&!isActive?'0.1':'';
-    col.style.order=activeRooms.size>0?(isActive?'0':'1'):'';
-  });
-  // Mirror order + opacity on room-name header items
-  document.querySelectorAll('.rname-item').forEach(item=>{
-    const rn=item.dataset.room;
-    if(!rn)return;
-    const isActive=activeRooms.has(rn);
-    item.style.opacity=activeRooms.size>0&&!isActive?'0.1':'';
-    item.style.order=activeRooms.size>0?(isActive?'0':'1'):'';
-  });
-  // No-results state
-  const main=document.getElementById('mainContent');
-  const existing=main.querySelector('.ed');
-  if(visibleCount===0){
-    if(!existing){
-      const p=document.createElement('p');
-      p.className='ed';
-      p.textContent='✦ Keine Ergebnisse für diese Filter';
-      main.appendChild(p);
-    }
-  } else if(existing){
-    existing.remove();
-  }
-}
-
-function initFiltersAndTabs(){
-  window.__evMap=new Map();
-  for(const day of DAYS)for(const evs of Object.values(day.rooms))for(const ev of evs)window.__evMap.set(favKey(ev),ev);
-  window.__evById=new Map();
-  for(const day of DAYS)for(const evs of Object.values(day.rooms))for(const ev of evs)window.__evById.set(eventId(ev),ev);
-  loadUrlState();
-  const allT=new Set();
-  DAYS.forEach(d=>Object.values(d.rooms).forEach(evs=>evs.forEach(e=>{if(e.tr&&!SK.has(e.tr))allT.add(e.tr)})));
-  const allR=new Set();
-  DAYS.forEach(d=>RO.filter(r=>d.rooms[r]?.length).forEach(r=>allR.add(r)));
-  DAYS.forEach(d=>Object.keys(d.rooms).filter(r=>!RO.includes(r)&&d.rooms[r]?.length).forEach(r=>allR.add(r)));
-
-  // Track filters
-  const fiEl=document.getElementById('trackFilters');
-  while(fiEl.children.length>1)fiEl.removeChild(fiEl.lastChild);
-  allT.forEach(track=>{
-    const p=document.createElement('button');p.className='tp'+(activeFormats.has(track)?' active':'');
-    p.style.setProperty('--pc',trackColor(track));
-    p.setAttribute('aria-pressed',activeFormats.has(track)?'true':'false');
-    p.innerHTML=`<span class="pi">${trackIcon(track)}</span>${track}`;
-    p.addEventListener('click',()=>{if(activeFormats.has(track)){activeFormats.delete(track);p.classList.remove('active')}else{activeFormats.add(track);p.classList.add('active')}p.setAttribute('aria-pressed',activeFormats.has(track)?'true':'false');syncUrlState();renderSchedule()});
-    fiEl.appendChild(p);
-  });
-
-  // Room filters (all rooms across all days)
-  const rfEl=document.getElementById('roomFilters');
-  while(rfEl.children.length>1)rfEl.removeChild(rfEl.lastChild);
-  const roomOrder=[...RO.filter(r=>allR.has(r)),...[...allR].filter(r=>!RO.includes(r)).sort()];
-  roomOrder.forEach(rn=>{
-    const p=document.createElement('button');p.className='tp'+(activeRooms.has(rn)?' active':'');
-    p.style.setProperty('--pc','rgba(240,232,221,0.55)');
-    p.setAttribute('aria-pressed',activeRooms.has(rn)?'true':'false');
-    p.innerHTML=`<span class="pi">${RI[rn]||'◆'}</span>${rn}`;
-    p.addEventListener('click',()=>{if(activeRooms.has(rn)){activeRooms.delete(rn);p.classList.remove('active')}else{activeRooms.add(rn);p.classList.add('active')}p.setAttribute('aria-pressed',activeRooms.has(rn)?'true':'false');syncUrlState();renderSchedule()});
-    rfEl.appendChild(p);
-  });
-
-  // Day jump tabs
-  const today=todayDate();
-  const tabEl=document.getElementById('dayTabs');tabEl.innerHTML='';
-  DAYS.forEach((day,i)=>{
-    const isToday=day.date===today;
-    const tab=document.createElement('div');
-    tab.className='dta'+(isToday?' today':'');
-    tab.setAttribute('role','tab');
-    tab.innerHTML=dayLabel(day.date)+'<span class="livedot"></span>';
-    tab.addEventListener('click',()=>scrollToDate(day.date));
-    tabEl.appendChild(tab);
-  });
-
-  updateFavBtn();
-  const searchEl=document.getElementById('search');
-  if(searchEl){
-    searchEl.value=query;
-    let _debTimer;
-    searchEl.addEventListener('input',()=>{
-      clearTimeout(_debTimer);
-      _debTimer=setTimeout(()=>{query=searchEl.value.trim().toLowerCase();renderSchedule();syncUrlState();},250);
-    });
-  }
-
-  // Build DOM once, then apply initial filter state
-  buildScheduleDOM();
-  renderSchedule();
-  if(window.__openEventId){
-    const ev=resolveEventFromUrlParam(window.__openEventId);
-    delete window.__openEventId;
-    if(ev){
-      history.replaceState(overlaylessState(),'',urlWithState());
-      history.pushState({overlay:'event',eventKey:favKey(ev)},'',urlWithState({event:eventId(ev)}));
-      openEventModal(ev,{skipHistory:true});
-    }
-  }
-
-  // ── Sticky offset calculation ──
-  // .day-header sticks below .sb; --rnames-h pads .rg so cards don't start under the room-name row.
-  updateStickyOffsets();
-  if(stickyResizeObserver)stickyResizeObserver.disconnect();
-  stickyResizeObserver=new ResizeObserver(updateStickyOffsets);
-  stickyResizeObserver.observe(document.querySelector('.sb'));
-
-  // Wait until main has real height (layout complete) before scrolling
-  const main=document.getElementById('mainContent');
-  const doScroll=()=>{
-    if(window.__scrollToDate){scrollToDate(window.__scrollToDate);delete window.__scrollToDate;}
-    else scrollToNow();
-  };
-  if(main.scrollHeight>200){
-    // Already laid out (e.g. applyDevTime re-render)
-    requestAnimationFrame(doScroll);
-  } else {
-    // Wait for layout via ResizeObserver
-    const ro=new ResizeObserver(entries=>{
-      if(entries[0].contentRect.height>200){
-        ro.disconnect();
-        requestAnimationFrame(doScroll);
-      }
-    });
-    ro.observe(main);
-    // Safety fallback after 3s
-    setTimeout(()=>{ro.disconnect();doScroll();},3000);
-  }
-  setInterval(()=>{
-    document.querySelectorAll('.ec').forEach(card=>{
-      const k=card.dataset.evkey;if(!k)return;
-      const ev=window.__evMap?.get(k);if(!ev)return;
-      card.classList.toggle('live',isLive(ev));
-    });
-    const today=todayDate();
-    document.querySelectorAll('.dta').forEach((t,i)=>t.classList.toggle('today',DAYS[i]?.date===today));
-  },30000);
-}
-
-/* ── SCROLL HELPERS ── */
-function scrollToDate(date){
-  let block=renderedDayBlocks.get(date)||document.querySelector('.day-block[data-date="'+date+'"]');
-  if(!block){
-    const day=DAYS.find(d=>d.date===date);
-    if(day){
-      block=buildDayBlock(day);
-      document.getElementById('mainContent').appendChild(block);
-      renderSchedule();
-      updateStickyOffsets();
-    }
-  }
-  if(!block)return;
-  const stickyH=document.querySelector('.sb')?.offsetHeight||0;
-  const blockTop=block.getBoundingClientRect().top+window.scrollY;
-  window.scrollTo({top:Math.max(0,blockTop-stickyH-8),behavior:'smooth'});
-}
-
-function scrollToNow(){
-  const targetDate=programmeDate();
-  const targetMin=devMin!==null?(devMin<360?devMin+1440:devMin):currentMinutes();
-
-  const day=DAYS.find(d=>d.date===targetDate);
-  if(!day){console.log('[stn] day not found',targetDate);return;}
-
-  let dayStart=Infinity;
-  Object.values(day.rooms).forEach(evs=>evs.forEach(ev=>{
-    const m=timeToMinutes(ev.s);if(m<dayStart)dayStart=m;
-  }));
-  if(targetMin<dayStart){console.log('[stn] before start',targetMin,dayStart);return;}
-
-  const block=document.querySelector('.day-block[data-date="'+targetDate+'"]');
-  if(!block){console.log('[stn] no block');return;}
-
-  // Force layout flush before measuring
-  document.body.offsetHeight;
-
-  const stickyH=document.querySelector('.sb')?.offsetHeight||0;
-  const topPx=(targetMin-dayStart)*PX_PER_MIN;
-  const blockRect=block.getBoundingClientRect();
-  const blockTop=blockRect.top+window.scrollY;
-  const divH=block.querySelector('.day-div')?.getBoundingClientRect().height||40;
-  const target=Math.max(0, blockTop+divH+topPx-stickyH-60);
-
-  const dbg=document.getElementById('devDebug');
-  if(dbg)dbg.textContent=[
-    'date: '+targetDate,
-    'targetMin: '+targetMin+' (dayStart: '+dayStart+')',
-    'topPx: '+Math.round(topPx)+'px',
-    'blockTop: '+Math.round(blockTop)+'px',
-    'divH: '+Math.round(divH)+'px  stickyH: '+stickyH+'px',
-    'scrollTo: '+Math.round(target)+'px / pageH: '+document.body.scrollHeight+'px',
-  ].join('\n');
-
-  console.log('[stn]',{targetDate,targetMin,dayStart,topPx,blockTop,divH,stickyH,target});
-  window.scrollTo({top:target,behavior:'smooth'});
-}
-
-function openEventModal(ev,opts={}){
-  const {skipHistory=false}=opts;
-  currentEv=ev;
-  const color=trackColor(ev.tr),icon=trackIcon(ev.tr);
-  const wrap=document.getElementById('mheroWrap');
-  const hero=document.getElementById('mhero');
-  const bg=document.getElementById('mheroBg');
-  if(ev.l){wrap.style.display='grid';attachEventImage(hero,bg,ev,'hero',()=>{wrap.style.display='none';});}
-  else wrap.style.display='none';
-  const live=isLive(ev);
-  document.getElementById('mlive').style.display=live?'flex':'none';
-  const tb=document.getElementById('mtb');
-  tb.innerHTML='';tb.style.background=color;
-  const tbIcon=document.createElement('span');tbIcon.className='bi';tbIcon.textContent=icon;
-  tb.appendChild(tbIcon);tb.appendChild(document.createTextNode(ev.tr||'Programm'));
-  document.getElementById('mn').textContent=ev.t;
-  const minf=document.getElementById('minf');minf.innerHTML='';
-  const minfTime=document.createElement('span');minfTime.textContent='⬡ '+ev.s+' Uhr';minf.appendChild(minfTime);
-  const minfDur=document.createElement('span');minfDur.textContent='◷ '+formatDuration(ev.d);minf.appendChild(minfDur);
-  if(ev.p?.length){const minfP=document.createElement('span');minfP.textContent='✦ '+ev.p.join(', ');minf.appendChild(minfP);}
-  if(ev.room){const minfR=document.createElement('span');minfR.textContent=(RI[ev.room]||'◆')+' '+ev.room;minf.appendChild(minfR);}
-  document.getElementById('mde').textContent=(ev.desc||'').trim();
-  const safeU=(ev.u&&(ev.u.startsWith('https://')||ev.u.startsWith('http://')))?ev.u:'#';
-  document.getElementById('mlink').href=safeU;
-  updateModalFavBtn();
-  document.getElementById('mo').classList.add('open');
-  document.body.style.overflow='hidden';
-  document.getElementById('mcl').focus();
-  if(!skipHistory&&!historyOverlaySync)pushOverlayState({overlay:'event',eventKey:favKey(ev)},{event:eventId(ev)});
-}
-function closeEventModal(opts={}){
-  const {skipHistory=false}=opts;
-  const modal=document.getElementById('mo');
-  if(!modal.classList.contains('open'))return;
-  if(!skipHistory&&!historyOverlaySync&&history.state?.overlay==='event'){history.back();return;}
-  modal.classList.remove('open');
-  document.body.style.overflow='';
-  currentEv=null;
-  if(!skipHistory)syncUrlState();
-}
-document.getElementById('mcl').addEventListener('click',closeEventModal);
-document.getElementById('mo').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEventModal();});
-document.addEventListener('keydown',e=>{
-  const moOpen=document.getElementById('mo').classList.contains('open');
-  if(e.key==='Escape'){if(moOpen)closeEventModal();else closeFavPanel();}
-  if(e.key==='Tab'&&moOpen){
-    const focusable=[...document.querySelector('.md').querySelectorAll('button,[href],input,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled);
-    if(!focusable.length)return;
-    const idx=focusable.indexOf(document.activeElement);
-    if(e.shiftKey){e.preventDefault();focusable[idx<=0?focusable.length-1:idx-1].focus();}
-    else{e.preventDefault();focusable[idx>=focusable.length-1?0:idx+1].focus();}
-  }
-});
-
-/* ── DEV MODE ── */
-const isLocalhost = ['localhost','127.0.0.1',''].includes(location.hostname);
-if(isLocalhost && new URLSearchParams(location.search).get('dev')==='1'){
-  document.getElementById('devPanel').style.display='block';
-  const slider=document.getElementById('devTime');
-  const label=document.getElementById('devTimeLabel');
-  slider.addEventListener('input',()=>{
-    const h=Math.floor(slider.value/60).toString().padStart(2,'0');
-    const m=(slider.value%60).toString().padStart(2,'0');
-    label.textContent=`${h}:${m}`;
-  });
-}
-function applyDevTime(){
-  devMin=parseInt(document.getElementById('devTime').value);
-  buildScheduleDOM();
-  renderSchedule();
-  requestAnimationFrame(()=>requestAnimationFrame(()=>scrollToNow()));
-}
-
-/* ── LOAD ── */
-function showStatus(msg,isError){
-  document.getElementById('mainContent').innerHTML=`<p class="ed" style="color:${isError?'#ff4560':'var(--yellow)'}">${msg}</p>`;
-}
-async function loadSchedule(){
-  showSkeleton();
-  let xml;
-  const CACHE_KEY='kontakt_xml';
-  const CACHE_TTL=5*60*1000;
-  const cached=sessionStorage.getItem(CACHE_KEY);
-  const cachedAt=parseInt(sessionStorage.getItem(CACHE_KEY+'_ts')||'0');
-  if(cached&&Date.now()-cachedAt<CACHE_TTL){
-    xml=cached;
-  } else {
-    try{const r=await fetch(XML_URL,{cache:'no-cache'});if(!r.ok)throw 0;xml=await r.text();sessionStorage.setItem(CACHE_KEY,xml);sessionStorage.setItem(CACHE_KEY+'_ts',Date.now());}
-    catch{showStatus('✗ Programm konnte nicht geladen werden. Bitte Seite neu laden.',true);return;}
-  }
-  DAYS=parseXML(xml);
-  if(!DAYS.length){showStatus('✗ Keine Daten gefunden.',true);return;}
-  initFiltersAndTabs();
-}
-loadSchedule();
-
-</script>
-<noscript>
-  <div style="font-family:sans-serif;text-align:center;padding:3rem;background:#3d1a2e;color:#f0e8dd;min-height:100vh">
-    <h1 style="margin-bottom:1rem">kontakt 2026</h1>
-    <p>Bitte JavaScript aktivieren, um das Programm zu sehen.</p>
-    <p style="margin-top:0.5rem;opacity:0.6">Das Programm ist auch <a href="https://cfp.kntkt.de/kontakt-2026/schedule/nojs" style="color:#f5d800">ohne JavaScript verfügbar</a>.</p>
-  </div>
-</noscript>
-</body>
+    <noscript>
+      <div class="noscript-panel">
+        <h1 class="noscript-title">kontakt 2026</h1>
+        <p>Bitte JavaScript aktivieren, um das Programm zu sehen.</p>
+        <p class="noscript-copy">
+          Das Programm ist auch
+          <a class="noscript-link" href="https://cfp.kntkt.de/kontakt-2026/schedule/nojs">ohne JavaScript verfügbar</a>.
+        </p>
+      </div>
+    </noscript>
+  </body>
 </html>
