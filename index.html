@@ -324,6 +324,7 @@ const WDAY=['So','Mo','Di','Mi','Do','Fr','Sa'];
 function dayLabel(ds){const d=new Date(ds+'T12:00:00');return`${WDAY[d.getDay()]} ${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')}`}
 let activeDay=0,activeFormats=new Set(),activeRooms=new Set(),DAYS=[],query='',currentEv=null;
 let favs=new Set(JSON.parse(localStorage.getItem('kontakt_favs')||'[]'));
+let historyOverlaySync=false;
 
 /* ── TIME UTILS ── */
 function localDateStr(d){const dd=d||new Date();return`${dd.getFullYear()}-${String(dd.getMonth()+1).padStart(2,'0')}-${String(dd.getDate()).padStart(2,'0')}`;}
@@ -398,6 +399,9 @@ function asciiSlug(value,maxLen){
   const slug=normalized.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   return slug.slice(0,maxLen).replace(/-+$/,'')||'event';
 }
+function eventId(ev){
+  return `${ev.date}-${ev.s.replace(':','')}-${asciiSlug(ev.room,24)}-${asciiSlug(ev.t,48)}`;
+}
 function imageBasePath(ev){
   const room=asciiSlug(ev.room,24);
   const title=asciiSlug(ev.t,48);
@@ -439,13 +443,20 @@ function attachEventImage(img,bg,ev,variant,onMissing){
 }
 
 /* ── URL STATE ── */
-function syncUrlState(){
+function overlaylessState(){return history.state?.overlay?null:history.state||null;}
+function urlWithState(extraParams){
   const p=new URLSearchParams();
   if(activeFormats.size)p.set('format',[...activeFormats].join(','));
   if(activeRooms.size)p.set('raum',[...activeRooms].join(','));
   if(query)p.set('q',query);
+  if(extraParams)for(const [key,value] of Object.entries(extraParams)){
+    if(value)p.set(key,value);
+  }
   const s=p.toString();
-  history.replaceState(null,'',s?'?'+s:location.pathname);
+  return s?'?'+s:location.pathname;
+}
+function syncUrlState(){
+  history.replaceState(overlaylessState(),'',urlWithState());
 }
 function loadUrlState(){
   const p=new URLSearchParams(location.search);
@@ -453,7 +464,42 @@ function loadUrlState(){
   if(p.has('raum'))p.get('raum').split(',').forEach(r=>activeRooms.add(r));
   if(p.has('q'))query=p.get('q');
   if(p.has('date'))window.__scrollToDate=p.get('date');
+  if(p.has('event'))window.__openEventId=p.get('event');
 }
+function pushOverlayState(state,extraParams){
+  history.pushState(state,'',urlWithState(extraParams));
+}
+function resolveEventFromUrlParam(value){
+  if(!value)return null;
+  return window.__evById?.get(value)||DAYS.flatMap(day=>Object.values(day.rooms).flat()).find(ev=>ev.t.slice(0,40)===value)||null;
+}
+function applyOverlayState(state){
+  const favPanel=document.getElementById('favPanel');
+  const modal=document.getElementById('mo');
+  const overlay=state?.overlay||null;
+  historyOverlaySync=true;
+  if(overlay==='event'&&state.eventKey){
+    const ev=window.__evMap?.get(state.eventKey);
+    if(ev)openEventModal(ev,{skipHistory:true});
+    else closeEventModal({skipHistory:true});
+    closeFavPanel({skipHistory:true});
+    historyOverlaySync=false;
+    return;
+  }
+  if(overlay==='favorites'){
+    if(!favPanel.classList.contains('open')){
+      favPanel.classList.add('open');
+      renderFavPanel();
+    }
+    closeEventModal({skipHistory:true});
+    historyOverlaySync=false;
+    return;
+  }
+  if(modal.classList.contains('open'))closeEventModal({skipHistory:true});
+  if(favPanel.classList.contains('open'))closeFavPanel({skipHistory:true});
+  historyOverlaySync=false;
+}
+window.addEventListener('popstate',e=>applyOverlayState(e.state));
 
 /* ── SKELETON ── */
 function showSkeleton(){
@@ -479,12 +525,24 @@ function updateFavBtn(){
   badge.textContent=n;
   btn.classList.toggle('visible',n>0);
 }
-function closeFavPanel(){document.getElementById('favPanel').classList.remove('open');}
+function closeFavPanel(opts={}){
+  const {skipHistory=false}=opts;
+  const panel=document.getElementById('favPanel');
+  if(!panel.classList.contains('open'))return;
+  if(!skipHistory&&!historyOverlaySync&&history.state?.overlay==='favorites'){history.back();return;}
+  panel.classList.remove('open');
+}
 document.getElementById('icalExportBtn').addEventListener('click', exportIcal);
 document.querySelector('.fav-panel-h button:last-child').addEventListener('click', closeFavPanel);
 document.getElementById('favBtn').addEventListener('click',()=>{
-  document.getElementById('favPanel').classList.toggle('open');
+  const panel=document.getElementById('favPanel');
+  if(panel.classList.contains('open')){
+    closeFavPanel();
+    return;
+  }
+  panel.classList.add('open');
   renderFavPanel();
+  if(!historyOverlaySync)pushOverlayState({overlay:'favorites'});
 });
 function updateModalFavBtn(){
   if(!currentEv)return;
@@ -621,7 +679,7 @@ function exportIcal() {
 }
 
 function openMbyKey(k){
-  for(const day of DAYS){for(const evs of Object.values(day.rooms)){for(const ev of evs){if(favKey(ev)===k){closeFavPanel();openEventModal(ev);return;}}}}
+  for(const day of DAYS){for(const evs of Object.values(day.rooms)){for(const ev of evs){if(favKey(ev)===k){closeFavPanel({skipHistory:true});openEventModal(ev);return;}}}}
 }
 
 function matchesQuery(ev){
@@ -816,6 +874,8 @@ function renderSchedule(){
 function initFiltersAndTabs(){
   window.__evMap=new Map();
   for(const day of DAYS)for(const evs of Object.values(day.rooms))for(const ev of evs)window.__evMap.set(favKey(ev),ev);
+  window.__evById=new Map();
+  for(const day of DAYS)for(const evs of Object.values(day.rooms))for(const ev of evs)window.__evById.set(eventId(ev),ev);
   loadUrlState();
   const allT=new Set();
   DAYS.forEach(d=>Object.values(d.rooms).forEach(evs=>evs.forEach(e=>{if(e.tr&&!SK.has(e.tr))allT.add(e.tr)})));
@@ -875,6 +935,15 @@ function initFiltersAndTabs(){
   // Build DOM once, then apply initial filter state
   buildScheduleDOM();
   renderSchedule();
+  if(window.__openEventId){
+    const ev=resolveEventFromUrlParam(window.__openEventId);
+    delete window.__openEventId;
+    if(ev){
+      history.replaceState(overlaylessState(),'',urlWithState());
+      history.pushState({overlay:'event',eventKey:favKey(ev)},'',urlWithState({event:eventId(ev)}));
+      openEventModal(ev,{skipHistory:true});
+    }
+  }
 
   // ── Cross-day scroll synchronisation ──
   // Only the grid the user is actively touching/dragging acts as source.
@@ -1009,7 +1078,8 @@ function scrollToNow(){
   window.scrollTo({top:target,behavior:'smooth'});
 }
 
-function openEventModal(ev){
+function openEventModal(ev,opts={}){
+  const {skipHistory=false}=opts;
   currentEv=ev;
   const color=trackColor(ev.tr),icon=trackIcon(ev.tr);
   const wrap=document.getElementById('mheroWrap');
@@ -1036,12 +1106,18 @@ function openEventModal(ev){
   document.getElementById('mo').classList.add('open');
   document.body.style.overflow='hidden';
   document.getElementById('mcl').focus();
-  // update URL with event context
-  const p=new URLSearchParams(location.search);
-  p.set('event',ev.t.slice(0,40));
-  history.replaceState(null,'','?'+p.toString());
+  if(!skipHistory&&!historyOverlaySync)pushOverlayState({overlay:'event',eventKey:favKey(ev)},{event:eventId(ev)});
 }
-function closeEventModal(){document.getElementById('mo').classList.remove('open');document.body.style.overflow='';syncUrlState();}
+function closeEventModal(opts={}){
+  const {skipHistory=false}=opts;
+  const modal=document.getElementById('mo');
+  if(!modal.classList.contains('open'))return;
+  if(!skipHistory&&!historyOverlaySync&&history.state?.overlay==='event'){history.back();return;}
+  modal.classList.remove('open');
+  document.body.style.overflow='';
+  currentEv=null;
+  if(!skipHistory)syncUrlState();
+}
 document.getElementById('mcl').addEventListener('click',closeEventModal);
 document.getElementById('mo').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEventModal();});
 document.addEventListener('keydown',e=>{
