@@ -191,7 +191,6 @@ const DAY_ROLLOVER_MINUTES = 360;
 const HORIZONTAL_SCROLL_SETTLE_MS = 120;
 const PROGRAMMATIC_DAY_SCROLL_SETTLE_MS = 140;
 const MOBILE_VIEW_MEDIA_QUERY = "(max-width: 600px)";
-const WIDE_GRID_MEDIA_QUERY = "(min-width: 601px)";
 
 /* ── STATE ── */
 
@@ -241,10 +240,7 @@ function syncGridScrollIndicators(grid) {
   }
 
   const maxScrollLeft = Math.max(0, grid.scrollWidth - grid.clientWidth);
-  const canScroll =
-    viewMode === "grid" &&
-    window.matchMedia(WIDE_GRID_MEDIA_QUERY).matches &&
-    maxScrollLeft > 4;
+  const canScroll = viewMode === "grid" && maxScrollLeft > 4;
 
   block.classList.toggle("scrollable-x", canScroll);
   block.classList.toggle("can-scroll-left", canScroll && grid.scrollLeft > 4);
@@ -858,9 +854,7 @@ function urlWithState(extraParams) {
     params.set("q", query);
   }
 
-  if (viewMode !== "grid") {
-    params.set("view", viewMode);
-  }
+  params.set("view", viewMode);
 
   if (extraParams) {
     for (const [key, value] of Object.entries(extraParams)) {
@@ -1845,6 +1839,7 @@ function initFiltersAndTabs() {
   }
 
   loadUrlState();
+  syncUrlState();
 
   const allTracks = new Set();
   DAYS.forEach((day) => {

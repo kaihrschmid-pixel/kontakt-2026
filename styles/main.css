@@ -633,39 +633,37 @@ main {
   }
 }
 
-@media (min-width: 601px) {
-  .day-block-grid .day-header::before,
-  .day-block-grid .day-header::after {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 3;
-    width: 18px;
-    opacity: 0;
-    pointer-events: none;
-    content: "";
-    transition: opacity 0.18s ease;
-  }
+.day-block-grid .day-header::before,
+.day-block-grid .day-header::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  width: 18px;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  transition: opacity 0.18s ease;
+}
 
-  .day-block-grid .day-header::before {
-    left: 0;
-    background:
-      linear-gradient(to right, rgba(245, 216, 0, 0.28), transparent),
-      linear-gradient(to right, rgba(245, 216, 0, 0.95), rgba(245, 216, 0, 0.12));
-  }
+.day-block-grid .day-header::before {
+  left: 0;
+  background:
+    linear-gradient(to right, rgba(245, 216, 0, 0.28), transparent),
+    linear-gradient(to right, rgba(245, 216, 0, 0.95), rgba(245, 216, 0, 0.12));
+}
 
-  .day-block-grid .day-header::after {
-    right: 0;
-    background:
-      linear-gradient(to left, rgba(245, 216, 0, 0.28), transparent),
-      linear-gradient(to left, rgba(245, 216, 0, 0.95), rgba(245, 216, 0, 0.12));
-  }
+.day-block-grid .day-header::after {
+  right: 0;
+  background:
+    linear-gradient(to left, rgba(245, 216, 0, 0.28), transparent),
+    linear-gradient(to left, rgba(245, 216, 0, 0.95), rgba(245, 216, 0, 0.12));
+}
 
-  .day-block-grid.can-scroll-left .day-header::before,
-  .day-block-grid.can-scroll-right .day-header::after {
-    opacity: 1;
-    animation: scrollhint 1.8s ease-in-out infinite;
-  }
+.day-block-grid.can-scroll-left .day-header::before,
+.day-block-grid.can-scroll-right .day-header::after {
+  opacity: 1;
+  animation: scrollhint 1.8s ease-in-out infinite;
 }
 
 .re {
