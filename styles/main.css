@@ -20,7 +20,7 @@
 
 body {
   min-height: 100vh;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   color: var(--cream);
   background: var(--bg);
 }
@@ -30,7 +30,7 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: url("../galaxy-bg.jpg") center / cover no-repeat #0e040a;
+  background: url('../galaxy-bg.jpg') center / cover no-repeat #0e040a;
 }
 
 #stars {
@@ -62,7 +62,7 @@ header {
 header::before {
   position: absolute;
   inset: 0;
-  content: "";
+  content: '';
   pointer-events: none;
   background:
     radial-gradient(
@@ -101,7 +101,7 @@ header::before {
 }
 
 .wm {
-  font-family: "Press Start 2P", monospace;
+  font-family: 'Press Start 2P', monospace;
   font-size: clamp(1.6rem, 5.5vw, 3.8rem);
   line-height: 1.1;
   letter-spacing: 0.04em;
@@ -112,7 +112,7 @@ header::before {
 
 .sl {
   margin-top: 0.4rem;
-  font-family: "Press Start 2P", monospace;
+  font-family: 'Press Start 2P', monospace;
   font-size: clamp(0.38rem, 1vw, 0.6rem);
   line-height: 1.7;
   letter-spacing: 0.02em;
@@ -258,7 +258,7 @@ header::before {
 }
 
 .hd {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(0.95rem, 2.5vw, 1.5rem);
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -267,7 +267,7 @@ header::before {
 
 .hl {
   margin-top: 0.3rem;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(0.72rem, 1.6vw, 0.98rem);
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -304,7 +304,7 @@ header::before {
   margin-bottom: -1px;
   padding: 0.65rem 1rem;
   border-bottom: 2.5px solid transparent;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.7rem;
   letter-spacing: 0.15em;
   color: var(--muted);
@@ -382,7 +382,7 @@ header::before {
 }
 
 .day-div-label {
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.75rem;
   letter-spacing: 0.2em;
   color: var(--yellow);
@@ -405,21 +405,17 @@ header::before {
 /* ── SEARCH ── */
 
 .srow {
-  display: flex;
-  gap: 0.6rem;
-  align-items: center;
   padding: 0.45rem 1rem;
   border-bottom: 1px solid rgba(245, 216, 0, 0.06);
 }
 
 .si {
-  flex: 1 1 auto;
   width: 100%;
   padding: 0.32rem 0.75rem 0.32rem 2rem;
   border: 1px solid rgba(240, 232, 221, 0.12);
   border-radius: 3px;
   outline: none;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.68rem;
   letter-spacing: 0.06em;
   color: var(--cream);
@@ -436,26 +432,6 @@ header::before {
 
 .si:focus {
   border-color: rgba(245, 216, 0, 0.35);
-}
-
-.view-toggle {
-  flex: 0 0 auto;
-  padding: 0.4rem 0.7rem;
-  border: 1px solid rgba(245, 216, 0, 0.22);
-  border-radius: 3px;
-  font-family: "Share Tech Mono", monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  color: var(--yellow);
-  background: rgba(245, 216, 0, 0.08);
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.12s;
-}
-
-.view-toggle:hover {
-  border-color: rgba(245, 216, 0, 0.45);
-  background: rgba(245, 216, 0, 0.14);
 }
 
 /* ── FILTERS ── */
@@ -475,7 +451,7 @@ header::before {
 
 .fil {
   margin-right: 0.2rem;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.58rem;
   letter-spacing: 0.2em;
   color: var(--muted);
@@ -489,7 +465,7 @@ header::before {
   padding: 0.18rem 0.55rem;
   border: 1px solid rgba(240, 232, 221, 0.13);
   border-radius: 3px;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.62rem;
   letter-spacing: 0.07em;
   color: var(--muted);
@@ -580,7 +556,7 @@ main {
   overflow: hidden;
   padding: 0.3rem 0;
   border-top: 2px solid var(--yellow);
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.65rem;
   letter-spacing: 0.18em;
   color: var(--yellow);
@@ -595,7 +571,7 @@ main {
 
 /* ── CARDS ── */
 
-.schedule-card {
+.ec {
   position: absolute;
   right: 0;
   left: 0;
@@ -610,89 +586,33 @@ main {
     border-color 0.12s;
 }
 
-.schedule-card::before {
+.ec::before {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   z-index: 3;
   width: 3px;
-  content: "";
+  content: '';
   background: var(--tc, rgba(240, 232, 221, 0.3));
 }
 
-.schedule-card:hover {
+.ec:hover {
   border-color: rgba(245, 216, 0, 0.45);
   transform: translateY(-1px);
 }
 
-.schedule-card.dm {
+.ec.dm {
   pointer-events: none;
   opacity: 0.1;
 }
 
-.schedule-card.noimg {
+.ec.noimg {
   background: var(--card-bg);
 }
 
-.schedule-card.noimg .eov {
+.ec.noimg .eov {
   min-height: unset;
-}
-
-.room-chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.1rem 0.32rem;
-  border: 1px solid rgba(240, 232, 221, 0.14);
-  border-radius: 2px;
-  font-family: "Share Tech Mono", monospace;
-  font-size: 0.52rem;
-  letter-spacing: 0.07em;
-  color: rgba(240, 232, 221, 0.72);
-  text-transform: uppercase;
-}
-
-.list-day {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem 1.25rem 0;
-}
-
-.lr {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-
-.lrh {
-  padding-bottom: 0.3rem;
-  border-bottom: 1px solid rgba(245, 216, 0, 0.14);
-  font-family: "Share Tech Mono", monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  color: var(--yellow);
-  text-transform: uppercase;
-}
-
-.lre {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.lc {
-  position: relative;
-  min-height: 116px;
-}
-
-.lc .eov {
-  min-height: 116px;
-  justify-content: flex-end;
-}
-
-.lc.noimg .eov {
-  min-height: 116px;
 }
 
 @keyframes liveswell {
@@ -709,7 +629,7 @@ main {
   }
 }
 
-.schedule-card.live {
+.ec.live {
   z-index: 10;
   border-color: #ff4560 !important;
   box-shadow: 0 0 0 1px #ff456060;
@@ -717,20 +637,20 @@ main {
   animation: liveswell 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s 1 forwards;
 }
 
-.schedule-card.live::after {
+.ec.live::after {
   position: absolute;
   top: 5px;
   right: 6px;
   z-index: 4;
-  content: "● LIVE";
-  font-family: "Share Tech Mono", monospace;
+  content: '● LIVE';
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.5rem;
   letter-spacing: 0.12em;
   color: #ff4560;
   animation: pulse 1.4s ease-in-out infinite;
 }
 
-.schedule-card .fav {
+.ec .fav {
   position: absolute;
   right: 6px;
   bottom: 5px;
@@ -744,12 +664,12 @@ main {
     transform 0.15s;
 }
 
-.schedule-card .fav:hover,
-.schedule-card.faved .fav {
+.ec .fav:hover,
+.ec.faved .fav {
   opacity: 1;
 }
 
-.schedule-card.faved .fav {
+.ec.faved .fav {
   transform: scale(1.2);
 }
 
@@ -809,21 +729,21 @@ main {
 }
 
 .etm {
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.68rem;
   letter-spacing: 0.06em;
   color: var(--yellow);
 }
 
 .edu {
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.56rem;
   color: rgba(240, 232, 221, 0.55);
 }
 
 .eti {
   margin-bottom: 0.25rem;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.78rem;
   line-height: 1.2;
   letter-spacing: 0.03em;
@@ -845,7 +765,7 @@ main {
   align-items: center;
   padding: 0.1rem 0.32rem;
   border-radius: 2px;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.52rem;
   font-weight: 700;
   letter-spacing: 0.07em;
@@ -997,7 +917,7 @@ main {
   margin-bottom: 0.8rem;
   padding: 0.22rem 0.58rem;
   border-radius: 2px;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.63rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -1007,7 +927,7 @@ main {
 
 .mn {
   margin-bottom: 0.8rem;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: clamp(1.2rem, 4vw, 1.8rem);
   line-height: 1.1;
   letter-spacing: 0.05em;
@@ -1020,7 +940,7 @@ main {
   flex-wrap: wrap;
   gap: 1.1rem;
   margin-bottom: 1rem;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.7rem;
   letter-spacing: 0.08em;
   color: var(--yellow);
@@ -1031,7 +951,7 @@ main {
   gap: 0.4rem;
   align-items: center;
   margin-bottom: 0.6rem;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.65rem;
   letter-spacing: 0.1em;
   color: #ff4560;
@@ -1073,7 +993,7 @@ main {
   align-items: center;
   padding: 0.52rem 1rem;
   border-radius: 2px;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -1095,7 +1015,7 @@ main {
   padding: 0.52rem 1rem;
   border: 1px solid rgba(240, 232, 221, 0.2);
   border-radius: 2px;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   color: var(--cream);
@@ -1128,7 +1048,7 @@ main {
   height: 1.9rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 2px;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.85rem;
   color: var(--cream);
   background: rgba(0, 0, 0, 0.55);
@@ -1181,7 +1101,7 @@ main {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.55rem;
   font-weight: 700;
   color: #fff;
@@ -1214,7 +1134,7 @@ main {
   justify-content: space-between;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid rgba(245, 216, 0, 0.12);
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.7rem;
   letter-spacing: 0.15em;
   color: var(--yellow);
@@ -1223,7 +1143,7 @@ main {
 
 .fav-panel-h button {
   border: none;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.75rem;
   color: var(--muted);
   background: none;
@@ -1234,7 +1154,7 @@ main {
   padding: 0.15rem 0.45rem;
   border: 1px solid rgba(245, 216, 0, 0.3);
   border-radius: 2px;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   color: var(--yellow);
@@ -1258,14 +1178,14 @@ main {
 }
 
 .fav-item-time {
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.6rem;
   letter-spacing: 0.08em;
   color: var(--yellow);
 }
 
 .fav-item-title {
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   color: var(--cream);
@@ -1283,13 +1203,13 @@ main {
 }
 
 .fav-conflict .fav-item-time::after {
-  content: " ⚡ Konflikt";
+  content: ' ⚡ Konflikt';
   color: #ff4560;
 }
 
 .fav-empty {
   padding: 1.5rem 1rem;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   color: var(--muted);
@@ -1310,7 +1230,7 @@ main {
   padding: 0.75rem 1rem;
   border: 1px solid #ff4560;
   border-radius: 4px;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.65rem;
   letter-spacing: 0.08em;
   color: #ff4560;
@@ -1338,7 +1258,7 @@ main {
   padding: 2px 4px;
   border: 1px solid #ff456060;
   border-radius: 2px;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.62rem;
   color: #ff4560;
   background: #2a0f1f;
@@ -1356,7 +1276,7 @@ main {
   padding: 2px 8px;
   border: 1px solid #ff456060;
   border-radius: 2px;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.62rem;
   color: #ff4560;
   background: #ff456020;
@@ -1375,7 +1295,7 @@ main {
 
 .ed {
   padding: 3rem 0;
-  font-family: "Share Tech Mono", monospace;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 0.82rem;
   letter-spacing: 0.12em;
   color: var(--muted);
@@ -1507,11 +1427,6 @@ main {
     padding: 0.35rem 0.75rem;
   }
 
-  .view-toggle {
-    padding: 0.34rem 0.5rem;
-    font-size: 0.56rem;
-  }
-
   .fi {
     flex-wrap: nowrap;
     gap: 0.22rem;
@@ -1560,10 +1475,6 @@ main {
 
   .day-div {
     padding: 0.4rem 0.75rem;
-  }
-
-  .list-day {
-    padding: 0.75rem 0.75rem 0;
   }
 
   .fav-panel {
