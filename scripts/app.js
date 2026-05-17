@@ -1470,8 +1470,9 @@ function buildGridDayBlock(day) {
 function buildListDayBlock(day) {
   const today = todayDate();
   const isToday = day.date === today;
-  const rooms = scheduleRoomOrder().filter((roomName) =>
-    (day.rooms[roomName] || []).some((ev) => !SK.has(ev.tr)),
+  const roomOrder = scheduleRoomOrder();
+  const roomOrderIndex = new Map(
+    roomOrder.map((roomName, index) => [roomName, index]),
   );
 
   const block = document.createElement("div");
@@ -1490,33 +1491,20 @@ function buildListDayBlock(day) {
   const list = document.createElement("div");
   list.className = "list-day";
 
-  rooms.forEach((roomName) => {
-    const events = [...(day.rooms[roomName] || [])]
-      .filter((ev) => !SK.has(ev.tr))
-      .sort((a, b) => timeToMinutes(a.s) - timeToMinutes(b.s));
+  const events = Object.values(day.rooms)
+    .flat()
+    .filter((ev) => !SK.has(ev.tr))
+    .sort(
+      (a, b) =>
+        timeToMinutes(a.s) - timeToMinutes(b.s) ||
+        (roomOrderIndex.get(a.room) ?? Number.MAX_SAFE_INTEGER) -
+          (roomOrderIndex.get(b.room) ?? Number.MAX_SAFE_INTEGER) ||
+        a.room.localeCompare(b.room) ||
+        a.t.localeCompare(b.t),
+    );
 
-    if (!events.length) {
-      return;
-    }
-
-    const roomSection = document.createElement("section");
-    roomSection.className = "lr";
-    roomSection.dataset.room = roomName;
-
-    const roomHeader = document.createElement("div");
-    roomHeader.className = "lrh";
-    roomHeader.textContent = `${RI[roomName] || "◆"} ${roomName}`;
-    roomSection.appendChild(roomHeader);
-
-    const eventsList = document.createElement("div");
-    eventsList.className = "lre";
-
-    events.forEach((ev) => {
-      eventsList.appendChild(createEventCard(ev, "lc"));
-    });
-
-    roomSection.appendChild(eventsList);
-    list.appendChild(roomSection);
+  events.forEach((ev) => {
+    list.appendChild(createEventCard(ev, "lc"));
   });
 
   block.appendChild(list);
@@ -1618,7 +1606,11 @@ function renderSchedule() {
       return;
     }
 
-    const show = visibleInCurrentFilters(ev);
+    const showInRoomFilter =
+      !card.classList.contains("lc") ||
+      activeRooms.size === 0 ||
+      activeRooms.has(ev.room);
+    const show = visibleInCurrentFilters(ev) && showInRoomFilter;
 
     card.classList.toggle("dm", !show);
     card.hidden = !show;
@@ -1667,9 +1659,7 @@ function renderSchedule() {
   });
 
   document.querySelectorAll(".day-block").forEach((block) => {
-    const hasVisibleCard = block.classList.contains("day-block-list")
-      ? !!block.querySelector(".lr:not([hidden]) .schedule-card:not([hidden])")
-      : !!block.querySelector(".schedule-card:not([hidden])");
+    const hasVisibleCard = !!block.querySelector(".schedule-card:not([hidden])");
     block.hidden = !hasVisibleCard;
   });
 
