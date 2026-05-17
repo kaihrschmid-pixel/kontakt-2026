@@ -266,6 +266,14 @@ function eventEndMinutes(ev) {
   );
 }
 
+function formatClockMinutes(totalMinutes) {
+  const normalized = ((totalMinutes % 1440) + 1440) % 1440;
+  const hours = Math.floor(normalized / 60);
+  const minutes = normalized % 60;
+
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+}
+
 function scheduleRoomOrder() {
   const allRooms = new Set();
 
@@ -1244,10 +1252,13 @@ function createEventCardContent(card, ev, color, icon, faved) {
 
   const topRow = document.createElement("div");
   topRow.className = "eto";
+  const isListCard = card.classList.contains("lc");
 
   const timeEl = document.createElement("span");
   timeEl.className = "etm";
-  timeEl.textContent = ev.s;
+  timeEl.textContent = isListCard
+    ? `${ev.s} - ${formatClockMinutes(eventEndMinutes(ev))}`
+    : ev.s;
 
   const durationEl = document.createElement("span");
   durationEl.className = "edu";
