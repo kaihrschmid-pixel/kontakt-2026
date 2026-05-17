@@ -1807,11 +1807,23 @@ function initFiltersAndTabs() {
   const viewToggle = document.getElementById("viewToggle");
 
   if (viewToggle) {
-    const isList = viewMode === "list";
-    viewToggle.textContent = isList ? "Grid" : "Liste";
-    viewToggle.setAttribute("aria-pressed", isList ? "true" : "false");
+    const syncViewToggle = () => {
+      const isList = viewMode === "list";
+      viewToggle.textContent = isList ? "Grid" : "Liste";
+      viewToggle.setAttribute("aria-pressed", isList ? "true" : "false");
+      viewToggle.setAttribute(
+        "aria-label",
+        isList ? "Zur Grid-Ansicht wechseln" : "Zur Listenansicht wechseln",
+      );
+      viewToggle.title = isList
+        ? "Zur Grid-Ansicht wechseln"
+        : "Zur Listenansicht wechseln";
+    };
+
+    syncViewToggle();
     viewToggle.onclick = () => {
       viewMode = viewMode === "grid" ? "list" : "grid";
+      syncViewToggle();
       syncUrlState();
       buildScheduleDOM();
       renderSchedule();
