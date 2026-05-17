@@ -1,25 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kontakt — das Kulturfestival 2026</title>
     <meta
       name="description"
       content="Programm & Spielplan für kontakt — das Kulturfestival 2026. 21.–24. Mai, Metalluk-Gelände Bamberg."
-    >
-    <meta property="og:title" content="kontakt — das Kulturfestival 2026">
+    />
+    <meta property="og:title" content="kontakt — das Kulturfestival 2026" />
     <meta
       property="og:description"
       content="Programm & Spielplan. 21.–24. Mai, Metalluk-Gelände Bamberg."
-    >
-    <meta property="og:type" content="website">
-    <meta name="theme-color" content="#3d1a2e">
-    <link rel="icon" href="favicon.ico">
-    <link rel="icon" type="image/png" href="apple-touch-icon.png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="stylesheet" href="styles/fonts.css">
-    <link rel="stylesheet" href="styles/main.css">
+    />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#3d1a2e" />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" href="apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
     <div id="galaxy"></div>
@@ -49,7 +49,10 @@
           <!-- Center: starburst badge -->
           <div class="hbadge-wrap">
             <div class="hbadge">
-              <img src="badge.png" alt="kontakt — Das Kulturfestival · 20 Jahre">
+              <img
+                src="badge.png"
+                alt="kontakt — Das Kulturfestival · 20 Jahre"
+              />
             </div>
           </div>
 
@@ -63,7 +66,12 @@
       </header>
 
       <div class="sb">
-        <div class="dt" id="dayTabs" role="tablist" aria-label="Festivaltage"></div>
+        <div
+          class="dt"
+          id="dayTabs"
+          role="tablist"
+          aria-label="Festivaltage"
+        ></div>
 
         <div class="srow">
           <input
@@ -72,7 +80,16 @@
             type="search"
             placeholder="Suche nach Act, Workshop, Ort …"
             autocomplete="off"
+          />
+          <button
+            class="view-toggle"
+            id="viewToggle"
+            type="button"
+            aria-pressed="false"
+            title="Zwischen Grid- und Listenansicht wechseln"
           >
+            Liste
+          </button>
         </div>
 
         <div class="fi" id="trackFilters">
@@ -94,21 +111,40 @@
       <div class="dev-panel-body">
         <div class="dev-panel-row">
           <span>Datum</span>
-          <input class="dev-panel-date" id="devDate" type="date" value="2026-05-21">
+          <input
+            class="dev-panel-date"
+            id="devDate"
+            type="date"
+            value="2026-05-21"
+          />
         </div>
 
         <div class="dev-panel-row">
           <span>Zeit</span>
-          <input class="dev-panel-range" id="devTime" type="range" min="0" max="1439" value="780">
+          <input
+            class="dev-panel-range"
+            id="devTime"
+            type="range"
+            min="0"
+            max="1439"
+            value="780"
+          />
           <span class="dev-panel-label" id="devTimeLabel">13:00</span>
         </div>
 
-        <button class="dev-panel-apply" id="devApplyBtn">Anwenden → Live testen</button>
+        <button class="dev-panel-apply" id="devApplyBtn">
+          Anwenden → Live testen
+        </button>
         <div class="dev-panel-debug" id="devDebug"></div>
       </div>
     </div>
 
-    <button class="fav-btn" id="favBtn" title="Mein Plan" aria-label="Mein Plan">
+    <button
+      class="fav-btn"
+      id="favBtn"
+      title="Mein Plan"
+      aria-label="Mein Plan"
+    >
       ★<span class="fbadge" id="favBadge">0</span>
     </button>
 
@@ -136,7 +172,7 @@
 
         <div class="mhero-wrap" id="mheroWrap">
           <div class="mhero-bg" id="mheroBg"></div>
-          <img class="mhero" id="mhero" src="" alt="">
+          <img class="mhero" id="mhero" src="" alt="" />
         </div>
 
         <div class="mb">
@@ -151,7 +187,9 @@
           <div class="mde" id="mde"></div>
 
           <div class="mbtns">
-            <a class="mlink" id="mlink" href="#" target="_blank">↗ Mehr auf cfp.kntkt.de</a>
+            <a class="mlink" id="mlink" href="#" target="_blank"
+              >↗ Mehr auf cfp.kntkt.de</a
+            >
             <button class="mfav" id="mfavBtn">☆ Merken</button>
           </div>
         </div>
@@ -166,7 +204,11 @@
         <p>Bitte JavaScript aktivieren, um das Programm zu sehen.</p>
         <p class="noscript-copy">
           Das Programm ist auch
-          <a class="noscript-link" href="https://cfp.kntkt.de/kontakt-2026/schedule/nojs">ohne JavaScript verfügbar</a>.
+          <a
+            class="noscript-link"
+            href="https://cfp.kntkt.de/kontakt-2026/schedule/nojs"
+            >ohne JavaScript verfügbar</a
+          >.
         </p>
       </div>
     </noscript>

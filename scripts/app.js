@@ -1,14 +1,14 @@
 /* ── STARS ── */
 
 (function () {
-  const canvas = document.getElementById('stars');
-  const context = canvas.getContext('2d');
+  const canvas = document.getElementById("stars");
+  const context = canvas.getContext("2d");
 
   if (!context) {
     return;
   }
 
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   let width = 0;
   let height = 0;
@@ -57,7 +57,7 @@
     lastTimestamp = timestamp;
     context.clearRect(0, 0, width, height);
 
-    stars.forEach(star => {
+    stars.forEach((star) => {
       star.a = Math.max(0.05, Math.min(1, star.a + star.s));
 
       if (star.a <= 0.05 || star.a >= 1) {
@@ -67,11 +67,21 @@
       context.globalAlpha = star.a;
 
       if (star.cx) {
-        context.fillStyle = '#c8b0e0';
-        context.fillRect(star.x - star.r * 0.4, star.y - star.r * 2.2, star.r * 0.8, star.r * 4.4);
-        context.fillRect(star.x - star.r * 2.2, star.y - star.r * 0.4, star.r * 4.4, star.r * 0.8);
+        context.fillStyle = "#c8b0e0";
+        context.fillRect(
+          star.x - star.r * 0.4,
+          star.y - star.r * 2.2,
+          star.r * 0.8,
+          star.r * 4.4,
+        );
+        context.fillRect(
+          star.x - star.r * 2.2,
+          star.y - star.r * 0.4,
+          star.r * 4.4,
+          star.r * 0.8,
+        );
       } else {
-        context.fillStyle = star.r > 1 ? '#b8a8d8' : '#e0d8f0';
+        context.fillStyle = star.r > 1 ? "#b8a8d8" : "#e0d8f0";
         context.beginPath();
         context.arc(star.x, star.y, star.r, 0, Math.PI * 2);
         context.fill();
@@ -87,11 +97,11 @@
     lastTimestamp = 0;
 
     if (reducedMotion.matches) {
-      canvas.style.display = 'none';
+      canvas.style.display = "none";
       return;
     }
 
-    canvas.style.display = '';
+    canvas.style.display = "";
     frameId = requestAnimationFrame(drawStars);
   }
 
@@ -100,7 +110,7 @@
   restartAnimation();
 
   window.addEventListener(
-    'resize',
+    "resize",
     () => {
       resizeCanvas();
       buildStars();
@@ -109,7 +119,7 @@
   );
 
   if (reducedMotion.addEventListener) {
-    reducedMotion.addEventListener('change', () => {
+    reducedMotion.addEventListener("change", () => {
       buildStars();
       restartAnimation();
     });
@@ -120,7 +130,7 @@
     });
   }
 
-  document.addEventListener('visibilitychange', () => {
+  document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       cancelAnimationFrame(frameId);
     } else {
@@ -132,73 +142,80 @@
 /* ── CONFIG ── */
 
 const TR = {
-  Konzert: { color: '#EF7B1E', icon: '♪' },
-  'DJ-Set': { color: '#5BAF60', icon: '◈' },
-  Workshop: { color: '#0E70AB', icon: '◆' },
-  Vortrag: { color: '#316044', icon: '▸' },
-  Performance: { color: '#C062A3', icon: '◇' },
-  Theater: { color: '#5F5BA5', icon: '△' },
-  Tanz: { color: '#FAB313', icon: '✦' },
-  Film: { color: '#9EA7CD', icon: '▶' },
-  Jamsession: { color: '#EF7B1E', icon: '♫' },
+  Konzert: { color: "#EF7B1E", icon: "♪" },
+  "DJ-Set": { color: "#5BAF60", icon: "◈" },
+  Workshop: { color: "#0E70AB", icon: "◆" },
+  Vortrag: { color: "#316044", icon: "▸" },
+  Performance: { color: "#C062A3", icon: "◇" },
+  Theater: { color: "#5F5BA5", icon: "△" },
+  Tanz: { color: "#FAB313", icon: "✦" },
+  Film: { color: "#9EA7CD", icon: "▶" },
+  Jamsession: { color: "#EF7B1E", icon: "♫" },
 };
 
 const RI = {
-  Triebwerk: '▶',
-  Maschinenraum: '◈',
-  Zeitkapsel: '◎',
-  Funkraum: '◉',
-  Rohteilchenbeschleuniger: '✦',
-  Landeplatz: '▽',
-  Satelit: '◆',
-  Sternenwiese: '✧',
-  'B.U.S.': '■',
+  Triebwerk: "▶",
+  Maschinenraum: "◈",
+  Zeitkapsel: "◎",
+  Funkraum: "◉",
+  Rohteilchenbeschleuniger: "✦",
+  Landeplatz: "▽",
+  Satelit: "◆",
+  Sternenwiese: "✧",
+  "B.U.S.": "■",
 };
 
 const RO = [
-  'Triebwerk',
-  'Maschinenraum',
-  'Zeitkapsel',
-  'Funkraum',
-  'Rohteilchenbeschleuniger',
-  'Landeplatz',
-  'Satelit',
-  'Sternenwiese',
-  'B.U.S.',
+  "Triebwerk",
+  "Maschinenraum",
+  "Zeitkapsel",
+  "Funkraum",
+  "Rohteilchenbeschleuniger",
+  "Landeplatz",
+  "Satelit",
+  "Sternenwiese",
+  "B.U.S.",
 ];
 
-const SK = new Set(['Team-Einreichung', 'Soundcheck']);
+const SK = new Set(["Team-Einreichung", "Soundcheck"]);
 
-const trackColor = t => TR[t]?.color || 'rgba(240,232,221,0.35)';
-const trackIcon = t => TR[t]?.icon || '✦';
+const trackColor = (t) => TR[t]?.color || "rgba(240,232,221,0.35)";
+const trackIcon = (t) => TR[t]?.icon || "✦";
 
-const BASE = 'https://cfp.kntkt.de';
-const XML_URL = 'https://cfp.kntkt.de/kontakt-2026/schedule/export/schedule.xml';
-const FEST_DATES = ['2026-05-21', '2026-05-22', '2026-05-23', '2026-05-24'];
+const BASE = "https://cfp.kntkt.de";
+const XML_URL =
+  "https://cfp.kntkt.de/kontakt-2026/schedule/export/schedule.xml";
+const FEST_DATES = ["2026-05-21", "2026-05-22", "2026-05-23", "2026-05-24"];
+const DEFAULT_EVENT_DURATION = "00:30";
+const DAY_ROLLOVER_MINUTES = 360;
+const HORIZONTAL_SCROLL_SETTLE_MS = 120;
+const PROGRAMMATIC_DAY_SCROLL_SETTLE_MS = 140;
 
 /* ── STATE ── */
 
-const WDAY = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+const WDAY = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
 
 function dayLabel(ds) {
   const date = new Date(`${ds}T12:00:00`);
 
-  return `${WDAY[date.getDay()]} ${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1)
+  return `${WDAY[date.getDay()]} ${date.getDate().toString().padStart(2, "0")}.${(
+    date.getMonth() + 1
+  )
     .toString()
-    .padStart(2, '0')}`;
+    .padStart(2, "0")}`;
 }
 
-let activeDay = 0;
-let activeFormats = new Set();
-let activeRooms = new Set();
+const activeFormats = new Set();
+const activeRooms = new Set();
 let DAYS = [];
-let query = '';
+let query = "";
 let currentEv = null;
+let viewMode = "grid";
 
-let favs = new Set(JSON.parse(localStorage.getItem('kontakt_favs') || '[]'));
+const favs = new Set(JSON.parse(localStorage.getItem("kontakt_favs") || "[]"));
 let historyOverlaySync = false;
 
-let renderedDayBlocks = new Map();
+const renderedDayBlocks = new Map();
 let syncedGrids = [];
 let activeScrollGrid = null;
 let horizontalScrollSettleTimer = 0;
@@ -214,18 +231,18 @@ let dayScrollSettleTimer = 0;
 function localDateStr(d) {
   const date = d || new Date();
 
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 
 function timeToMinutes(t) {
-  const [hours, minutes] = t.split(':').map(Number);
+  const [hours, minutes] = t.split(":").map(Number);
   const total = hours * 60 + minutes;
 
-  return total < 360 ? total + 1440 : total;
+  return total < DAY_ROLLOVER_MINUTES ? total + 1440 : total;
 }
 
 function formatDuration(d) {
-  const [hours, minutes] = d.split(':').map(Number);
+  const [hours, minutes] = d.split(":").map(Number);
 
   if (!hours) {
     return `${minutes}min`;
@@ -238,17 +255,35 @@ function formatDuration(d) {
   return `${hours}h${minutes}`;
 }
 
+function durationToMinutes(duration = DEFAULT_EVENT_DURATION) {
+  const [hours, minutes] = duration.split(":").map(Number);
+  return hours * 60 + minutes;
+}
+
+function eventEndMinutes(ev) {
+  return (
+    timeToMinutes(ev.s) + durationToMinutes(ev.d || DEFAULT_EVENT_DURATION)
+  );
+}
+
 function scheduleRoomOrder() {
   const allRooms = new Set();
 
-  DAYS.forEach(day => RO.filter(room => day.rooms[room]?.length).forEach(room => allRooms.add(room)));
-  DAYS.forEach(day => {
+  DAYS.forEach((day) =>
+    RO.filter((room) => day.rooms[room]?.length).forEach((room) =>
+      allRooms.add(room),
+    ),
+  );
+  DAYS.forEach((day) => {
     Object.keys(day.rooms)
-      .filter(room => !RO.includes(room) && day.rooms[room]?.length)
-      .forEach(room => allRooms.add(room));
+      .filter((room) => !RO.includes(room) && day.rooms[room]?.length)
+      .forEach((room) => allRooms.add(room));
   });
 
-  return [...RO.filter(room => allRooms.has(room)), ...[...allRooms].filter(room => !RO.includes(room)).sort()];
+  return [
+    ...RO.filter((room) => allRooms.has(room)),
+    ...[...allRooms].filter((room) => !RO.includes(room)).sort(),
+  ];
 }
 
 /* ── NOW (with dev override) ── */
@@ -256,13 +291,16 @@ function scheduleRoomOrder() {
 let devMin = null;
 
 function currentMinutes() {
-  const raw = devMin !== null ? devMin : new Date().getHours() * 60 + new Date().getMinutes();
+  const raw =
+    devMin !== null
+      ? devMin
+      : new Date().getHours() * 60 + new Date().getMinutes();
   return raw < 360 ? raw + 1440 : raw;
 }
 
 function todayDate() {
   if (devMin !== null) {
-    return document.getElementById('devDate')?.value || localDateStr();
+    return document.getElementById("devDate")?.value || localDateStr();
   }
 
   return localDateStr();
@@ -270,13 +308,13 @@ function todayDate() {
 
 function programmeDate() {
   if (devMin !== null) {
-    const devDate = document.getElementById('devDate')?.value;
+    const devDate = document.getElementById("devDate")?.value;
 
     if (!devDate) {
       return localDateStr();
     }
 
-    if (devMin < 360) {
+    if (devMin < DAY_ROLLOVER_MINUTES) {
       const date = new Date(`${devDate}T12:00:00`);
       date.setDate(date.getDate() - 1);
       return localDateStr(date);
@@ -287,7 +325,7 @@ function programmeDate() {
 
   const hours = new Date().getHours();
 
-  if (hours < 6) {
+  if (hours < DAY_ROLLOVER_MINUTES / 60) {
     const date = new Date();
     date.setDate(date.getDate() - 1);
     return localDateStr(date);
@@ -303,10 +341,25 @@ function isLive(ev) {
 
   const now = currentMinutes();
   const start = timeToMinutes(ev.s);
-  const [durationHours, durationMinutes] = (ev.d || '00:30').split(':').map(Number);
-  const end = start + durationHours * 60 + durationMinutes;
+  const end = eventEndMinutes(ev);
 
   return now >= start && now < end;
+}
+
+function favoriteEvents() {
+  const all = [];
+
+  for (const day of DAYS) {
+    for (const events of Object.values(day.rooms)) {
+      for (const ev of events) {
+        if (favs.has(favKey(ev))) {
+          all.push(ev);
+        }
+      }
+    }
+  }
+
+  return all;
 }
 
 /* ── XML PARSER ── */
@@ -318,15 +371,15 @@ function txt(el, tag) {
     }
   }
 
-  return '';
+  return "";
 }
 
 function parseXML(xmlText) {
-  const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
+  const doc = new DOMParser().parseFromString(xmlText, "text/xml");
   const days = [];
 
-  for (const dayEl of doc.getElementsByTagName('day')) {
-    const date = dayEl.getAttribute('date');
+  for (const dayEl of doc.getElementsByTagName("day")) {
+    const date = dayEl.getAttribute("date");
 
     if (!date) {
       continue;
@@ -335,11 +388,11 @@ function parseXML(xmlText) {
     const rooms = {};
 
     for (const roomEl of dayEl.children) {
-      if (roomEl.tagName !== 'room') {
+      if (roomEl.tagName !== "room") {
         continue;
       }
 
-      const roomName = roomEl.getAttribute('name');
+      const roomName = roomEl.getAttribute("name");
 
       if (!roomName) {
         continue;
@@ -348,23 +401,23 @@ function parseXML(xmlText) {
       const events = [];
 
       for (const ev of roomEl.children) {
-        if (ev.tagName !== 'event') {
+        if (ev.tagName !== "event") {
           continue;
         }
 
-        const track = txt(ev, 'track');
+        const track = txt(ev, "track");
 
         if (SK.has(track)) {
           continue;
         }
 
-        const logo = txt(ev, 'logo');
+        const logo = txt(ev, "logo");
         const persons = [];
 
         for (const child of ev.children) {
-          if (child.tagName === 'persons') {
+          if (child.tagName === "persons") {
             for (const person of child.children) {
-              if (person.tagName === 'person' && person.textContent.trim()) {
+              if (person.tagName === "person" && person.textContent.trim()) {
                 persons.push(person.textContent.trim());
               }
             }
@@ -372,13 +425,13 @@ function parseXML(xmlText) {
         }
 
         events.push({
-          t: txt(ev, 'title'),
-          tr: track.replace(/ regional$/, '') || null,
-          s: txt(ev, 'start') || '00:00',
-          d: txt(ev, 'duration') || '00:30',
-          l: logo ? BASE + logo : '',
-          desc: txt(ev, 'description').replace(/^None$/, ''),
-          u: txt(ev, 'url'),
+          t: txt(ev, "title"),
+          tr: track.replace(/ regional$/, "") || null,
+          s: txt(ev, "start") || "00:00",
+          d: txt(ev, "duration") || "00:30",
+          l: logo ? BASE + logo : "",
+          desc: txt(ev, "description").replace(/^None$/, ""),
+          u: txt(ev, "url"),
           p: persons,
           room: roomName,
           date,
@@ -395,31 +448,31 @@ function parseXML(xmlText) {
     }
   }
 
-  return days.filter(day => Object.keys(day.rooms).length > 0);
+  return days.filter((day) => Object.keys(day.rooms).length > 0);
 }
 
 function asciiSlug(value, maxLen) {
-  const normalized = (value || '')
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^\x00-\x7F]/g, '');
+  const normalized = (value || "")
+    .normalize("NFKD")
+    .replace(/\p{M}/gu, "")
+    .replace(/[^\x00-\x7F]/g, "");
 
   const slug = normalized
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
-  return slug.slice(0, maxLen).replace(/-+$/g, '') || 'event';
+  return slug.slice(0, maxLen).replace(/-+$/g, "") || "event";
 }
 
 function eventId(ev) {
-  return `${ev.date}-${ev.s.replace(':', '')}-${asciiSlug(ev.room, 24)}-${asciiSlug(ev.t, 48)}`;
+  return `${ev.date}-${ev.s.replace(":", "")}-${asciiSlug(ev.room, 24)}-${asciiSlug(ev.t, 48)}`;
 }
 
 function imageBasePath(ev) {
   const room = asciiSlug(ev.room, 24);
   const title = asciiSlug(ev.t, 48);
-  return `artist-images/${ev.date}-${ev.s.replace(':', '')}-${room}-${title}`;
+  return `artist-images/${ev.date}-${ev.s.replace(":", "")}-${room}-${title}`;
 }
 
 function setBgImage(bg, src, src2x) {
@@ -430,41 +483,44 @@ function setBgImage(bg, src, src2x) {
   if (
     src &&
     src2x &&
-    window.CSS?.supports?.('background-image', `image-set(url("${src}") 1x, url("${src2x}") 2x)`)
+    window.CSS?.supports?.(
+      "background-image",
+      `image-set(url("${src}") 1x, url("${src2x}") 2x)`,
+    )
   ) {
     bg.style.backgroundImage = `image-set(url('${src}') 1x, url('${src2x}') 2x)`;
     return;
   }
 
-  bg.style.backgroundImage = src ? `url('${src}')` : '';
+  bg.style.backgroundImage = src ? `url('${src}')` : "";
 }
 
 function setImgSrc(img, src, srcset, sizes) {
   if (srcset) {
     img.srcset = srcset;
   } else {
-    img.removeAttribute('srcset');
+    img.removeAttribute("srcset");
   }
 
   if (sizes) {
     img.sizes = sizes;
   } else {
-    img.removeAttribute('sizes');
+    img.removeAttribute("sizes");
   }
 
   img.src = src;
 }
 
 function observeCardImage(el, load) {
-  if (!('IntersectionObserver' in window)) {
+  if (!("IntersectionObserver" in window)) {
     load();
     return;
   }
 
   if (!cardImageObserver) {
     cardImageObserver = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
+      (entries) => {
+        entries.forEach((entry) => {
           if (!entry.isIntersecting) {
             return;
           }
@@ -480,7 +536,7 @@ function observeCardImage(el, load) {
           loader();
         });
       },
-      { rootMargin: '320px 0px' },
+      { rootMargin: "320px 0px" },
     );
   }
 
@@ -489,11 +545,11 @@ function observeCardImage(el, load) {
 }
 
 function attachEventImage(img, bg, ev, variant, onMissing, opts = {}) {
-  const { defer = false, background = 'eager' } = opts;
+  const { defer = false, background = "eager" } = opts;
   const base = imageBasePath(ev);
   const localSrc = `${base}-${variant}.webp`;
   const localSrc2x = `${base}-${variant}@2x.webp`;
-  const fallback = ev.l || '';
+  const fallback = ev.l || "";
 
   const fail = () => {
     if (onMissing) {
@@ -501,23 +557,23 @@ function attachEventImage(img, bg, ev, variant, onMissing, opts = {}) {
     }
   };
 
-  img.decoding = 'async';
+  img.decoding = "async";
 
   img.onload = () => {
-    if (background === 'after-load') {
-      setBgImage(bg, img.currentSrc || img.src, '');
+    if (background === "after-load") {
+      setBgImage(bg, img.currentSrc || img.src, "");
     }
   };
 
   img.onerror = () => {
-    if (fallback && img.dataset.fallbackLoaded !== '1') {
-      img.dataset.fallbackLoaded = '1';
+    if (fallback && img.dataset.fallbackLoaded !== "1") {
+      img.dataset.fallbackLoaded = "1";
 
-      if (background === 'eager') {
-        setBgImage(bg, fallback, '');
+      if (background === "eager") {
+        setBgImage(bg, fallback, "");
       }
 
-      setImgSrc(img, fallback, '', '');
+      setImgSrc(img, fallback, "", "");
       return;
     }
 
@@ -526,7 +582,7 @@ function attachEventImage(img, bg, ev, variant, onMissing, opts = {}) {
   };
 
   const load = () => {
-    if (background === 'eager') {
+    if (background === "eager") {
       setBgImage(bg, localSrc, localSrc2x);
     }
 
@@ -534,9 +590,9 @@ function attachEventImage(img, bg, ev, variant, onMissing, opts = {}) {
       img,
       localSrc,
       `${localSrc} 1x, ${localSrc2x} 2x`,
-      variant === 'hero'
-        ? '(max-width: 600px) calc(100vw - 3rem), 560px'
-        : '(max-width: 600px) calc(100vw - 1.5rem), 272px',
+      variant === "hero"
+        ? "(max-width: 600px) calc(100vw - 3rem), 560px"
+        : "(max-width: 600px) calc(100vw - 1.5rem), 272px",
     );
   };
 
@@ -550,8 +606,8 @@ function attachEventImage(img, bg, ev, variant, onMissing, opts = {}) {
 }
 
 function syncDayTabs(date) {
-  document.querySelectorAll('.dta').forEach((tab, index) => {
-    tab.classList.toggle('scrollactive', DAYS[index]?.date === date);
+  document.querySelectorAll(".dta").forEach((tab, index) => {
+    tab.classList.toggle("scrollactive", DAYS[index]?.date === date);
   });
 }
 
@@ -568,26 +624,31 @@ function scheduleProgrammaticDayScrollRelease() {
   clearTimeout(dayScrollSettleTimer);
   dayScrollSettleTimer = setTimeout(() => {
     programmaticDayScroll = false;
-  }, 140);
+  }, PROGRAMMATIC_DAY_SCROLL_SETTLE_MS);
 }
 
-window.addEventListener('scroll', scheduleProgrammaticDayScrollRelease, { passive: true });
+window.addEventListener("scroll", scheduleProgrammaticDayScrollRelease, {
+  passive: true,
+});
 
 function refreshDayBlockObserver() {
   if (dayBlockObserver) {
     dayBlockObserver.disconnect();
   }
 
-  const threshold = (document.querySelector('.sb')?.offsetHeight || 0) + (document.querySelector('.day-header')?.offsetHeight || 66) + 8;
+  const threshold =
+    (document.querySelector(".sb")?.offsetHeight || 0) +
+    (document.querySelector(".day-header")?.offsetHeight || 66) +
+    8;
 
   dayBlockObserver = new IntersectionObserver(
-    entries => {
+    (entries) => {
       if (programmaticDayScroll) {
         return;
       }
 
       const visible = entries
-        .filter(entry => entry.isIntersecting)
+        .filter((entry) => entry.isIntersecting)
         .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
 
       if (visible[0]) {
@@ -600,24 +661,32 @@ function refreshDayBlockObserver() {
     },
   );
 
-  document.querySelectorAll('.day-block').forEach(block => dayBlockObserver.observe(block));
+  document
+    .querySelectorAll(".day-block")
+    .forEach((block) => dayBlockObserver.observe(block));
 }
 
 function updateStickyOffsets() {
-  const stickyBarHeight = document.querySelector('.sb')?.offsetHeight || 0;
-  const roomNamesHeight = document.querySelector('.rnames')?.offsetHeight || 34;
+  const stickyBarHeight = document.querySelector(".sb")?.offsetHeight || 0;
+  const roomNamesHeight = document.querySelector(".rnames")?.offsetHeight || 34;
 
-  document.documentElement.style.setProperty('--sb-height', `${stickyBarHeight}px`);
-  document.documentElement.style.setProperty('--rnames-h', `${roomNamesHeight}px`);
+  document.documentElement.style.setProperty(
+    "--sb-height",
+    `${stickyBarHeight}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--rnames-h",
+    `${roomNamesHeight}px`,
+  );
 
-  if (document.querySelector('.day-block')) {
+  if (document.querySelector(".day-block")) {
     refreshDayBlockObserver();
   }
 }
 
 function registerGrid(grid, roomNamesEl) {
   grid.addEventListener(
-    'scroll',
+    "scroll",
     () => {
       if (activeScrollGrid && activeScrollGrid !== grid) {
         return;
@@ -629,12 +698,12 @@ function registerGrid(grid, roomNamesEl) {
         if (activeScrollGrid === grid) {
           activeScrollGrid = null;
         }
-      }, 120);
+      }, HORIZONTAL_SCROLL_SETTLE_MS);
 
       roomNamesEl.scrollLeft = grid.scrollLeft;
 
       const x = grid.scrollLeft;
-      syncedGrids.forEach(other => {
+      syncedGrids.forEach((other) => {
         if (other !== grid) {
           other.scrollLeft = x;
         }
@@ -660,15 +729,19 @@ function urlWithState(extraParams) {
   const params = new URLSearchParams();
 
   if (activeFormats.size) {
-    params.set('format', [...activeFormats].join(','));
+    params.set("format", [...activeFormats].join(","));
   }
 
   if (activeRooms.size) {
-    params.set('raum', [...activeRooms].join(','));
+    params.set("raum", [...activeRooms].join(","));
   }
 
   if (query) {
-    params.set('q', query);
+    params.set("q", query);
+  }
+
+  if (viewMode !== "grid") {
+    params.set("view", viewMode);
   }
 
   if (extraParams) {
@@ -684,35 +757,45 @@ function urlWithState(extraParams) {
 }
 
 function syncUrlState() {
-  history.replaceState(overlaylessState(), '', urlWithState());
+  history.replaceState(overlaylessState(), "", urlWithState());
 }
 
 function loadUrlState() {
   const params = new URLSearchParams(location.search);
 
-  if (params.has('format')) {
-    params.get('format').split(',').forEach(format => activeFormats.add(format));
+  if (params.has("format")) {
+    params
+      .get("format")
+      .split(",")
+      .forEach((format) => activeFormats.add(format));
   }
 
-  if (params.has('raum')) {
-    params.get('raum').split(',').forEach(room => activeRooms.add(room));
+  if (params.has("raum")) {
+    params
+      .get("raum")
+      .split(",")
+      .forEach((room) => activeRooms.add(room));
   }
 
-  if (params.has('q')) {
-    query = params.get('q');
+  if (params.has("q")) {
+    query = params.get("q");
   }
 
-  if (params.has('date')) {
-    window.__scrollToDate = params.get('date');
+  if (params.has("view")) {
+    viewMode = params.get("view") === "list" ? "list" : "grid";
   }
 
-  if (params.has('event')) {
-    window.__openEventId = params.get('event');
+  if (params.has("date")) {
+    window.__scrollToDate = params.get("date");
+  }
+
+  if (params.has("event")) {
+    window.__openEventId = params.get("event");
   }
 }
 
 function pushOverlayState(state, extraParams) {
-  history.pushState(state, '', urlWithState(extraParams));
+  history.pushState(state, "", urlWithState(extraParams));
 }
 
 function resolveEventFromUrlParam(value) {
@@ -722,19 +805,21 @@ function resolveEventFromUrlParam(value) {
 
   return (
     window.__evById?.get(value) ||
-    DAYS.flatMap(day => Object.values(day.rooms).flat()).find(ev => ev.t.slice(0, 40) === value) ||
+    DAYS.flatMap((day) => Object.values(day.rooms).flat()).find(
+      (ev) => ev.t.slice(0, 40) === value,
+    ) ||
     null
   );
 }
 
 function applyOverlayState(state) {
-  const favPanel = document.getElementById('favPanel');
-  const modal = document.getElementById('mo');
+  const favPanel = document.getElementById("favPanel");
+  const modal = document.getElementById("mo");
   const overlay = state?.overlay || null;
 
   historyOverlaySync = true;
 
-  if (overlay === 'event' && state.eventKey) {
+  if (overlay === "event" && state.eventKey) {
     const ev = window.__evMap?.get(state.eventKey);
 
     if (ev) {
@@ -748,9 +833,9 @@ function applyOverlayState(state) {
     return;
   }
 
-  if (overlay === 'favorites') {
-    if (!favPanel.classList.contains('open')) {
-      favPanel.classList.add('open');
+  if (overlay === "favorites") {
+    if (!favPanel.classList.contains("open")) {
+      favPanel.classList.add("open");
       renderFavPanel();
     }
 
@@ -759,41 +844,41 @@ function applyOverlayState(state) {
     return;
   }
 
-  if (modal.classList.contains('open')) {
+  if (modal.classList.contains("open")) {
     closeEventModal({ skipHistory: true });
   }
 
-  if (favPanel.classList.contains('open')) {
+  if (favPanel.classList.contains("open")) {
     closeFavPanel({ skipHistory: true });
   }
 
   historyOverlaySync = false;
 }
 
-window.addEventListener('popstate', event => applyOverlayState(event.state));
+window.addEventListener("popstate", (event) => applyOverlayState(event.state));
 
 /* ── SKELETON ── */
 
 function showSkeleton() {
-  const main = document.getElementById('mainContent');
-  const grid = document.createElement('div');
+  const main = document.getElementById("mainContent");
+  const grid = document.createElement("div");
 
-  grid.className = 'skel-grid';
-  grid.style.padding = '1.25rem 0 1.5rem 0';
+  grid.className = "skel-grid";
+  grid.style.padding = "1.25rem 0 1.5rem 0";
 
   for (let i = 0; i < 5; i++) {
-    const column = document.createElement('div');
-    column.className = 'skel-col';
+    const column = document.createElement("div");
+    column.className = "skel-col";
     column.innerHTML = `<div class="skel-h"></div>${[90, 60, 110, 75]
       .map(
-        height =>
+        (height) =>
           `<div class="skel-c" style="height:${height}px;animation-delay:${i * 0.1 + Math.random() * 0.2}s"></div>`,
       )
-      .join('')}`;
+      .join("")}`;
     grid.appendChild(column);
   }
 
-  main.innerHTML = '';
+  main.innerHTML = "";
   main.appendChild(grid);
 }
 
@@ -804,7 +889,7 @@ function favKey(ev) {
 }
 
 function saveFavs() {
-  localStorage.setItem('kontakt_favs', JSON.stringify([...favs]));
+  localStorage.setItem("kontakt_favs", JSON.stringify([...favs]));
 }
 
 function toggleFav(ev) {
@@ -831,61 +916,69 @@ function toggleFavFromModal() {
 }
 
 function updateFavBtn() {
-  const button = document.getElementById('favBtn');
-  const badge = document.getElementById('favBadge');
+  const button = document.getElementById("favBtn");
+  const badge = document.getElementById("favBadge");
   const count = favs.size;
 
   badge.textContent = count;
-  button.classList.toggle('visible', count > 0);
+  button.classList.toggle("visible", count > 0);
 }
 
 function closeFavPanel(opts = {}) {
   const { skipHistory = false } = opts;
-  const panel = document.getElementById('favPanel');
+  const panel = document.getElementById("favPanel");
 
-  if (!panel.classList.contains('open')) {
+  if (!panel.classList.contains("open")) {
     return;
   }
 
-  if (!skipHistory && !historyOverlaySync && history.state?.overlay === 'favorites') {
+  if (
+    !skipHistory &&
+    !historyOverlaySync &&
+    history.state?.overlay === "favorites"
+  ) {
     history.back();
     return;
   }
 
-  panel.classList.remove('open');
+  panel.classList.remove("open");
 }
 
-document.getElementById('icalExportBtn').addEventListener('click', exportIcal);
-document.querySelector('.fav-panel-h button:last-child').addEventListener('click', closeFavPanel);
+document.getElementById("icalExportBtn").addEventListener("click", exportIcal);
+document
+  .querySelector(".fav-panel-h button:last-child")
+  .addEventListener("click", closeFavPanel);
 
-document.getElementById('favBtn').addEventListener('click', () => {
-  const panel = document.getElementById('favPanel');
+document.getElementById("favBtn").addEventListener("click", () => {
+  const panel = document.getElementById("favPanel");
 
-  if (panel.classList.contains('open')) {
+  if (panel.classList.contains("open")) {
     closeFavPanel();
     return;
   }
 
-  panel.classList.add('open');
+  panel.classList.add("open");
   renderFavPanel();
 
   if (!historyOverlaySync) {
-    pushOverlayState({ overlay: 'favorites' });
+    pushOverlayState({ overlay: "favorites" });
   }
 });
 
-document.getElementById('mfavBtn').addEventListener('click', toggleFavFromModal);
+document
+  .getElementById("mfavBtn")
+  .addEventListener("click", toggleFavFromModal);
 
 function updateModalFavBtn() {
   if (!currentEv) {
     return;
   }
 
-  const button = document.getElementById('mfavBtn');
+  const button = document.getElementById("mfavBtn");
   const on = favs.has(favKey(currentEv));
 
-  button.classList.toggle('on', on);
-  button.textContent = on ? '★ Gemerkt' : '☆ Merken';
+  button.classList.toggle("on", on);
+  button.textContent = on ? "★ Gemerkt" : "☆ Merken";
 }
 
 function hasConflict(ev) {
@@ -896,8 +989,7 @@ function hasConflict(ev) {
   }
 
   const startA = timeToMinutes(ev.s);
-  const [durationHoursA, durationMinutesA] = (ev.d || '00:30').split(':').map(Number);
-  const endA = startA + durationHoursA * 60 + durationMinutesA;
+  const endA = eventEndMinutes(ev);
 
   for (const day of DAYS) {
     for (const events of Object.values(day.rooms)) {
@@ -911,8 +1003,7 @@ function hasConflict(ev) {
         }
 
         const startB = timeToMinutes(other.s);
-        const [durationHoursB, durationMinutesB] = (other.d || '00:30').split(':').map(Number);
-        const endB = startB + durationHoursB * 60 + durationMinutesB;
+        const endB = eventEndMinutes(other);
 
         if (startA < endB && endA > startB) {
           return true;
@@ -925,35 +1016,29 @@ function hasConflict(ev) {
 }
 
 function renderFavPanel() {
-  const list = document.getElementById('favList');
+  const list = document.getElementById("favList");
 
   if (!favs.size) {
-    list.innerHTML = '<div class="fav-empty">✦ Noch keine Acts gemerkt<br>Klick auf ☆ bei einem Act</div>';
+    list.innerHTML =
+      '<div class="fav-empty">✦ Noch keine Acts gemerkt<br>Klick auf ☆ bei einem Act</div>';
     return;
   }
 
-  const all = [];
+  const all = favoriteEvents();
 
-  for (const day of DAYS) {
-    for (const events of Object.values(day.rooms)) {
-      for (const ev of events) {
-        if (favs.has(favKey(ev))) {
-          all.push(ev);
-        }
-      }
-    }
-  }
+  all.sort(
+    (a, b) =>
+      a.date.localeCompare(b.date) || timeToMinutes(a.s) - timeToMinutes(b.s),
+  );
+  list.innerHTML = "";
 
-  all.sort((a, b) => a.date.localeCompare(b.date) || timeToMinutes(a.s) - timeToMinutes(b.s));
-  list.innerHTML = '';
+  let lastDate = "";
 
-  let lastDate = '';
-
-  all.forEach(ev => {
+  all.forEach((ev) => {
     const conflict = hasConflict(ev);
 
     if (ev.date !== lastDate) {
-      const separator = document.createElement('div');
+      const separator = document.createElement("div");
       separator.style.cssText =
         "padding:0.4rem 1rem 0.2rem;font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--yellow);border-bottom:1px solid rgba(245,216,0,0.1)";
       separator.textContent = dayLabel(ev.date);
@@ -961,22 +1046,22 @@ function renderFavPanel() {
       lastDate = ev.date;
     }
 
-    const item = document.createElement('div');
-    item.className = `fav-item${conflict ? ' fav-conflict' : ''}`;
+    const item = document.createElement("div");
+    item.className = `fav-item${conflict ? " fav-conflict" : ""}`;
     item.dataset.favkey = favKey(ev);
-    item.addEventListener('click', () => openMbyKey(item.dataset.favkey));
+    item.addEventListener("click", () => openMbyKey(item.dataset.favkey));
 
-    const timeEl = document.createElement('div');
-    timeEl.className = 'fav-item-time';
+    const timeEl = document.createElement("div");
+    timeEl.className = "fav-item-time";
     timeEl.textContent = `${ev.s} · ${formatDuration(ev.d)}`;
 
-    const titleEl = document.createElement('div');
-    titleEl.className = 'fav-item-title';
+    const titleEl = document.createElement("div");
+    titleEl.className = "fav-item-title";
     titleEl.textContent = ev.t;
 
-    const roomEl = document.createElement('div');
-    roomEl.className = 'fav-item-room';
-    roomEl.textContent = `${RI[ev.room] || '◆'} ${ev.room}`;
+    const roomEl = document.createElement("div");
+    roomEl.className = "fav-item-room";
+    roomEl.textContent = `${RI[ev.room] || "◆"} ${ev.room}`;
 
     item.appendChild(timeEl);
     item.appendChild(titleEl);
@@ -990,38 +1075,27 @@ function exportIcal() {
     return;
   }
 
-  const all = [];
-
-  for (const day of DAYS) {
-    for (const events of Object.values(day.rooms)) {
-      for (const ev of events) {
-        if (favs.has(favKey(ev))) {
-          all.push(ev);
-        }
-      }
-    }
-  }
+  const all = favoriteEvents();
 
   if (!all.length) {
     return;
   }
 
-  const pad = n => String(n).padStart(2, '0');
+  const pad = (n) => String(n).padStart(2, "0");
 
   function toIcalDT(dateStr, timeStr) {
-    const [y, mo, d] = dateStr.split('-');
-    const [h, mi] = timeStr.split(':');
+    const [y, mo, d] = dateStr.split("-");
+    const [h, mi] = timeStr.split(":");
     return `${y}${pad(mo)}${pad(d)}T${pad(h)}${pad(mi)}00`;
   }
 
   function addDuration(dateStr, timeStr, durStr) {
-    const [durationHours, durationMinutes] = durStr.split(':').map(Number);
-    const [hours, minutes] = timeStr.split(':').map(Number);
-    const totalMinutes = hours * 60 + minutes + durationHours * 60 + durationMinutes;
+    const [hours, minutes] = timeStr.split(":").map(Number);
+    const totalMinutes = hours * 60 + minutes + durationToMinutes(durStr);
     const endHours = Math.floor(totalMinutes / 60) % 24;
     const endMinutes = totalMinutes % 60;
 
-    let [y, mo, d] = dateStr.split('-').map(Number);
+    let [y, mo, d] = dateStr.split("-").map(Number);
 
     if (totalMinutes >= 1440) {
       const dt = new Date(y, mo - 1, d + 1);
@@ -1036,28 +1110,28 @@ function exportIcal() {
   const uidBase = Date.now();
 
   const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//kontakt 2026//Programm//DE',
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
-    'X-WR-CALNAME:kontakt 2026 – Mein Plan',
-    'X-WR-TIMEZONE:Europe/Berlin',
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//kontakt 2026//Programm//DE",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "X-WR-CALNAME:kontakt 2026 – Mein Plan",
+    "X-WR-TIMEZONE:Europe/Berlin",
   ];
 
   all.forEach((ev, index) => {
     const dtstart = toIcalDT(ev.date, ev.s);
-    const dtend = addDuration(ev.date, ev.s, ev.d || '00:30');
-    const summary = ev.t.replace(/[\\;,]/g, c => `\\${c}`);
-    const location = ev.room.replace(/[\\;,]/g, c => `\\${c}`);
-    const desc = (ev.desc || '')
-      .replace(/\n/g, '\\n')
-      .replace(/[\\;,]/g, c => `\\${c}`)
+    const dtend = addDuration(ev.date, ev.s, ev.d || "00:30");
+    const summary = ev.t.replace(/[\\;,]/g, (c) => `\\${c}`);
+    const location = ev.room.replace(/[\\;,]/g, (c) => `\\${c}`);
+    const desc = (ev.desc || "")
+      .replace(/\n/g, "\\n")
+      .replace(/[\\;,]/g, (c) => `\\${c}`)
       .slice(0, 500);
-    const persons = ev.p?.length ? `Mitwirkende: ${ev.p.join(', ')}\\n` : '';
+    const persons = ev.p?.length ? `Mitwirkende: ${ev.p.join(", ")}\\n` : "";
 
     lines.push(
-      'BEGIN:VEVENT',
+      "BEGIN:VEVENT",
       `UID:kontakt2026-${uidBase}-${index}@kntkt.de`,
       `DTSTART;TZID=Europe/Berlin:${dtstart}`,
       `DTEND;TZID=Europe/Berlin:${dtend}`,
@@ -1070,18 +1144,18 @@ function exportIcal() {
       lines.push(`URL:${ev.u}`);
     }
 
-    lines.push('END:VEVENT');
+    lines.push("END:VEVENT");
   });
 
-  lines.push('END:VCALENDAR');
+  lines.push("END:VCALENDAR");
 
-  const ics = lines.join('\r\n');
-  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const ics = lines.join("\r\n");
+  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
   const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
+  const link = document.createElement("a");
 
   link.href = url;
-  link.download = 'kontakt2026-meinplan.ics';
+  link.download = "kontakt2026-meinplan.ics";
   link.click();
 
   URL.revokeObjectURL(url);
@@ -1108,10 +1182,18 @@ function matchesQuery(ev) {
 
   return (
     ev.t.toLowerCase().includes(query) ||
-    ev.p.some(person => person.toLowerCase().includes(query)) ||
-    (ev.tr || '').toLowerCase().includes(query) ||
+    ev.p.some((person) => person.toLowerCase().includes(query)) ||
+    (ev.tr || "").toLowerCase().includes(query) ||
     ev.room.toLowerCase().includes(query)
   );
+}
+
+function visibleInCurrentFilters(ev) {
+  const matchQ = matchesQuery(ev);
+  const matchF =
+    activeFormats.size === 0 || (ev.tr && activeFormats.has(ev.tr));
+
+  return matchQ && matchF;
 }
 
 /* ── RENDER: continuous timeline, all days ── */
@@ -1120,33 +1202,161 @@ const PX_PER_MIN = 1.8;
 const CARD_MIN_H = 82;
 const COL_PAD_BOTTOM = 60;
 
-function buildDayBlock(day) {
+function createEventCardContent(card, ev, color, icon, faved) {
+  if (ev.l) {
+    const imageWrapper = document.createElement("div");
+    imageWrapper.className = "ew";
+
+    const bg = document.createElement("div");
+    bg.className = "ew-bg";
+
+    const img = document.createElement("img");
+    img.className = "et";
+    img.alt = "";
+    img.loading = "lazy";
+    img.fetchPriority = "low";
+
+    attachEventImage(
+      img,
+      bg,
+      ev,
+      "card",
+      () => {
+        imageWrapper.remove();
+        card.classList.add("noimg");
+      },
+      { defer: true, background: "after-load" },
+    );
+
+    imageWrapper.appendChild(bg);
+    imageWrapper.appendChild(img);
+    card.appendChild(imageWrapper);
+
+    const scrim = document.createElement("div");
+    scrim.className = "escrim";
+    card.appendChild(scrim);
+  } else {
+    card.classList.add("noimg");
+  }
+
+  const overlay = document.createElement("div");
+  overlay.className = "eov";
+
+  const topRow = document.createElement("div");
+  topRow.className = "eto";
+
+  const timeEl = document.createElement("span");
+  timeEl.className = "etm";
+  timeEl.textContent = ev.s;
+
+  const durationEl = document.createElement("span");
+  durationEl.className = "edu";
+  durationEl.textContent = formatDuration(ev.d);
+
+  topRow.appendChild(timeEl);
+  topRow.appendChild(durationEl);
+  overlay.appendChild(topRow);
+
+  const titleEl = document.createElement("div");
+  titleEl.className = "eti";
+  titleEl.textContent = ev.t;
+  overlay.appendChild(titleEl);
+
+  const meta = document.createElement("div");
+  meta.className = "em";
+
+  if (ev.tr) {
+    const badge = document.createElement("span");
+    badge.className = "eb";
+    badge.style.background = color;
+
+    const badgeIcon = document.createElement("span");
+    badgeIcon.className = "bi";
+    badgeIcon.textContent = icon;
+
+    badge.appendChild(badgeIcon);
+    badge.appendChild(document.createTextNode(ev.tr));
+    meta.appendChild(badge);
+  }
+
+  if (ev.room && card.classList.contains("lc")) {
+    const roomBadge = document.createElement("span");
+    roomBadge.className = "room-chip";
+    roomBadge.textContent = `${RI[ev.room] || "◆"} ${ev.room}`;
+    meta.appendChild(roomBadge);
+  }
+
+  overlay.appendChild(meta);
+
+  if (ev.p?.length) {
+    const authors = document.createElement("div");
+    authors.className = "ea";
+    authors.textContent = ev.p.join(", ");
+    overlay.appendChild(authors);
+  }
+
+  const star = document.createElement("span");
+  star.className = "fav";
+  star.textContent = faved ? "★" : "☆";
+  star.addEventListener("click", (event) => {
+    event.stopPropagation();
+    toggleFav(ev);
+  });
+
+  card.appendChild(overlay);
+  card.appendChild(star);
+}
+
+function createEventCard(ev, className) {
+  const color = trackColor(ev.tr);
+  const icon = trackIcon(ev.tr);
+  const live = isLive(ev);
+  const faved = favs.has(favKey(ev));
+  const conflict = hasConflict(ev);
+  const card = document.createElement("div");
+
+  card.__ev = ev;
+  card.className = `${className} schedule-card${live ? " live" : ""}${faved ? " faved" : ""}`;
+  card.dataset.evkey = favKey(ev);
+  card.style.setProperty("--tc", color);
+
+  if (conflict) {
+    card.style.boxShadow = "inset 0 0 0 1px #ff456060";
+  }
+
+  createEventCardContent(card, ev, color, icon, faved);
+  card.addEventListener("click", () => openEventModal(ev));
+
+  return card;
+}
+
+function buildGridDayBlock(day) {
   const today = todayDate();
   const isToday = day.date === today;
   const rooms = scheduleRoomOrder();
 
-  const block = document.createElement('div');
-  block.className = 'day-block';
+  const block = document.createElement("div");
+  block.className = "day-block";
   block.dataset.date = day.date;
 
-  const dayHeader = document.createElement('div');
-  dayHeader.className = 'day-header';
+  const dayHeader = document.createElement("div");
+  dayHeader.className = "day-header";
 
-  const divider = document.createElement('div');
-  divider.className = `day-div${isToday ? ' today' : ''}`;
+  const divider = document.createElement("div");
+  divider.className = `day-div${isToday ? " today" : ""}`;
   divider.innerHTML = `<span class="day-div-label">${dayLabel(day.date)}</span><span class="day-div-dot"></span>`;
   dayHeader.appendChild(divider);
 
-  const roomNamesEl = document.createElement('div');
-  roomNamesEl.className = 'rnames';
+  const roomNamesEl = document.createElement("div");
+  roomNamesEl.className = "rnames";
 
-  rooms.forEach(roomName => {
-    const item = document.createElement('div');
-    item.className = 'rname-item';
+  rooms.forEach((roomName) => {
+    const item = document.createElement("div");
+    item.className = "rname-item";
     item.dataset.room = roomName;
 
-    const icon = document.createElement('span');
-    icon.textContent = RI[roomName] || '◆';
+    const icon = document.createElement("span");
+    icon.textContent = RI[roomName] || "◆";
 
     item.appendChild(icon);
     item.appendChild(document.createTextNode(` ${roomName}`));
@@ -1156,18 +1366,17 @@ function buildDayBlock(day) {
   dayHeader.appendChild(roomNamesEl);
   block.appendChild(dayHeader);
 
-  const grid = document.createElement('div');
-  grid.className = 'rg';
+  const grid = document.createElement("div");
+  grid.className = "rg";
   grid.dataset.date = day.date;
 
-  let dayStart = Infinity;
+  let dayStart = Number.POSITIVE_INFINITY;
   let dayEnd = 0;
 
-  rooms.forEach(roomName => {
-    (day.rooms[roomName] || []).forEach(ev => {
+  rooms.forEach((roomName) => {
+    (day.rooms[roomName] || []).forEach((ev) => {
       const start = timeToMinutes(ev.s);
-      const [durationHours, durationMinutes] = (ev.d || '00:30').split(':').map(Number);
-      const end = start + durationHours * 60 + durationMinutes;
+      const end = eventEndMinutes(ev);
 
       if (start < dayStart) {
         dayStart = start;
@@ -1179,42 +1388,46 @@ function buildDayBlock(day) {
     });
   });
 
-  const columnHeight = Math.max((dayEnd - dayStart) * PX_PER_MIN + COL_PAD_BOTTOM, 300);
+  const columnHeight = Math.max(
+    (dayEnd - dayStart) * PX_PER_MIN + COL_PAD_BOTTOM,
+    300,
+  );
   const columnData = [];
 
-  rooms.forEach(roomName => {
-    const events = [...(day.rooms[roomName] || [])].sort((a, b) => timeToMinutes(a.s) - timeToMinutes(b.s));
+  rooms.forEach((roomName) => {
+    const events = [...(day.rooms[roomName] || [])].sort(
+      (a, b) => timeToMinutes(a.s) - timeToMinutes(b.s),
+    );
 
-    const column = document.createElement('div');
-    column.className = 'rc';
+    const column = document.createElement("div");
+    column.className = "rc";
     column.dataset.room = roomName;
 
-    const roomHeaderEl = document.createElement('div');
-    roomHeaderEl.className = 'rh';
-    roomHeaderEl.innerHTML = `<span>${RI[roomName] || '◆'}</span>${roomName}`;
+    const roomHeaderEl = document.createElement("div");
+    roomHeaderEl.className = "rh";
+    roomHeaderEl.innerHTML = `<span>${RI[roomName] || "◆"}</span>${roomName}`;
     column.appendChild(roomHeaderEl);
 
-    const eventWrapper = document.createElement('div');
-    eventWrapper.className = 're';
+    const eventWrapper = document.createElement("div");
+    eventWrapper.className = "re";
     eventWrapper.style.height = `${columnHeight}px`;
     column.appendChild(eventWrapper);
 
-    let placedCards = [];
+    const placedCards = [];
 
-    events.forEach(ev => {
+    events.forEach((ev) => {
       if (SK.has(ev.tr)) {
         return;
       }
 
-      const color = trackColor(ev.tr);
-      const icon = trackIcon(ev.tr);
-      const live = isLive(ev);
-      const faved = favs.has(favKey(ev));
-      const conflict = hasConflict(ev);
+      const durationMinutesTotal = durationToMinutes(
+        ev.d || DEFAULT_EVENT_DURATION,
+      );
       const idealTop = (timeToMinutes(ev.s) - dayStart) * PX_PER_MIN;
-      const [durationHours, durationMinutes] = (ev.d || '00:30').split(':').map(Number);
-      const durationMinutesTotal = durationHours * 60 + durationMinutes;
-      const idealHeight = Math.max(durationMinutesTotal * PX_PER_MIN, CARD_MIN_H);
+      const idealHeight = Math.max(
+        durationMinutesTotal * PX_PER_MIN,
+        CARD_MIN_H,
+      );
 
       let top = idealTop;
 
@@ -1226,118 +1439,16 @@ function buildDayBlock(day) {
 
       placedCards.push({ top, bottom: top + idealHeight });
 
-      const card = document.createElement('div');
-      card.__ev = ev;
-      card.className = `ec${live ? ' live' : ''}${faved ? ' faved' : ''}`;
-      card.dataset.evkey = favKey(ev);
-      card.style.setProperty('--tc', color);
+      const card = createEventCard(ev, "ec");
       card.style.top = `${top}px`;
       card.style.height = `${idealHeight}px`;
-
-      if (conflict) {
-        card.style.boxShadow = 'inset 0 0 0 1px #ff456060';
-      }
-
-      if (ev.l) {
-        const imageWrapper = document.createElement('div');
-        imageWrapper.className = 'ew';
-
-        const bg = document.createElement('div');
-        bg.className = 'ew-bg';
-
-        const img = document.createElement('img');
-        img.className = 'et';
-        img.alt = '';
-        img.loading = 'lazy';
-        img.fetchPriority = 'low';
-
-        attachEventImage(
-          img,
-          bg,
-          ev,
-          'card',
-          () => {
-            imageWrapper.remove();
-            card.classList.add('noimg');
-          },
-          { defer: true, background: 'after-load' },
-        );
-
-        imageWrapper.appendChild(bg);
-        imageWrapper.appendChild(img);
-        card.appendChild(imageWrapper);
-
-        const scrim = document.createElement('div');
-        scrim.className = 'escrim';
-        card.appendChild(scrim);
-      } else {
-        card.classList.add('noimg');
-      }
-
-      const overlay = document.createElement('div');
-      overlay.className = 'eov';
-
-      const topRow = document.createElement('div');
-      topRow.className = 'eto';
-
-      const timeEl = document.createElement('span');
-      timeEl.className = 'etm';
-      timeEl.textContent = ev.s;
-
-      const durationEl = document.createElement('span');
-      durationEl.className = 'edu';
-      durationEl.textContent = formatDuration(ev.d);
-
-      topRow.appendChild(timeEl);
-      topRow.appendChild(durationEl);
-      overlay.appendChild(topRow);
-
-      const titleEl = document.createElement('div');
-      titleEl.className = 'eti';
-      titleEl.textContent = ev.t;
-      overlay.appendChild(titleEl);
-
-      const meta = document.createElement('div');
-      meta.className = 'em';
-
-      if (ev.tr) {
-        const badge = document.createElement('span');
-        badge.className = 'eb';
-        badge.style.background = color;
-
-        const badgeIcon = document.createElement('span');
-        badgeIcon.className = 'bi';
-        badgeIcon.textContent = icon;
-
-        badge.appendChild(badgeIcon);
-        badge.appendChild(document.createTextNode(ev.tr));
-        meta.appendChild(badge);
-      }
-
-      overlay.appendChild(meta);
-
-      if (ev.p?.length) {
-        const authors = document.createElement('div');
-        authors.className = 'ea';
-        authors.textContent = ev.p.join(', ');
-        overlay.appendChild(authors);
-      }
-
-      const star = document.createElement('span');
-      star.className = 'fav';
-      star.textContent = faved ? '★' : '☆';
-      star.addEventListener('click', event => {
-        event.stopPropagation();
-        toggleFav(ev);
-      });
-
-      card.appendChild(overlay);
-      card.appendChild(star);
-      card.addEventListener('click', () => openEventModal(ev));
       eventWrapper.appendChild(card);
     });
 
-    const maxBottom = placedCards.length > 0 ? Math.max(...placedCards.map(placed => placed.bottom)) : 0;
+    const maxBottom =
+      placedCards.length > 0
+        ? Math.max(...placedCards.map((placed) => placed.bottom))
+        : 0;
     const actualHeight = Math.max(columnHeight, maxBottom + COL_PAD_BOTTOM);
 
     columnData.push({ evW: eventWrapper, actualH: actualHeight });
@@ -1345,14 +1456,75 @@ function buildDayBlock(day) {
   });
 
   if (columnData.length > 0) {
-    const maxHeight = Math.max(...columnData.map(data => data.actualH));
-    columnData.forEach(data => {
+    const maxHeight = Math.max(...columnData.map((data) => data.actualH));
+    columnData.forEach((data) => {
       data.evW.style.height = `${maxHeight}px`;
     });
   }
 
   registerGrid(grid, roomNamesEl);
   block.appendChild(grid);
+  return block;
+}
+
+function buildListDayBlock(day) {
+  const today = todayDate();
+  const isToday = day.date === today;
+  const rooms = scheduleRoomOrder().filter((roomName) =>
+    (day.rooms[roomName] || []).some((ev) => !SK.has(ev.tr)),
+  );
+
+  const block = document.createElement("div");
+  block.className = "day-block day-block-list";
+  block.dataset.date = day.date;
+
+  const dayHeader = document.createElement("div");
+  dayHeader.className = "day-header";
+
+  const divider = document.createElement("div");
+  divider.className = `day-div${isToday ? " today" : ""}`;
+  divider.innerHTML = `<span class="day-div-label">${dayLabel(day.date)}</span><span class="day-div-dot"></span>`;
+  dayHeader.appendChild(divider);
+  block.appendChild(dayHeader);
+
+  const list = document.createElement("div");
+  list.className = "list-day";
+
+  rooms.forEach((roomName) => {
+    const events = [...(day.rooms[roomName] || [])]
+      .filter((ev) => !SK.has(ev.tr))
+      .sort((a, b) => timeToMinutes(a.s) - timeToMinutes(b.s));
+
+    if (!events.length) {
+      return;
+    }
+
+    const roomSection = document.createElement("section");
+    roomSection.className = "lr";
+    roomSection.dataset.room = roomName;
+
+    const roomHeader = document.createElement("div");
+    roomHeader.className = "lrh";
+    roomHeader.textContent = `${RI[roomName] || "◆"} ${roomName}`;
+    roomSection.appendChild(roomHeader);
+
+    const eventsList = document.createElement("div");
+    eventsList.className = "lre";
+
+    events.forEach((ev) => {
+      eventsList.appendChild(createEventCard(ev, "lc"));
+    });
+
+    roomSection.appendChild(eventsList);
+    list.appendChild(roomSection);
+  });
+
+  block.appendChild(list);
+  return block;
+}
+
+function buildDayBlock(day) {
+  const block = viewMode === "list" ? buildListDayBlock(day) : buildGridDayBlock(day);
   renderedDayBlocks.set(day.date, block);
 
   if (dayBlockObserver) {
@@ -1363,9 +1535,9 @@ function buildDayBlock(day) {
 }
 
 function buildScheduleDOM() {
-  const main = document.getElementById('mainContent');
+  const main = document.getElementById("mainContent");
 
-  main.innerHTML = '';
+  main.innerHTML = "";
   renderedDayBlocks.clear();
   syncedGrids = [];
   activeScrollGrid = null;
@@ -1409,10 +1581,10 @@ function buildScheduleDOM() {
 
   const token = progressiveRenderToken;
   const defer = window.requestIdleCallback
-    ? callback => window.requestIdleCallback(callback, { timeout: 180 })
-    : callback => setTimeout(callback, 16);
+    ? (callback) => window.requestIdleCallback(callback, { timeout: 180 })
+    : (callback) => setTimeout(callback, 16);
 
-  const scheduleMore = index => {
+  const scheduleMore = (index) => {
     if (token !== progressiveRenderToken) {
       return;
     }
@@ -1439,25 +1611,24 @@ function buildScheduleDOM() {
 function renderSchedule() {
   let visibleCount = 0;
 
-  document.querySelectorAll('.ec').forEach(card => {
+  document.querySelectorAll(".schedule-card").forEach((card) => {
     const ev = card.__ev;
 
     if (!ev) {
       return;
     }
 
-    const matchQ = matchesQuery(ev);
-    const matchF = activeFormats.size === 0 || (ev.tr && activeFormats.has(ev.tr));
-    const show = matchQ && matchF;
+    const show = visibleInCurrentFilters(ev);
 
-    card.classList.toggle('dm', !show);
+    card.classList.toggle("dm", !show);
+    card.hidden = !show;
 
     if (show) {
       visibleCount++;
     }
   });
 
-  document.querySelectorAll('.rc').forEach(col => {
+  document.querySelectorAll(".rc").forEach((col) => {
     const roomName = col.dataset.room;
 
     if (!roomName) {
@@ -1465,11 +1636,11 @@ function renderSchedule() {
     }
 
     const isActive = activeRooms.has(roomName);
-    col.style.opacity = activeRooms.size > 0 && !isActive ? '0.1' : '';
-    col.style.order = activeRooms.size > 0 ? (isActive ? '0' : '1') : '';
+    col.style.opacity = activeRooms.size > 0 && !isActive ? "0.1" : "";
+    col.style.order = activeRooms.size > 0 ? (isActive ? "0" : "1") : "";
   });
 
-  document.querySelectorAll('.rname-item').forEach(item => {
+  document.querySelectorAll(".rname-item").forEach((item) => {
     const roomName = item.dataset.room;
 
     if (!roomName) {
@@ -1477,18 +1648,39 @@ function renderSchedule() {
     }
 
     const isActive = activeRooms.has(roomName);
-    item.style.opacity = activeRooms.size > 0 && !isActive ? '0.1' : '';
-    item.style.order = activeRooms.size > 0 ? (isActive ? '0' : '1') : '';
+    item.style.opacity = activeRooms.size > 0 && !isActive ? "0.1" : "";
+    item.style.order = activeRooms.size > 0 ? (isActive ? "0" : "1") : "";
   });
 
-  const main = document.getElementById('mainContent');
-  const existing = main.querySelector('.ed');
+  document.querySelectorAll(".lr").forEach((section) => {
+    const roomName = section.dataset.room;
+
+    if (!roomName) {
+      return;
+    }
+
+    const isActive = activeRooms.has(roomName);
+    const hasVisibleCard = !!section.querySelector(".schedule-card:not([hidden])");
+    section.hidden = !hasVisibleCard || (activeRooms.size > 0 && !isActive);
+    section.style.opacity = activeRooms.size > 0 && !isActive ? "0.1" : "";
+    section.style.order = activeRooms.size > 0 ? (isActive ? "0" : "1") : "";
+  });
+
+  document.querySelectorAll(".day-block").forEach((block) => {
+    const hasVisibleCard = block.classList.contains("day-block-list")
+      ? !!block.querySelector(".lr:not([hidden]) .schedule-card:not([hidden])")
+      : !!block.querySelector(".schedule-card:not([hidden])");
+    block.hidden = !hasVisibleCard;
+  });
+
+  const main = document.getElementById("mainContent");
+  const existing = main.querySelector(".ed");
 
   if (visibleCount === 0) {
     if (!existing) {
-      const message = document.createElement('p');
-      message.className = 'ed';
-      message.textContent = '✦ Keine Ergebnisse für diese Filter';
+      const message = document.createElement("p");
+      message.className = "ed";
+      message.textContent = "✦ Keine Ergebnisse für diese Filter";
       main.appendChild(message);
     }
   } else if (existing) {
@@ -1520,9 +1712,9 @@ function initFiltersAndTabs() {
   loadUrlState();
 
   const allTracks = new Set();
-  DAYS.forEach(day => {
-    Object.values(day.rooms).forEach(events => {
-      events.forEach(ev => {
+  DAYS.forEach((day) => {
+    Object.values(day.rooms).forEach((events) => {
+      events.forEach((ev) => {
         if (ev.tr && !SK.has(ev.tr)) {
           allTracks.add(ev.tr);
         }
@@ -1532,29 +1724,35 @@ function initFiltersAndTabs() {
 
   const roomOrder = scheduleRoomOrder();
 
-  const formatFiltersEl = document.getElementById('trackFilters');
+  const formatFiltersEl = document.getElementById("trackFilters");
 
   while (formatFiltersEl.children.length > 1) {
     formatFiltersEl.removeChild(formatFiltersEl.lastChild);
   }
 
-  allTracks.forEach(track => {
-    const button = document.createElement('button');
-    button.className = `tp${activeFormats.has(track) ? ' active' : ''}`;
-    button.style.setProperty('--pc', trackColor(track));
-    button.setAttribute('aria-pressed', activeFormats.has(track) ? 'true' : 'false');
+  allTracks.forEach((track) => {
+    const button = document.createElement("button");
+    button.className = `tp${activeFormats.has(track) ? " active" : ""}`;
+    button.style.setProperty("--pc", trackColor(track));
+    button.setAttribute(
+      "aria-pressed",
+      activeFormats.has(track) ? "true" : "false",
+    );
     button.innerHTML = `<span class="pi">${trackIcon(track)}</span>${track}`;
 
-    button.addEventListener('click', () => {
+    button.addEventListener("click", () => {
       if (activeFormats.has(track)) {
         activeFormats.delete(track);
-        button.classList.remove('active');
+        button.classList.remove("active");
       } else {
         activeFormats.add(track);
-        button.classList.add('active');
+        button.classList.add("active");
       }
 
-      button.setAttribute('aria-pressed', activeFormats.has(track) ? 'true' : 'false');
+      button.setAttribute(
+        "aria-pressed",
+        activeFormats.has(track) ? "true" : "false",
+      );
       syncUrlState();
       renderSchedule();
     });
@@ -1562,29 +1760,35 @@ function initFiltersAndTabs() {
     formatFiltersEl.appendChild(button);
   });
 
-  const roomFiltersEl = document.getElementById('roomFilters');
+  const roomFiltersEl = document.getElementById("roomFilters");
 
   while (roomFiltersEl.children.length > 1) {
     roomFiltersEl.removeChild(roomFiltersEl.lastChild);
   }
 
-  roomOrder.forEach(roomName => {
-    const button = document.createElement('button');
-    button.className = `tp${activeRooms.has(roomName) ? ' active' : ''}`;
-    button.style.setProperty('--pc', 'rgba(240,232,221,0.55)');
-    button.setAttribute('aria-pressed', activeRooms.has(roomName) ? 'true' : 'false');
-    button.innerHTML = `<span class="pi">${RI[roomName] || '◆'}</span>${roomName}`;
+  roomOrder.forEach((roomName) => {
+    const button = document.createElement("button");
+    button.className = `tp${activeRooms.has(roomName) ? " active" : ""}`;
+    button.style.setProperty("--pc", "rgba(240,232,221,0.55)");
+    button.setAttribute(
+      "aria-pressed",
+      activeRooms.has(roomName) ? "true" : "false",
+    );
+    button.innerHTML = `<span class="pi">${RI[roomName] || "◆"}</span>${roomName}`;
 
-    button.addEventListener('click', () => {
+    button.addEventListener("click", () => {
       if (activeRooms.has(roomName)) {
         activeRooms.delete(roomName);
-        button.classList.remove('active');
+        button.classList.remove("active");
       } else {
         activeRooms.add(roomName);
-        button.classList.add('active');
+        button.classList.add("active");
       }
 
-      button.setAttribute('aria-pressed', activeRooms.has(roomName) ? 'true' : 'false');
+      button.setAttribute(
+        "aria-pressed",
+        activeRooms.has(roomName) ? "true" : "false",
+      );
       syncUrlState();
       renderSchedule();
     });
@@ -1593,31 +1797,55 @@ function initFiltersAndTabs() {
   });
 
   const today = todayDate();
-  const tabEl = document.getElementById('dayTabs');
-  tabEl.innerHTML = '';
+  const tabEl = document.getElementById("dayTabs");
+  tabEl.innerHTML = "";
 
-  DAYS.forEach(day => {
+  DAYS.forEach((day) => {
     const isToday = day.date === today;
-    const tab = document.createElement('div');
+    const tab = document.createElement("div");
 
-    tab.className = `dta${isToday ? ' today' : ''}`;
-    tab.setAttribute('role', 'tab');
+    tab.className = `dta${isToday ? " today" : ""}`;
+    tab.setAttribute("role", "tab");
     tab.innerHTML = `${dayLabel(day.date)}<span class="livedot"></span>`;
-    tab.addEventListener('click', () => scrollToDate(day.date));
+    tab.addEventListener("click", () => scrollToDate(day.date));
 
     tabEl.appendChild(tab);
   });
 
   updateFavBtn();
 
-  const searchEl = document.getElementById('search');
+  const viewToggle = document.getElementById("viewToggle");
+
+  if (viewToggle) {
+    const isList = viewMode === "list";
+    viewToggle.textContent = isList ? "Grid" : "Liste";
+    viewToggle.setAttribute("aria-pressed", isList ? "true" : "false");
+    viewToggle.onclick = () => {
+      viewMode = viewMode === "grid" ? "list" : "grid";
+      syncUrlState();
+      buildScheduleDOM();
+      renderSchedule();
+
+      requestAnimationFrame(() => {
+        if (window.__scrollToDate) {
+          scrollToDate(window.__scrollToDate);
+        } else if (viewMode === "list") {
+          scrollToDate(programmeDate());
+        } else {
+          scrollToNow();
+        }
+      });
+    };
+  }
+
+  const searchEl = document.getElementById("search");
 
   if (searchEl) {
     searchEl.value = query;
 
     let debounceTimer;
 
-    searchEl.addEventListener('input', () => {
+    searchEl.addEventListener("input", () => {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
         query = searchEl.value.trim().toLowerCase();
@@ -1635,8 +1863,12 @@ function initFiltersAndTabs() {
     delete window.__openEventId;
 
     if (ev) {
-      history.replaceState(overlaylessState(), '', urlWithState());
-      history.pushState({ overlay: 'event', eventKey: favKey(ev) }, '', urlWithState({ event: eventId(ev) }));
+      history.replaceState(overlaylessState(), "", urlWithState());
+      history.pushState(
+        { overlay: "event", eventKey: favKey(ev) },
+        "",
+        urlWithState({ event: eventId(ev) }),
+      );
       openEventModal(ev, { skipHistory: true });
     }
   }
@@ -1648,9 +1880,9 @@ function initFiltersAndTabs() {
   }
 
   stickyResizeObserver = new ResizeObserver(updateStickyOffsets);
-  stickyResizeObserver.observe(document.querySelector('.sb'));
+  stickyResizeObserver.observe(document.querySelector(".sb"));
 
-  const main = document.getElementById('mainContent');
+  const main = document.getElementById("mainContent");
 
   const doScroll = () => {
     if (window.__scrollToDate) {
@@ -1664,7 +1896,7 @@ function initFiltersAndTabs() {
   if (main.scrollHeight > 200) {
     requestAnimationFrame(doScroll);
   } else {
-    const resizeObserver = new ResizeObserver(entries => {
+    const resizeObserver = new ResizeObserver((entries) => {
       if (entries[0].contentRect.height > 200) {
         resizeObserver.disconnect();
         requestAnimationFrame(doScroll);
@@ -1679,8 +1911,8 @@ function initFiltersAndTabs() {
   }
 
   setInterval(() => {
-    document.querySelectorAll('.ec').forEach(card => {
-      const key = card.dataset.evkey;
+      document.querySelectorAll(".schedule-card").forEach((card) => {
+        const key = card.dataset.evkey;
 
       if (!key) {
         return;
@@ -1692,12 +1924,12 @@ function initFiltersAndTabs() {
         return;
       }
 
-      card.classList.toggle('live', isLive(ev));
+      card.classList.toggle("live", isLive(ev));
     });
 
     const currentDate = todayDate();
-    document.querySelectorAll('.dta').forEach((tab, index) => {
-      tab.classList.toggle('today', DAYS[index]?.date === currentDate);
+    document.querySelectorAll(".dta").forEach((tab, index) => {
+      tab.classList.toggle("today", DAYS[index]?.date === currentDate);
     });
   }, 30000);
 }
@@ -1705,14 +1937,16 @@ function initFiltersAndTabs() {
 /* ── SCROLL HELPERS ── */
 
 function scrollToDate(date) {
-  let block = renderedDayBlocks.get(date) || document.querySelector(`.day-block[data-date="${date}"]`);
+  let block =
+    renderedDayBlocks.get(date) ||
+    document.querySelector(`.day-block[data-date="${date}"]`);
 
   if (!block) {
-    const day = DAYS.find(d => d.date === date);
+    const day = DAYS.find((d) => d.date === date);
 
     if (day) {
       block = buildDayBlock(day);
-      document.getElementById('mainContent').appendChild(block);
+      document.getElementById("mainContent").appendChild(block);
       renderSchedule();
       updateStickyOffsets();
     }
@@ -1722,33 +1956,61 @@ function scrollToDate(date) {
     return;
   }
 
-  const stickyBarHeight = document.querySelector('.sb')?.offsetHeight || 0;
+  const stickyBarHeight = document.querySelector(".sb")?.offsetHeight || 0;
   const blockTop = block.getBoundingClientRect().top + window.scrollY;
 
   beginProgrammaticDayScroll(date);
 
   window.scrollTo({
     top: Math.max(0, blockTop - stickyBarHeight - 8),
-    behavior: 'smooth',
+    behavior: "smooth",
   });
 
   scheduleProgrammaticDayScrollRelease();
 }
 
 function scrollToNow() {
-  const targetDate = programmeDate();
-  const targetMinutes = devMin !== null ? (devMin < 360 ? devMin + 1440 : devMin) : currentMinutes();
-  const day = DAYS.find(d => d.date === targetDate);
+  if (viewMode === "list") {
+    const targetDate = programmeDate();
+    const liveCard = document.querySelector(
+      `.day-block[data-date="${targetDate}"] .schedule-card.live:not([hidden])`,
+    );
 
-  if (!day) {
-    console.log('[stn] day not found', targetDate);
+    if (liveCard) {
+      const stickyBarHeight = document.querySelector(".sb")?.offsetHeight || 0;
+      const top = liveCard.getBoundingClientRect().top + window.scrollY;
+
+      beginProgrammaticDayScroll(targetDate);
+      window.scrollTo({
+        top: Math.max(0, top - stickyBarHeight - 16),
+        behavior: "smooth",
+      });
+      scheduleProgrammaticDayScrollRelease();
+      return;
+    }
+
+    scrollToDate(targetDate);
     return;
   }
 
-  let dayStart = Infinity;
+  const targetDate = programmeDate();
+  const targetMinutes =
+    devMin !== null
+      ? devMin < DAY_ROLLOVER_MINUTES
+        ? devMin + 1440
+        : devMin
+      : currentMinutes();
+  const day = DAYS.find((d) => d.date === targetDate);
 
-  Object.values(day.rooms).forEach(events => {
-    events.forEach(ev => {
+  if (!day) {
+    console.log("[stn] day not found", targetDate);
+    return;
+  }
+
+  let dayStart = Number.POSITIVE_INFINITY;
+
+  Object.values(day.rooms).forEach((events) => {
+    events.forEach((ev) => {
       const minutes = timeToMinutes(ev.s);
 
       if (minutes < dayStart) {
@@ -1758,27 +2020,31 @@ function scrollToNow() {
   });
 
   if (targetMinutes < dayStart) {
-    console.log('[stn] before start', targetMinutes, dayStart);
+    console.log("[stn] before start", targetMinutes, dayStart);
     return;
   }
 
   const block = document.querySelector(`.day-block[data-date="${targetDate}"]`);
 
   if (!block) {
-    console.log('[stn] no block');
+    console.log("[stn] no block");
     return;
   }
 
   document.body.offsetHeight;
 
-  const stickyBarHeight = document.querySelector('.sb')?.offsetHeight || 0;
+  const stickyBarHeight = document.querySelector(".sb")?.offsetHeight || 0;
   const topPx = (targetMinutes - dayStart) * PX_PER_MIN;
   const blockRect = block.getBoundingClientRect();
   const blockTop = blockRect.top + window.scrollY;
-  const dividerHeight = block.querySelector('.day-div')?.getBoundingClientRect().height || 40;
-  const target = Math.max(0, blockTop + dividerHeight + topPx - stickyBarHeight - 60);
+  const dividerHeight =
+    block.querySelector(".day-div")?.getBoundingClientRect().height || 40;
+  const target = Math.max(
+    0,
+    blockTop + dividerHeight + topPx - stickyBarHeight - 60,
+  );
 
-  const debug = document.getElementById('devDebug');
+  const debug = document.getElementById("devDebug");
 
   if (debug) {
     debug.textContent = [
@@ -1788,10 +2054,10 @@ function scrollToNow() {
       `blockTop: ${Math.round(blockTop)}px`,
       `divH: ${Math.round(dividerHeight)}px  stickyH: ${stickyBarHeight}px`,
       `scrollTo: ${Math.round(target)}px / pageH: ${document.body.scrollHeight}px`,
-    ].join('\n');
+    ].join("\n");
   }
 
-  console.log('[stn]', {
+  console.log("[stn]", {
     targetDate,
     targetMin: targetMinutes,
     dayStart,
@@ -1803,7 +2069,7 @@ function scrollToNow() {
   });
 
   beginProgrammaticDayScroll(targetDate);
-  window.scrollTo({ top: target, behavior: 'smooth' });
+  window.scrollTo({ top: target, behavior: "smooth" });
   scheduleProgrammaticDayScrollRelease();
 }
 
@@ -1814,89 +2080,99 @@ function openEventModal(ev, opts = {}) {
 
   const color = trackColor(ev.tr);
   const icon = trackIcon(ev.tr);
-  const wrap = document.getElementById('mheroWrap');
-  const hero = document.getElementById('mhero');
-  const bg = document.getElementById('mheroBg');
+  const wrap = document.getElementById("mheroWrap");
+  const hero = document.getElementById("mhero");
+  const bg = document.getElementById("mheroBg");
 
   if (ev.l) {
-    wrap.style.display = 'grid';
-    attachEventImage(hero, bg, ev, 'hero', () => {
-      wrap.style.display = 'none';
+    wrap.style.display = "grid";
+    attachEventImage(hero, bg, ev, "hero", () => {
+      wrap.style.display = "none";
     });
   } else {
-    wrap.style.display = 'none';
+    wrap.style.display = "none";
   }
 
   const live = isLive(ev);
-  document.getElementById('mlive').style.display = live ? 'flex' : 'none';
+  document.getElementById("mlive").style.display = live ? "flex" : "none";
 
-  const trackBadge = document.getElementById('mtb');
-  trackBadge.innerHTML = '';
+  const trackBadge = document.getElementById("mtb");
+  trackBadge.innerHTML = "";
   trackBadge.style.background = color;
 
-  const badgeIcon = document.createElement('span');
-  badgeIcon.className = 'bi';
+  const badgeIcon = document.createElement("span");
+  badgeIcon.className = "bi";
   badgeIcon.textContent = icon;
 
   trackBadge.appendChild(badgeIcon);
-  trackBadge.appendChild(document.createTextNode(ev.tr || 'Programm'));
+  trackBadge.appendChild(document.createTextNode(ev.tr || "Programm"));
 
-  document.getElementById('mn').textContent = ev.t;
+  document.getElementById("mn").textContent = ev.t;
 
-  const info = document.getElementById('minf');
-  info.innerHTML = '';
+  const info = document.getElementById("minf");
+  info.innerHTML = "";
 
-  const timeInfo = document.createElement('span');
+  const timeInfo = document.createElement("span");
   timeInfo.textContent = `⬡ ${ev.s} Uhr`;
   info.appendChild(timeInfo);
 
-  const durationInfo = document.createElement('span');
+  const durationInfo = document.createElement("span");
   durationInfo.textContent = `◷ ${formatDuration(ev.d)}`;
   info.appendChild(durationInfo);
 
   if (ev.p?.length) {
-    const personsInfo = document.createElement('span');
-    personsInfo.textContent = `✦ ${ev.p.join(', ')}`;
+    const personsInfo = document.createElement("span");
+    personsInfo.textContent = `✦ ${ev.p.join(", ")}`;
     info.appendChild(personsInfo);
   }
 
   if (ev.room) {
-    const roomInfo = document.createElement('span');
-    roomInfo.textContent = `${RI[ev.room] || '◆'} ${ev.room}`;
+    const roomInfo = document.createElement("span");
+    roomInfo.textContent = `${RI[ev.room] || "◆"} ${ev.room}`;
     info.appendChild(roomInfo);
   }
 
-  document.getElementById('mde').textContent = (ev.desc || '').trim();
+  document.getElementById("mde").textContent = (ev.desc || "").trim();
 
-  const safeUrl = ev.u && (ev.u.startsWith('https://') || ev.u.startsWith('http://')) ? ev.u : '#';
-  document.getElementById('mlink').href = safeUrl;
+  const safeUrl =
+    ev.u && (ev.u.startsWith("https://") || ev.u.startsWith("http://"))
+      ? ev.u
+      : "#";
+  document.getElementById("mlink").href = safeUrl;
 
   updateModalFavBtn();
 
-  document.getElementById('mo').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  document.getElementById('mcl').focus();
+  document.getElementById("mo").classList.add("open");
+  document.body.style.overflow = "hidden";
+  document.getElementById("mcl").focus();
 
   if (!skipHistory && !historyOverlaySync) {
-    pushOverlayState({ overlay: 'event', eventKey: favKey(ev) }, { event: eventId(ev) });
+    pushOverlayState(
+      { overlay: "event", eventKey: favKey(ev) },
+      { event: eventId(ev) },
+    );
   }
 }
 
 function closeEventModal(opts = {}) {
   const { skipHistory = false } = opts;
-  const modal = document.getElementById('mo');
+  const modal = document.getElementById("mo");
 
-  if (!modal.classList.contains('open')) {
+  if (!modal.classList.contains("open")) {
     return;
   }
 
-  if (!skipHistory && !historyOverlaySync && history.state?.overlay === 'event') {
+  if (
+    !skipHistory &&
+    !historyOverlaySync &&
+    history.state?.overlay === "event"
+  ) {
     history.back();
     return;
   }
 
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
+  modal.classList.remove("open");
+  document.body.style.overflow = "";
   currentEv = null;
 
   if (!skipHistory) {
@@ -1904,17 +2180,17 @@ function closeEventModal(opts = {}) {
   }
 }
 
-document.getElementById('mcl').addEventListener('click', closeEventModal);
-document.getElementById('mo').addEventListener('click', event => {
+document.getElementById("mcl").addEventListener("click", closeEventModal);
+document.getElementById("mo").addEventListener("click", (event) => {
   if (event.target === event.currentTarget) {
     closeEventModal();
   }
 });
 
-document.addEventListener('keydown', event => {
-  const modalOpen = document.getElementById('mo').classList.contains('open');
+document.addEventListener("keydown", (event) => {
+  const modalOpen = document.getElementById("mo").classList.contains("open");
 
-  if (event.key === 'Escape') {
+  if (event.key === "Escape") {
     if (modalOpen) {
       closeEventModal();
     } else {
@@ -1922,10 +2198,14 @@ document.addEventListener('keydown', event => {
     }
   }
 
-  if (event.key === 'Tab' && modalOpen) {
-    const focusable = [...document.querySelector('.md').querySelectorAll('button,[href],input,[tabindex]:not([tabindex="-1"])')].filter(
-      el => !el.disabled,
-    );
+  if (event.key === "Tab" && modalOpen) {
+    const focusable = [
+      ...document
+        .querySelector(".md")
+        .querySelectorAll(
+          'button,[href],input,[tabindex]:not([tabindex="-1"])',
+        ),
+    ].filter((el) => !el.disabled);
 
     if (!focusable.length) {
       return;
@@ -1945,28 +2225,28 @@ document.addEventListener('keydown', event => {
 
 /* ── DEV MODE ── */
 
-const isLocalhost = ['localhost', '127.0.0.1', ''].includes(location.hostname);
+const isLocalhost = ["localhost", "127.0.0.1", ""].includes(location.hostname);
 
-if (isLocalhost && new URLSearchParams(location.search).get('dev') === '1') {
-  document.getElementById('devPanel').style.display = 'block';
+if (isLocalhost && new URLSearchParams(location.search).get("dev") === "1") {
+  document.getElementById("devPanel").style.display = "block";
 
-  const slider = document.getElementById('devTime');
-  const label = document.getElementById('devTimeLabel');
+  const slider = document.getElementById("devTime");
+  const label = document.getElementById("devTimeLabel");
 
-  slider.addEventListener('input', () => {
+  slider.addEventListener("input", () => {
     const hours = Math.floor(slider.value / 60)
       .toString()
-      .padStart(2, '0');
-    const minutes = (slider.value % 60).toString().padStart(2, '0');
+      .padStart(2, "0");
+    const minutes = (slider.value % 60).toString().padStart(2, "0");
 
     label.textContent = `${hours}:${minutes}`;
   });
 }
 
-document.getElementById('devApplyBtn').addEventListener('click', applyDevTime);
+document.getElementById("devApplyBtn").addEventListener("click", applyDevTime);
 
 function applyDevTime() {
-  devMin = parseInt(document.getElementById('devTime').value);
+  devMin = Number.parseInt(document.getElementById("devTime").value);
   buildScheduleDOM();
   renderSchedule();
   requestAnimationFrame(() => requestAnimationFrame(() => scrollToNow()));
@@ -1975,7 +2255,8 @@ function applyDevTime() {
 /* ── LOAD ── */
 
 function showStatus(msg, isError) {
-  document.getElementById('mainContent').innerHTML = `<p class="ed ${isError ? 'ed-error' : 'ed-info'}">${msg}</p>`;
+  document.getElementById("mainContent").innerHTML =
+    `<p class="ed ${isError ? "ed-error" : "ed-info"}">${msg}</p>`;
 }
 
 async function loadSchedule() {
@@ -1983,16 +2264,18 @@ async function loadSchedule() {
 
   let xml;
 
-  const CACHE_KEY = 'kontakt_xml';
+  const CACHE_KEY = "kontakt_xml";
   const CACHE_TTL = 5 * 60 * 1000;
   const cached = sessionStorage.getItem(CACHE_KEY);
-  const cachedAt = parseInt(sessionStorage.getItem(`${CACHE_KEY}_ts`) || '0');
+  const cachedAt = Number.parseInt(
+    sessionStorage.getItem(`${CACHE_KEY}_ts`) || "0",
+  );
 
   if (cached && Date.now() - cachedAt < CACHE_TTL) {
     xml = cached;
   } else {
     try {
-      const response = await fetch(XML_URL, { cache: 'no-cache' });
+      const response = await fetch(XML_URL, { cache: "no-cache" });
 
       if (!response.ok) {
         throw 0;
@@ -2002,7 +2285,10 @@ async function loadSchedule() {
       sessionStorage.setItem(CACHE_KEY, xml);
       sessionStorage.setItem(`${CACHE_KEY}_ts`, Date.now());
     } catch {
-      showStatus('✗ Programm konnte nicht geladen werden. Bitte Seite neu laden.', true);
+      showStatus(
+        "✗ Programm konnte nicht geladen werden. Bitte Seite neu laden.",
+        true,
+      );
       return;
     }
   }
@@ -2010,7 +2296,7 @@ async function loadSchedule() {
   DAYS = parseXML(xml);
 
   if (!DAYS.length) {
-    showStatus('✗ Keine Daten gefunden.', true);
+    showStatus("✗ Keine Daten gefunden.", true);
     return;
   }
 
