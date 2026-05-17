@@ -190,6 +190,8 @@ const DEFAULT_EVENT_DURATION = "00:30";
 const DAY_ROLLOVER_MINUTES = 360;
 const HORIZONTAL_SCROLL_SETTLE_MS = 120;
 const PROGRAMMATIC_DAY_SCROLL_SETTLE_MS = 140;
+const MOBILE_VIEW_MEDIA_QUERY = "(max-width: 600px)";
+const WIDE_GRID_MEDIA_QUERY = "(min-width: 601px)";
 
 /* ── STATE ── */
 
@@ -210,7 +212,7 @@ const activeRooms = new Set();
 let DAYS = [];
 let query = "";
 let currentEv = null;
-let viewMode = "grid";
+let viewMode = defaultViewMode();
 
 const favs = new Set(JSON.parse(localStorage.getItem("kontakt_favs") || "[]"));
 let historyOverlaySync = false;
@@ -222,9 +224,35 @@ let horizontalScrollSettleTimer = 0;
 let stickyResizeObserver = null;
 let dayBlockObserver = null;
 let cardImageObserver = null;
+let gridResizeObserver = null;
 let progressiveRenderToken = 0;
 let programmaticDayScroll = false;
 let dayScrollSettleTimer = 0;
+
+function defaultViewMode() {
+  return window.matchMedia(MOBILE_VIEW_MEDIA_QUERY).matches ? "list" : "grid";
+}
+
+function syncGridScrollIndicators(grid) {
+  const block = grid.closest(".day-block-grid");
+
+  if (!block) {
+    return;
+  }
+
+  const maxScrollLeft = Math.max(0, grid.scrollWidth - grid.clientWidth);
+  const canScroll =
+    viewMode === "grid" &&
+    window.matchMedia(WIDE_GRID_MEDIA_QUERY).matches &&
+    maxScrollLeft > 4;
+
+  block.classList.toggle("scrollable-x", canScroll);
+  block.classList.toggle("can-scroll-left", canScroll && grid.scrollLeft > 4);
+  block.classList.toggle(
+    "can-scroll-right",
+    canScroll && grid.scrollLeft < maxScrollLeft - 4,
+  );
+}
 
 /* ── TIME UTILS ── */
 
@@ -758,6 +786,10 @@ function updateStickyOffsets() {
 }
 
 function registerGrid(grid, roomNamesEl) {
+  const syncIndicators = () => syncGridScrollIndicators(grid);
+
+  grid.__roomNamesEl = roomNamesEl;
+
   grid.addEventListener(
     "scroll",
     () => {
@@ -779,17 +811,30 @@ function registerGrid(grid, roomNamesEl) {
       syncedGrids.forEach((other) => {
         if (other !== grid) {
           other.scrollLeft = x;
+          if (other.__roomNamesEl) {
+            other.__roomNamesEl.scrollLeft = x;
+          }
+          syncGridScrollIndicators(other);
         }
       });
+
+      syncIndicators();
     },
     { passive: true },
   );
 
   if (syncedGrids.length) {
     grid.scrollLeft = syncedGrids[0].scrollLeft;
+    roomNamesEl.scrollLeft = grid.scrollLeft;
   }
 
   syncedGrids.push(grid);
+
+  if (gridResizeObserver) {
+    gridResizeObserver.observe(grid);
+  }
+
+  requestAnimationFrame(syncIndicators);
 }
 
 /* ── URL STATE ── */
@@ -835,6 +880,8 @@ function syncUrlState() {
 
 function loadUrlState() {
   const params = new URLSearchParams(location.search);
+
+  viewMode = defaultViewMode();
 
   if (params.has("format")) {
     params
@@ -1432,7 +1479,7 @@ function buildGridDayBlock(day) {
   const rooms = scheduleRoomOrder();
 
   const block = document.createElement("div");
-  block.className = "day-block";
+  block.className = "day-block day-block-grid";
   block.dataset.date = day.date;
 
   const dayHeader = document.createElement("div");
@@ -1633,6 +1680,10 @@ function buildScheduleDOM() {
 
   if (cardImageObserver) {
     cardImageObserver.disconnect();
+  }
+
+  if (gridResizeObserver) {
+    gridResizeObserver.disconnect();
   }
 
   if (!DAYS.length) {
@@ -1988,6 +2039,16 @@ function initFiltersAndTabs() {
 
   stickyResizeObserver = new ResizeObserver(updateStickyOffsets);
   stickyResizeObserver.observe(document.querySelector(".sb"));
+
+  if (gridResizeObserver) {
+    gridResizeObserver.disconnect();
+  }
+
+  gridResizeObserver = new ResizeObserver((entries) => {
+    entries.forEach((entry) => {
+      syncGridScrollIndicators(entry.target);
+    });
+  });
 
   const main = document.getElementById("mainContent");
 
