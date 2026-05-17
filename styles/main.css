@@ -1151,6 +1151,7 @@ main {
   background: var(--yellow2);
 }
 
+.mshare,
 .mfav {
   display: inline-flex;
   gap: 0.35rem;
@@ -1168,9 +1169,14 @@ main {
   transition: all 0.12s;
 }
 
+.mshare:hover,
 .mfav:hover {
   border-color: var(--yellow);
   color: var(--yellow);
+}
+
+.mshare {
+  min-width: 7.6rem;
 }
 
 .mfav.on {

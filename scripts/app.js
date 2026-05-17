@@ -2310,6 +2310,16 @@ function openEventModal(ev, opts = {}) {
       : "#";
   document.getElementById("mlink").href = safeUrl;
 
+  const shareBtn = document.getElementById("mshareBtn");
+
+  if (shareBtn) {
+    shareBtn.textContent = "↗ Teilen";
+    shareBtn.onclick = async (event) => {
+      event.stopPropagation();
+      await shareEvent(ev, shareBtn);
+    };
+  }
+
   updateModalFavBtn();
 
   document.getElementById("mo").classList.add("open");
