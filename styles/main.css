@@ -287,12 +287,19 @@ header::before {
   -webkit-backdrop-filter: blur(12px);
 }
 
+.dtbar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+  border-bottom: 1px solid rgba(245, 216, 0, 0.08);
+}
+
 .dt {
+  flex: 1 1 auto;
   display: flex;
   overflow-x: auto;
   padding: 0 0.5rem;
   scrollbar-width: none;
-  border-bottom: 1px solid rgba(245, 216, 0, 0.08);
 }
 
 .dt::-webkit-scrollbar {
@@ -342,6 +349,28 @@ header::before {
 
 .dta.today .livedot {
   display: block;
+}
+
+.now-btn {
+  flex: 0 0 auto;
+  align-self: center;
+  margin-right: 0.75rem;
+  padding: 0.38rem 0.7rem;
+  border: 1px solid rgba(245, 216, 0, 0.22);
+  border-radius: 3px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--yellow);
+  background: rgba(245, 216, 0, 0.08);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.now-btn:hover {
+  border-color: rgba(245, 216, 0, 0.45);
+  background: rgba(245, 216, 0, 0.14);
 }
 
 @keyframes pulse {
@@ -1495,6 +1524,10 @@ main {
     padding: 0;
   }
 
+  .dtbar {
+    gap: 0.35rem;
+  }
+
   .dta {
     flex: 1;
     padding: 0.6rem 0.2rem;
@@ -1505,6 +1538,12 @@ main {
 
   .srow {
     padding: 0.35rem 0.75rem;
+  }
+
+  .now-btn {
+    margin-right: 0.45rem;
+    padding: 0.34rem 0.5rem;
+    font-size: 0.56rem;
   }
 
   .view-toggle {

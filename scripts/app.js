@@ -1204,6 +1204,13 @@ function visibleInCurrentFilters(ev) {
   return matchQ && matchF;
 }
 
+function visibleInListFilters(ev) {
+  return (
+    visibleInCurrentFilters(ev) &&
+    (activeRooms.size === 0 || activeRooms.has(ev.room))
+  );
+}
+
 /* ── RENDER: continuous timeline, all days ── */
 
 const PX_PER_MIN = 1.8;
@@ -1617,11 +1624,9 @@ function renderSchedule() {
       return;
     }
 
-    const showInRoomFilter =
-      !card.classList.contains("lc") ||
-      activeRooms.size === 0 ||
-      activeRooms.has(ev.room);
-    const show = visibleInCurrentFilters(ev) && showInRoomFilter;
+    const show = card.classList.contains("lc")
+      ? visibleInListFilters(ev)
+      : visibleInCurrentFilters(ev);
 
     card.classList.toggle("dm", !show);
     card.hidden = !show;
@@ -1815,6 +1820,17 @@ function initFiltersAndTabs() {
 
   updateFavBtn();
 
+  const nowBtn = document.getElementById("nowBtn");
+
+  if (nowBtn) {
+    nowBtn.title = "Zur aktuellen oder naechsten Veranstaltung springen";
+    nowBtn.setAttribute(
+      "aria-label",
+      "Zur aktuellen oder naechsten Veranstaltung springen",
+    );
+    nowBtn.onclick = () => scrollToNow();
+  }
+
   const viewToggle = document.getElementById("viewToggle");
 
   if (viewToggle) {
@@ -1982,27 +1998,90 @@ function scrollToDate(date) {
   scheduleProgrammaticDayScrollRelease();
 }
 
+function scrollToEventInList(ev) {
+  let block =
+    renderedDayBlocks.get(ev.date) ||
+    document.querySelector(`.day-block[data-date="${ev.date}"]`);
+
+  if (!block) {
+    const day = DAYS.find((d) => d.date === ev.date);
+
+    if (day) {
+      block = buildDayBlock(day);
+      document.getElementById("mainContent").appendChild(block);
+      renderSchedule();
+      updateStickyOffsets();
+    }
+  }
+
+  const card =
+    block?.querySelector(`.schedule-card[data-evkey="${favKey(ev)}"]`) || null;
+
+  if (!card || card.hidden) {
+    scrollToDate(ev.date);
+    return;
+  }
+
+  const stickyBarHeight = document.querySelector(".sb")?.offsetHeight || 0;
+  const top = card.getBoundingClientRect().top + window.scrollY;
+
+  beginProgrammaticDayScroll(ev.date);
+  window.scrollTo({
+    top: Math.max(0, top - stickyBarHeight - 16),
+    behavior: "smooth",
+  });
+  scheduleProgrammaticDayScrollRelease();
+}
+
+function nextListNowEvent() {
+  const nowDate = programmeDate();
+  const nowMinutes = currentMinutes();
+
+  const events = DAYS.flatMap((day) =>
+    Object.values(day.rooms)
+      .flat()
+      .filter((ev) => !SK.has(ev.tr) && visibleInListFilters(ev)),
+  ).sort(
+    (a, b) =>
+      a.date.localeCompare(b.date) ||
+      timeToMinutes(a.s) - timeToMinutes(b.s) ||
+      a.room.localeCompare(b.room) ||
+      a.t.localeCompare(b.t),
+  );
+
+  const liveEvent = events.find((ev) => {
+    if (ev.date !== nowDate) {
+      return false;
+    }
+
+    const start = timeToMinutes(ev.s);
+    const end = eventEndMinutes(ev);
+    return nowMinutes >= start && nowMinutes < end;
+  });
+
+  if (liveEvent) {
+    return liveEvent;
+  }
+
+  return (
+    events.find(
+      (ev) =>
+        ev.date > nowDate ||
+        (ev.date === nowDate && timeToMinutes(ev.s) >= nowMinutes),
+    ) || null
+  );
+}
+
 function scrollToNow() {
   if (viewMode === "list") {
-    const targetDate = programmeDate();
-    const liveCard = document.querySelector(
-      `.day-block[data-date="${targetDate}"] .schedule-card.live:not([hidden])`,
-    );
+    const targetEvent = nextListNowEvent();
 
-    if (liveCard) {
-      const stickyBarHeight = document.querySelector(".sb")?.offsetHeight || 0;
-      const top = liveCard.getBoundingClientRect().top + window.scrollY;
-
-      beginProgrammaticDayScroll(targetDate);
-      window.scrollTo({
-        top: Math.max(0, top - stickyBarHeight - 16),
-        behavior: "smooth",
-      });
-      scheduleProgrammaticDayScrollRelease();
+    if (targetEvent) {
+      scrollToEventInList(targetEvent);
       return;
     }
 
-    scrollToDate(targetDate);
+    scrollToDate(programmeDate());
     return;
   }
 
