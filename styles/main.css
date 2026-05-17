@@ -782,6 +782,40 @@ main {
   transform: scale(1.2);
 }
 
+.schedule-card .share-card-btn {
+  position: absolute;
+  bottom: 4px;
+  left: 7px;
+  z-index: 4;
+  padding: 0.12rem 0.28rem;
+  border: 1px solid rgba(240, 232, 221, 0.18);
+  border-radius: 2px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.52rem;
+  line-height: 1;
+  color: rgba(240, 232, 221, 0.7);
+  background: rgba(12, 4, 10, 0.72);
+  cursor: pointer;
+  opacity: 0.5;
+  transition:
+    opacity 0.15s,
+    border-color 0.15s,
+    color 0.15s,
+    background-color 0.15s;
+}
+
+.schedule-card .share-card-btn:hover {
+  border-color: rgba(245, 216, 0, 0.45);
+  color: var(--cream);
+  background: rgba(24, 8, 16, 0.88);
+  opacity: 1;
+}
+
+.schedule-card:hover .share-card-btn,
+.schedule-card:focus-within .share-card-btn {
+  opacity: 0.9;
+}
+
 .ew {
   position: absolute;
   inset: 0;

@@ -477,6 +477,71 @@ function eventId(ev) {
   return `${ev.date}-${ev.s.replace(":", "")}-${asciiSlug(ev.room, 24)}-${asciiSlug(ev.t, 48)}`;
 }
 
+function eventShareUrl(ev) {
+  const url = new URL(location.pathname, location.href);
+  url.searchParams.set("event", eventId(ev));
+  return url.toString();
+}
+
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return true;
+  }
+
+  const input = document.createElement("textarea");
+  input.value = text;
+  input.setAttribute("readonly", "");
+  input.style.position = "absolute";
+  input.style.left = "-9999px";
+  document.body.appendChild(input);
+  input.select();
+
+  const copied = document.execCommand("copy");
+  input.remove();
+  return copied;
+}
+
+function flashCardAction(button, label) {
+  clearTimeout(button.__flashTimer);
+  button.textContent = label;
+  button.__flashTimer = setTimeout(() => {
+    button.textContent = button.dataset.defaultLabel || "";
+  }, 1400);
+}
+
+async function shareEvent(ev, button) {
+  const url = eventShareUrl(ev);
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: ev.t,
+        text: `${dayLabel(ev.date)} · ${ev.s}`,
+        url,
+      });
+      return;
+    } catch (error) {
+      if (error?.name === "AbortError") {
+        return;
+      }
+    }
+  }
+
+  try {
+    const copied = await copyText(url);
+
+    if (copied) {
+      flashCardAction(button, "OK");
+      return;
+    }
+  } catch {
+    // Fall through to the prompt fallback below.
+  }
+
+  window.prompt("Link kopieren:", url);
+}
+
 function imageBasePath(ev) {
   const room = asciiSlug(ev.room, 24);
   const title = asciiSlug(ev.t, 48);
@@ -1313,6 +1378,18 @@ function createEventCardContent(card, ev, color, icon, faved) {
     overlay.appendChild(authors);
   }
 
+  const share = document.createElement("button");
+  share.type = "button";
+  share.className = "share-card-btn";
+  share.dataset.defaultLabel = "↗";
+  share.textContent = share.dataset.defaultLabel;
+  share.title = "Link zu dieser Veranstaltung teilen";
+  share.setAttribute("aria-label", "Link zu dieser Veranstaltung teilen");
+  share.addEventListener("click", async (event) => {
+    event.stopPropagation();
+    await shareEvent(ev, share);
+  });
+
   const star = document.createElement("span");
   star.className = "fav";
   star.textContent = faved ? "★" : "☆";
@@ -1322,6 +1399,7 @@ function createEventCardContent(card, ev, color, icon, faved) {
   });
 
   card.appendChild(overlay);
+  card.appendChild(share);
   card.appendChild(star);
 }
 
