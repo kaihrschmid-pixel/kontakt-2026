@@ -74,33 +74,38 @@
             aria-label="Festivaltage"
           ></div>
           <button class="now-btn" id="nowBtn" type="button">Jetzt</button>
-        </div>
-
-        <div class="srow">
-          <input
-            class="si"
-            id="search"
-            type="search"
-            placeholder="Suche nach Act, Workshop, Ort …"
-            autocomplete="off"
-          />
-          <button
-            class="view-toggle"
-            id="viewToggle"
-            type="button"
-            aria-pressed="false"
-            title="Zwischen Grid- und Listenansicht wechseln"
-          >
-            Liste
+          <button class="now-btn prog-toggle-btn" id="progToggleBtn" type="button" title="Programm ein-/ausblenden">
+            <span id="progToggleIcon">▲</span> Programm
           </button>
         </div>
 
-        <div class="fi" id="trackFilters">
-          <span class="fil">Format:</span>
-        </div>
+        <div id="progCollapseWrap">
+          <div class="srow">
+            <input
+              class="si"
+              id="search"
+              type="search"
+              placeholder="Suche nach Act, Workshop, Ort …"
+              autocomplete="off"
+            />
+            <button
+              class="view-toggle"
+              id="viewToggle"
+              type="button"
+              aria-pressed="false"
+              title="Zwischen Grid- und Listenansicht wechseln"
+            >
+              Liste
+            </button>
+          </div>
 
-        <div class="fi" id="roomFilters">
-          <span class="fil">Raum:</span>
+          <div class="fi" id="trackFilters">
+            <span class="fil">Format:</span>
+          </div>
+
+          <div class="fi" id="roomFilters">
+            <span class="fil">Raum:</span>
+          </div>
         </div>
       </div>
 
@@ -180,6 +185,41 @@
         background: rgba(255,255,255,0.09);
         border-color: rgba(255,255,255,0.25);
         color: rgba(255,255,255,0.7);
+      }
+
+      /* ── PROGRAM COLLAPSE ── */
+      .prog-toggle-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+        font-size: 0.78rem;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+      }
+      .prog-toggle-btn:hover { opacity: 1; }
+
+      #progCollapseWrap {
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1),
+                    opacity 0.35s ease;
+        max-height: 4000px;
+        opacity: 1;
+      }
+      #progCollapseWrap.collapsed {
+        max-height: 0 !important;
+        opacity: 0;
+        pointer-events: none;
+      }
+      #mainContent {
+        transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1),
+                    opacity 0.35s ease;
+      }
+      body.prog-hidden #mainContent {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
       }
     </style>
 
@@ -277,6 +317,55 @@
     </div>
 
     <script src="scripts/app.js?v=20260517b"></script>
+    <script>
+      (function () {
+        const STORAGE_KEY = 'prog-collapsed';
+        const btn = document.getElementById('progToggleBtn');
+        const icon = document.getElementById('progToggleIcon');
+        const wrap = document.getElementById('progCollapseWrap');
+        const main = document.getElementById('mainContent');
+
+        function setCollapsed(on, animate) {
+          if (!animate) {
+            wrap.style.transition = 'none';
+            main.style.transition = 'none';
+          }
+          wrap.classList.toggle('collapsed', on);
+          main.classList.toggle('collapsed', on);
+          if (on) {
+            main.style.maxHeight = '0';
+            main.style.overflow = 'hidden';
+            main.style.opacity = '0';
+          } else {
+            main.style.maxHeight = '';
+            main.style.overflow = '';
+            main.style.opacity = '';
+          }
+          icon.textContent = on ? '▼' : '▲';
+          btn.title = on ? 'Programm einblenden' : 'Programm ausblenden';
+          if (!animate) {
+            requestAnimationFrame(() => {
+              wrap.style.transition = '';
+              main.style.transition = '';
+            });
+          }
+          try { localStorage.setItem(STORAGE_KEY, on ? '1' : '0'); } catch(e) {}
+        }
+
+        // restore persisted state without animation
+        const stored = (() => { try { return localStorage.getItem(STORAGE_KEY); } catch(e) { return null; } })();
+        if (stored === '1') setCollapsed(true, false);
+
+        btn.addEventListener('click', function () {
+          const nowCollapsed = wrap.classList.contains('collapsed');
+          setCollapsed(!nowCollapsed, true);
+          if (!nowCollapsed) {
+            // scroll to footer so the eval links are visible
+            document.querySelector('.eval-footer')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      })();
+    </script>
 
     <noscript>
       <div class="noscript-panel">
