@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AK-Evaluationsbericht — kontakt Festival 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F0E8;
+    --bg-card: #FDFAF4;
+    --accent: #C8553D;
+    --accent-dark: #A8432D;
+    --text: #2A2219;
+    --text-muted: #6B5D4F;
+    --border: #DDD4C4;
+    --border-focus: #C8553D;
+    --success: #5A8A5A;
+    --tag-bg: #EDE6D8;
+    --tag-active: #C8553D;
+    --tag-active-text: #fff;
+    --shadow: 0 2px 16px rgba(42,34,25,0.08);
+    --radius: 12px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* PROGRESS BAR */
+  #progress-bar-wrap {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 4px;
+    background: var(--border);
+  }
+  #progress-bar {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  .header-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-top: 2px;
+  }
+  .btn-print {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-print:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* SECTIONS */
+  .section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* FORM ELEMENTS */
+  .field {
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.01em;
+  }
+  label .req {
+    color: var(--accent);
+    margin-left: 2px;
+  }
+  input[type="text"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(200,85,61,0.12);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B5D4F' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 560px) {
+    .field-row { grid-template-columns: 1fr; }
+    .section { padding: 24px; }
+    header { padding: 16px 20px; }
+  }
+
+  /* STAR RATING */
+  .star-group {
+    margin-bottom: 20px;
+  }
+  .star-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .stars {
+    display: flex;
+    gap: 6px;
+  }
+  .stars input[type="radio"] { display: none; }
+  .stars label {
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--border);
+    transition: color 0.15s, transform 0.1s;
+    margin-bottom: 0;
+    line-height: 1;
+  }
+  .stars:hover label { color: var(--border); }
+  .stars label:hover,
+  .stars label:hover ~ label { color: var(--border); }
+  .stars input[type="radio"]:checked ~ label { color: var(--border); }
+
+  .stars { flex-direction: row-reverse; }
+  .stars label:hover,
+  .stars label:hover ~ label,
+  .stars input[type="radio"]:checked ~ label,
+  .stars input[type="radio"]:checked ~ label ~ label {
+    color: #D4A030;
+  }
+  .stars label:hover { transform: scale(1.15); }
+
+  /* TAG CHECKBOXES */
+  .tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .tag-group input[type="checkbox"] { display: none; }
+  .tag-group label {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 14px;
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 0;
+    user-select: none;
+  }
+  .tag-group input[type="checkbox"]:checked + label {
+    background: var(--tag-active);
+    border-color: var(--tag-active);
+    color: var(--tag-active-text);
+  }
+  .tag-group label:hover {
+    border-color: var(--accent);
+  }
+
+  /* COUNTER */
+  .counter-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .counter-btn {
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    border-radius: 8px;
+    font-size: 1.2rem;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .counter-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .counter-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    min-width: 40px;
+    text-align: center;
+    color: var(--text);
+  }
+  .counter-unit {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* EMOJI TAGS */
+  .emoji-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .emoji-group input[type="checkbox"] { display: none; }
+  .emoji-group label {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 16px;
+    background: var(--tag-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 0;
+    user-select: none;
+    min-width: 64px;
+  }
+  .emoji-group label .emoji-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+  .emoji-group label .emoji-text {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+  .emoji-group input[type="checkbox"]:checked + label {
+    background: #FFF0EC;
+    border-color: var(--accent);
+  }
+  .emoji-group label:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* SUBMIT */
+  .submit-wrap {
+    text-align: center;
+    margin-top: 12px;
+  }
+  .btn-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 48px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.01em;
+  }
+  .btn-submit:hover { background: var(--accent-dark); }
+  .btn-submit:active { transform: scale(0.98); }
+
+  /* VALIDATION */
+  .field-error {
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-top: 4px;
+    display: none;
+  }
+  .field.invalid input,
+  .field.invalid select {
+    border-color: var(--accent);
+  }
+  .field.invalid .field-error { display: block; }
+
+  /* SUCCESS SCREEN */
+  #success-screen {
+    display: none;
+    max-width: 560px;
+    margin: 80px auto;
+    padding: 24px;
+    text-align: center;
+  }
+  .success-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+  }
+  .success-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .success-body {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .success-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+  }
+  .success-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--accent);
+  }
+
+  @media print {
+    #progress-bar-wrap, header .btn-print, .btn-submit, .submit-wrap { display: none !important; }
+    .section { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<header>
+  <div>
+    <div class="header-title">kontakt Festival 2026</div>
+    <div class="header-sub">AK-Evaluationsbericht · Internes Formular</div>
+  </div>
+  <button class="btn-print" onclick="window.print()">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Drucken / PDF
+  </button>
+</header>
+
+<main id="form-main">
+  <form id="ak-form" novalidate>
+
+    <!-- SECTION 1: Dein Arbeitskreis -->
+    <div class="section" data-section="1">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title">Dein Arbeitskreis</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field" id="field-name">
+          <label for="name">Dein Name <span class="req">*</span></label>
+          <input type="text" id="name" name="name" placeholder="Vorname Nachname" autocomplete="name">
+          <div class="field-error">Bitte gib deinen Namen an.</div>
+        </div>
+        <div class="field">
+          <label for="datum">Datum</label>
+          <input type="date" id="datum" name="datum">
+        </div>
+      </div>
+
+      <div class="field" id="field-ak">
+        <label for="ak">Dein Arbeitskreis <span class="req">*</span></label>
+        <select id="ak" name="ak">
+          <option value="">— Bitte wählen —</option>
+          <option>AK Ausstellung</option>
+          <option>AK Awareness</option>
+          <option>AK Cyber</option>
+          <option>AK Deko</option>
+          <option>AK Familienprogramm</option>
+          <option>AK Finanzen</option>
+          <option>AK Gastro</option>
+          <option>AK Getränke</option>
+          <option>AK Helfer*innenkoordination</option>
+          <option>AK Infrastruktur</option>
+          <option>AK Inklusion</option>
+          <option>AK Koordination</option>
+          <option>AK Kulturpolitik</option>
+          <option>AK Programmentwicklung</option>
+          <option>AK PR</option>
+          <option>AK Sicherheit</option>
+          <option>AK Teamverpflegung</option>
+          <option>AK Technik</option>
+        </select>
+        <div class="field-error">Bitte wähle deinen Arbeitskreis aus.</div>
+      </div>
+
+      <div class="field">
+        <label>Anzahl Personen im AK</label>
+        <div class="counter-wrap">
+          <button type="button" class="counter-btn" onclick="changeCount('persons', -1)">−</button>
+          <span class="counter-val" id="persons-val">1</span>
+          <button type="button" class="counter-btn" onclick="changeCount('persons', 1)">+</button>
+          <span class="counter-unit">Person(en)</span>
+        </div>
+        <input type="hidden" id="persons" name="persons" value="1">
+      </div>
+    </div>
+
+    <!-- SECTION 2: Gesamteindruck -->
+    <div class="section" data-section="2">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title">Gesamteindruck</div>
+      </div>
+
+      <div class="star-group">
+        <span class="star-label">Festival insgesamt</span>
+        <div class="stars" role="radiogroup">
+          <input type="radio" name="stars-festival" id="sf5" value="5"><label for="sf5" title="5 Sterne">★</label>
+          <input type="radio" name="stars-festival" id="sf4" value="4"><label for="sf4" title="4 Sterne">★</label>
+          <input type="radio" name="stars-festival" id="sf3" value="3"><label for="sf3" title="3 Sterne">★</label>
+          <input type="radio" name="stars-festival" id="sf2" value="2"><label for="sf2" title="2 Sterne">★</label>
+          <input type="radio" name="stars-festival" id="sf1" value="1"><label for="sf1" title="1 Stern">★</label>
+        </div>
+      </div>
+
+      <div class="star-group">
+        <span class="star-label">Teamstimmung</span>
+        <div class="stars" role="radiogroup">
+          <input type="radio" name="stars-team" id="st5" value="5"><label for="st5" title="5 Sterne">★</label>
+          <input type="radio" name="stars-team" id="st4" value="4"><label for="st4" title="4 Sterne">★</label>
+          <input type="radio" name="stars-team" id="st3" value="3"><label for="st3" title="3 Sterne">★</label>
+          <input type="radio" name="stars-team" id="st2" value="2"><label for="st2" title="2 Sterne">★</label>
+          <input type="radio" name="stars-team" id="st1" value="1"><label for="st1" title="1 Stern">★</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="gut">Was lief gut?</label>
+        <textarea id="gut" name="gut" placeholder="Erzähl uns von den Dingen, die besonders gut funktioniert haben …"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 3: Herausforderungen -->
+    <div class="section" data-section="3">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div class="section-title">Herausforderungen</div>
+      </div>
+
+      <div class="field">
+        <label for="schwierig">Was war schwierig?</label>
+        <textarea id="schwierig" name="schwierig" placeholder="Welche Aufgaben, Situationen oder Umstände haben euch Probleme bereitet?"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="schnittstellen">Schnittstellenprobleme mit anderen AKs?</label>
+        <textarea id="schnittstellen" name="schnittstellen" placeholder="Gab es Abstimmungsschwierigkeiten, fehlende Informationen oder Konflikte mit anderen Arbeitskreisen?"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="energie">Was hat Energie gekostet?</label>
+        <textarea id="energie" name="energie" placeholder="Welche Aufgaben oder Situationen haben euch unverhältnismäßig viel Kraft gekostet?"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 4: Ressourcen & Ausstattung -->
+    <div class="section" data-section="4">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div class="section-title">Ressourcen &amp; Ausstattung</div>
+      </div>
+
+      <div class="field">
+        <label>Was hat gefehlt oder war knapp?</label>
+        <div class="tag-group">
+          <input type="checkbox" id="r-personal" name="ressourcen" value="Personal">
+          <label for="r-personal">Personal</label>
+          <input type="checkbox" id="r-equipment" name="ressourcen" value="Equipment">
+          <label for="r-equipment">Equipment</label>
+          <input type="checkbox" id="r-budget" name="ressourcen" value="Budget">
+          <label for="r-budget">Budget</label>
+          <input type="checkbox" id="r-zeit" name="ressourcen" value="Zeit">
+          <label for="r-zeit">Zeit</label>
+          <input type="checkbox" id="r-info" name="ressourcen" value="Informationen">
+          <label for="r-info">Informationen</label>
+          <input type="checkbox" id="r-komm" name="ressourcen" value="Kommunikation">
+          <label for="r-komm">Kommunikation</label>
+          <input type="checkbox" id="r-lager" name="ressourcen" value="Lagerfläche">
+          <label for="r-lager">Lagerfläche</label>
+          <input type="checkbox" id="r-ok" name="ressourcen" value="Nichts/alles gut">
+          <label for="r-ok">Nichts — alles gut ✓</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="ressourcen-notiz">Notizen dazu</label>
+        <textarea id="ressourcen-notiz" name="ressourcen-notiz" placeholder="Weitere Details oder Kontext …" style="min-height:80px;"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Ungefähre Gesamtstunden eures AKs (alle Personen zusammen)</label>
+        <div class="counter-wrap">
+          <button type="button" class="counter-btn" onclick="changeCount('stunden', -5)">−</button>
+          <span class="counter-val" id="stunden-val">10</span>
+          <button type="button" class="counter-btn" onclick="changeCount('stunden', 5)">+</button>
+          <span class="counter-unit">Stunden (Schritte à 5 h)</span>
+        </div>
+        <input type="hidden" id="stunden" name="stunden" value="10">
+      </div>
+    </div>
+
+    <!-- SECTION 5: Empfehlungen für 2027 -->
+    <div class="section" data-section="5">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <div class="section-title">Empfehlungen für 2027</div>
+      </div>
+
+      <div class="field">
+        <label for="anders">Was würdet ihr anders machen?</label>
+        <textarea id="anders" name="anders" placeholder="Konkrete Änderungsvorschläge für euren AK oder das Festival …"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="gleich">Was würdet ihr genauso lassen?</label>
+        <textarea id="gleich" name="gleich" placeholder="Was hat so gut funktioniert, dass man es unbedingt beibehalten sollte?"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="idee">Eine neue Idee für 2027</label>
+        <textarea id="idee" name="idee" placeholder="Euer verrücktester, kreativster oder praktischster Vorschlag …"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 6: Wissenstransfer -->
+    <div class="section" data-section="6">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <div class="section-title">Wissenstransfer</div>
+      </div>
+
+      <div class="field">
+        <label for="wieder-dabei">Bist du 2027 wieder dabei?</label>
+        <select id="wieder-dabei" name="wieder-dabei">
+          <option value="">— Noch nicht sicher —</option>
+          <option value="ja-gleicher-ak">Ja, im gleichen AK</option>
+          <option value="ja-anderer-ak">Ja, aber vielleicht in einem anderen AK</option>
+          <option value="vielleicht">Vielleicht, mal sehen</option>
+          <option value="nein">Nein, ich bin dann raus</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="uebergabe">Übergabe-Informationen für Nachfolger*innen</label>
+        <textarea id="uebergabe" name="uebergabe" placeholder="Was müssen Personen wissen, die euren AK das nächste Mal leiten? Welche Stolpersteine gibt es? Was habt ihr gelernt?"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="kontakte">Wichtige Kontakte &amp; Dokumente</label>
+        <textarea id="kontakte" name="kontakte" placeholder="Namen, E-Mail-Adressen, Links zu Dateien, Ordnernamen im Teamordner …"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 7: Abschluss -->
+    <div class="section" data-section="7">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <div class="section-title">Abschluss</div>
+      </div>
+
+      <div class="field">
+        <label>Wie fühlst du dich jetzt, am Ende des Festivals?</label>
+        <div class="emoji-group">
+          <input type="checkbox" id="e-fire" name="gefuehl" value="🔥 Auf Hochtouren">
+          <label for="e-fire"><span class="emoji-icon">🔥</span><span class="emoji-text">Auf Hochtouren</span></label>
+
+          <input type="checkbox" id="e-relax" name="gefuehl" value="😌 Entspannt">
+          <label for="e-relax"><span class="emoji-icon">😌</span><span class="emoji-text">Entspannt</span></label>
+
+          <input type="checkbox" id="e-tired" name="gefuehl" value="😴 Erschöpft">
+          <label for="e-tired"><span class="emoji-icon">😴</span><span class="emoji-text">Erschöpft</span></label>
+
+          <input type="checkbox" id="e-frustr" name="gefuehl" value="😤 Frustriert">
+          <label for="e-frustr"><span class="emoji-icon">😤</span><span class="emoji-text">Frustriert</span></label>
+
+          <input type="checkbox" id="e-think" name="gefuehl" value="🤔 Nachdenklich">
+          <label for="e-think"><span class="emoji-icon">🤔</span><span class="emoji-text">Nachdenklich</span></label>
+
+          <input type="checkbox" id="e-strong" name="gefuehl" value="💪 Stolz">
+          <label for="e-strong"><span class="emoji-icon">💪</span><span class="emoji-text">Stolz</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="abschluss-text">Noch etwas auf dem Herzen?</label>
+        <textarea id="abschluss-text" name="abschluss-text" placeholder="Alles, was noch nirgendwo Platz hatte — Lob, Kritik, Dank, Wünsche …"></textarea>
+      </div>
+
+      <div class="submit-wrap">
+        <button type="submit" class="btn-submit">
+          Bericht absenden
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </form>
+</main>
+
+<!-- SUCCESS SCREEN -->
+<div id="success-screen">
+  <div class="success-icon">🎉</div>
+  <div class="success-title" id="success-title">Danke, <span id="success-name"></span>!</div>
+  <div class="success-card">
+    <div class="success-quote">"Kultur entsteht durch Menschen, die sich einbringen."</div>
+  </div>
+  <div class="success-body">
+    Dein Evaluationsbericht wurde erfasst.<br>
+    Er hilft uns, kontakt 2027 noch besser zu machen.<br><br>
+    Danke für dein Engagement — das Festival lebt durch dich.
+  </div>
+  <button class="btn-print" style="margin: 0 auto;" onclick="window.print()">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Als PDF speichern
+  </button>
+</div>
+
+<script>
+  // Auto-fill today's date
+  document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('datum').value = today;
+    observeSections();
+    updateProgress();
+  });
+
+  // Counter logic
+  const counters = { persons: { val: 1, min: 1, max: 200 }, stunden: { val: 10, min: 0, max: 5000 } };
+  function changeCount(id, delta) {
+    const c = counters[id];
+    c.val = Math.max(c.min, Math.min(c.max, c.val + delta));
+    document.getElementById(id + '-val').textContent = c.val;
+    document.getElementById(id).value = c.val;
+    updateProgress();
+  }
+
+  // Progress bar
+  function updateProgress() {
+    const fields = document.querySelectorAll('input:not([type=hidden]):not([type=radio]):not([type=checkbox]), select, textarea');
+    let filled = 0;
+    fields.forEach(f => {
+      if (f.value && f.value.trim() !== '') filled++;
+    });
+    // Also count radio groups
+    ['stars-festival', 'stars-team'].forEach(name => {
+      if (document.querySelector(`input[name="${name}"]:checked`)) filled++;
+    });
+    const total = fields.length + 2;
+    const pct = Math.min(100, Math.round((filled / total) * 100));
+    document.getElementById('progress-bar').style.width = pct + '%';
+  }
+
+  document.addEventListener('input', updateProgress);
+  document.addEventListener('change', updateProgress);
+
+  // Intersection Observer for fade-in
+  function observeSections() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.section').forEach(s => observer.observe(s));
+  }
+
+  // Form submission
+  document.getElementById('ak-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+
+    // Validate name
+    const nameField = document.getElementById('field-name');
+    const nameVal = document.getElementById('name').value.trim();
+    if (!nameVal) {
+      nameField.classList.add('invalid');
+      valid = false;
+    } else {
+      nameField.classList.remove('invalid');
+    }
+
+    // Validate AK
+    const akField = document.getElementById('field-ak');
+    const akVal = document.getElementById('ak').value;
+    if (!akVal) {
+      akField.classList.add('invalid');
+      valid = false;
+    } else {
+      akField.classList.remove('invalid');
+    }
+
+    if (!valid) {
+      document.getElementById('name').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Show success
+    const firstName = nameVal.split(' ')[0];
+    document.getElementById('success-name').textContent = firstName;
+    document.getElementById('form-main').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+    document.getElementById('progress-bar').style.width = '100%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Remove invalid on input
+  document.getElementById('name').addEventListener('input', function() {
+    if (this.value.trim()) document.getElementById('field-name').classList.remove('invalid');
+  });
+  document.getElementById('ak').addEventListener('change', function() {
+    if (this.value) document.getElementById('field-ak').classList.remove('invalid');
+  });
+</script>
+</body>
+</html>
