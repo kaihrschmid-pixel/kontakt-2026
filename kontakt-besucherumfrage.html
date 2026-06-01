@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Besucherumfrage — kontakt Festival 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #1A1614;
+    --bg-card: #221E1B;
+    --bg-elevated: #2A2521;
+    --accent: #E8855A;
+    --accent-hover: #D4714A;
+    --sage: #7BBDA8;
+    --gold: #D4A85A;
+    --text: #F0EAE2;
+    --text-muted: #9A8E84;
+    --border: #3A3330;
+    --border-light: #4A4440;
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* STEP DOTS */
+  .step-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 28px 24px 0;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-light);
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+  .dot.active {
+    background: var(--accent);
+    width: 24px;
+    border-radius: 4px;
+  }
+  .dot.done {
+    background: var(--sage);
+  }
+  .dot-line {
+    width: 20px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* OUTER WRAP */
+  .survey-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    min-height: 100vh;
+  }
+
+  /* FESTIVAL MARK */
+  .festival-mark {
+    text-align: center;
+    padding: 32px 0 20px;
+  }
+  .festival-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+  .festival-year {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-top: 2px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* STEPS */
+  .step {
+    display: none;
+    animation: fadeSlideIn 0.4s ease forwards;
+  }
+  .step.active { display: block; }
+  .step.slide-out {
+    animation: fadeSlideOut 0.3s ease forwards;
+  }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeSlideOut {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(-40px); }
+  }
+  @keyframes fadeSlideInBack {
+    from { opacity: 0; transform: translateX(-40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .step.slide-in-back { animation: fadeSlideInBack 0.4s ease forwards; }
+
+  /* STEP CARD */
+  .step-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px 36px;
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+  }
+  @media (max-width: 480px) {
+    .step-card { padding: 28px 22px; }
+  }
+
+  .step-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .step-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+
+  /* EMOJI TILES */
+  .emoji-tiles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .emoji-tile input[type="radio"] { display: none; }
+  .emoji-tile label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--bg-elevated);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .emoji-tile label:hover {
+    border-color: var(--accent);
+    background: #2E2826;
+  }
+  .emoji-tile input[type="radio"]:checked + label {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, #2E2219 0%, #261E1A 100%);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .tile-emoji {
+    font-size: 1.8rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .tile-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .tile-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-top: 1px;
+  }
+
+  /* MULTI-SELECT TAGS */
+  .tag-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .tag-grid input[type="checkbox"] { display: none; }
+  .tag-grid label {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 16px;
+    background: var(--bg-elevated);
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .tag-grid input[type="checkbox"]:checked + label {
+    background: rgba(232,133,90,0.15);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .tag-grid label:hover {
+    border-color: var(--border-light);
+    color: var(--text);
+  }
+
+  /* NPS SCALE */
+  .nps-wrap {
+    margin: 8px 0;
+  }
+  .nps-scale {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .nps-scale input[type="radio"] { display: none; }
+  .nps-scale label {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    min-height: 44px;
+    background: var(--bg-elevated);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .nps-scale input[type="radio"]:checked + label {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(232,133,90,0.35);
+  }
+  .nps-scale label:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .nps-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-top: 4px;
+  }
+
+  /* TEXTAREA */
+  textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--bg-elevated);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    resize: vertical;
+    min-height: 120px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    line-height: 1.6;
+  }
+  textarea::placeholder { color: var(--text-muted); }
+  textarea:focus {
+    border-color: var(--sage);
+    box-shadow: 0 0 0 3px rgba(123,189,168,0.12);
+  }
+  .optional-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 10px;
+  }
+
+  /* NAV BUTTONS */
+  .step-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 28px;
+    gap: 12px;
+  }
+  .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 20px;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-back:hover {
+    border-color: var(--border-light);
+    color: var(--text);
+  }
+  .btn-back:disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+  .btn-next {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: var(--accent);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-left: auto;
+  }
+  .btn-next:hover { background: var(--accent-hover); }
+  .btn-next:active { transform: scale(0.97); }
+
+  /* STEP COUNTER */
+  .step-counter {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  /* SUCCESS SCREEN */
+  #success-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 0 40px;
+    animation: fadeSlideIn 0.5s ease forwards;
+  }
+  .success-symbol {
+    font-size: 3rem;
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 24px;
+    letter-spacing: 0.1em;
+    display: block;
+  }
+  .success-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .success-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+  .success-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 16px;
+  }
+  .success-heart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+  .success-heart span { color: var(--accent); font-size: 1.1rem; }
+
+  /* DECORATIVE */
+  .ornament {
+    color: var(--border-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin: 12px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="survey-wrap">
+
+  <div class="festival-mark">
+    <div class="festival-name">kontakt</div>
+    <div class="festival-year">Kulturfestival Bamberg · 2026</div>
+  </div>
+
+  <!-- STEP DOTS -->
+  <div class="step-dots" id="step-dots">
+    <div class="dot active" id="dot-1"></div>
+    <div class="dot-line"></div>
+    <div class="dot" id="dot-2"></div>
+    <div class="dot-line"></div>
+    <div class="dot" id="dot-3"></div>
+    <div class="dot-line"></div>
+    <div class="dot" id="dot-4"></div>
+    <div class="dot-line"></div>
+    <div class="dot" id="dot-5"></div>
+  </div>
+
+  <!-- ===== STEP 1: Gesamteindruck ===== -->
+  <div class="step active" id="step-1">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 1 von 5</div>
+      <div class="step-title">Wie war's?</div>
+      <div class="step-subtitle">Dein erster Eindruck vom kontakt Festival 2026.</div>
+
+      <div class="emoji-tiles">
+        <div class="emoji-tile">
+          <input type="radio" name="eindruck" id="e-grandios" value="grandios">
+          <label for="e-grandios">
+            <span class="tile-emoji">🔥</span>
+            <div><div class="tile-text">Grandios</div><div class="tile-desc">Besser geht's kaum!</div></div>
+          </label>
+        </div>
+        <div class="emoji-tile">
+          <input type="radio" name="eindruck" id="e-sehrgut" value="sehr_gut">
+          <label for="e-sehrgut">
+            <span class="tile-emoji">😊</span>
+            <div><div class="tile-text">Sehr gut</div><div class="tile-desc">Hat mir wirklich gefallen.</div></div>
+          </label>
+        </div>
+        <div class="emoji-tile">
+          <input type="radio" name="eindruck" id="e-gut" value="gut">
+          <label for="e-gut">
+            <span class="tile-emoji">👍</span>
+            <div><div class="tile-text">Gut</div><div class="tile-desc">War schön, passt.</div></div>
+          </label>
+        </div>
+        <div class="emoji-tile">
+          <input type="radio" name="eindruck" id="e-naja" value="na_ja">
+          <label for="e-naja">
+            <span class="tile-emoji">😐</span>
+            <div><div class="tile-text">Na ja</div><div class="tile-desc">Durchwachsen — mal so, mal so.</div></div>
+          </label>
+        </div>
+        <div class="emoji-tile">
+          <input type="radio" name="eindruck" id="e-entttaeuscht" value="enttäuscht">
+          <label for="e-entttaeuscht">
+            <span class="tile-emoji">👎</span>
+            <div><div class="tile-text">Enttäuschend</div><div class="tile-desc">Habe mehr erwartet.</div></div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(2)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">1 / 5</div>
+  </div>
+
+  <!-- ===== STEP 2: Was hat begeistert? ===== -->
+  <div class="step" id="step-2">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 2 von 5</div>
+      <div class="step-title">Was hat begeistert?</div>
+      <div class="step-subtitle">Wähle alles aus, was dich besonders angesprochen hat.</div>
+
+      <div class="tag-grid">
+        <input type="checkbox" id="h-musik" name="highlights" value="Musik & Konzerte">
+        <label for="h-musik">Musik &amp; Konzerte</label>
+
+        <input type="checkbox" id="h-theater" name="highlights" value="Theater & Performance">
+        <label for="h-theater">Theater &amp; Performance</label>
+
+        <input type="checkbox" id="h-workshops" name="highlights" value="Workshops">
+        <label for="h-workshops">Workshops</label>
+
+        <input type="checkbox" id="h-kunst" name="highlights" value="Kunstinstallationen">
+        <label for="h-kunst">Kunstinstallationen</label>
+
+        <input type="checkbox" id="h-essen" name="highlights" value="Essen & Getränke">
+        <label for="h-essen">Essen &amp; Getränke</label>
+
+        <input type="checkbox" id="h-atmo" name="highlights" value="Atmosphäre & Gelände">
+        <label for="h-atmo">Atmosphäre &amp; Gelände</label>
+
+        <input type="checkbox" id="h-people" name="highlights" value="Menschen & Community">
+        <label for="h-people">Menschen &amp; Community</label>
+
+        <input type="checkbox" id="h-kinder" name="highlights" value="Kinderangebote">
+        <label for="h-kinder">Kinderangebote</label>
+
+        <input type="checkbox" id="h-spontan" name="highlights" value="Spontane Begegnungen">
+        <label for="h-spontan">Spontane Begegnungen</label>
+
+        <input type="checkbox" id="h-nichts" name="highlights" value="Nichts besonderes">
+        <label for="h-nichts">Nichts besonderes</label>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(1, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(3)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">2 / 5</div>
+  </div>
+
+  <!-- ===== STEP 3: Weiterempfehlung ===== -->
+  <div class="step" id="step-3">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 3 von 5</div>
+      <div class="step-title">Würdest du kontakt weiterempfehlen?</div>
+      <div class="step-subtitle">Auf einer Skala von 1 bis 10.</div>
+
+      <div class="nps-wrap">
+        <div class="nps-scale">
+          <input type="radio" name="nps" id="nps1" value="1"><label for="nps1">1</label>
+          <input type="radio" name="nps" id="nps2" value="2"><label for="nps2">2</label>
+          <input type="radio" name="nps" id="nps3" value="3"><label for="nps3">3</label>
+          <input type="radio" name="nps" id="nps4" value="4"><label for="nps4">4</label>
+          <input type="radio" name="nps" id="nps5" value="5"><label for="nps5">5</label>
+          <input type="radio" name="nps" id="nps6" value="6"><label for="nps6">6</label>
+          <input type="radio" name="nps" id="nps7" value="7"><label for="nps7">7</label>
+          <input type="radio" name="nps" id="nps8" value="8"><label for="nps8">8</label>
+          <input type="radio" name="nps" id="nps9" value="9"><label for="nps9">9</label>
+          <input type="radio" name="nps" id="nps10" value="10"><label for="nps10">10</label>
+        </div>
+        <div class="nps-labels">
+          <span>Eher nicht</span>
+          <span>Auf jeden Fall</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(2, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(4)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">3 / 5</div>
+  </div>
+
+  <!-- ===== STEP 4: Wie aufmerksam geworden? ===== -->
+  <div class="step" id="step-4">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 4 von 5</div>
+      <div class="step-title">Wie bist du auf uns aufmerksam geworden?</div>
+      <div class="step-subtitle">Alles zutreffende auswählen.</div>
+
+      <div class="tag-grid">
+        <input type="checkbox" id="a-freunde" name="aufmerksam" value="Freunde & Familie">
+        <label for="a-freunde">Freunde &amp; Familie</label>
+
+        <input type="checkbox" id="a-instagram" name="aufmerksam" value="Instagram">
+        <label for="a-instagram">Instagram</label>
+
+        <input type="checkbox" id="a-plakate" name="aufmerksam" value="Plakate & Flyer">
+        <label for="a-plakate">Plakate &amp; Flyer</label>
+
+        <input type="checkbox" id="a-medien" name="aufmerksam" value="Lokale Medien">
+        <label for="a-medien">Lokale Medien</label>
+
+        <input type="checkbox" id="a-frueherbei" name="aufmerksam" value="War schon früher da">
+        <label for="a-frueherbei">War schon früher da</label>
+
+        <input type="checkbox" id="a-website" name="aufmerksam" value="Website">
+        <label for="a-website">Website</label>
+
+        <input type="checkbox" id="a-zufall" name="aufmerksam" value="Zufällig vorbeigekommen">
+        <label for="a-zufall">Zufällig vorbeigekommen</label>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(3, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(5)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">4 / 5</div>
+  </div>
+
+  <!-- ===== STEP 5: Wünsche für 2027 ===== -->
+  <div class="step" id="step-5">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 5 von 5</div>
+      <div class="step-title">Wünsche für 2027</div>
+      <div class="step-subtitle">Was soll das nächste kontakt-Festival besonders machen?</div>
+
+      <p class="optional-hint">Optional — kein Feld ein Muss.</p>
+      <textarea id="wuensche" name="wuensche" placeholder="Erzähl uns, was du dir für das nächste kontakt wünscht — Ideen, Wünsche, Kritik, Träume …"></textarea>
+
+      <div class="ornament">✦ ✦ ✦</div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(4, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="submitSurvey()" style="background: var(--sage); gap: 8px;">
+        Absenden
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">5 / 5</div>
+  </div>
+
+  <!-- ===== SUCCESS ===== -->
+  <div id="success-screen">
+    <span class="success-symbol">✦</span>
+    <div class="success-title">Vielen Dank!</div>
+    <div class="success-sub">
+      Deine Antworten helfen uns, kontakt<br>
+      jedes Jahr ein bisschen besser zu machen.
+    </div>
+    <div class="success-card">
+      <div class="success-heart">
+        <span>♥</span>
+        Bis nächstes Jahr! 🎶
+        <span>♥</span>
+      </div>
+    </div>
+    <div style="font-size:0.8rem; color: var(--text-muted); font-weight:300; margin-top:20px;">
+      kontakt Kulturfestival Bamberg<br>
+      Ehrenamtlich & spendenfinanziert seit den Anfängen.
+    </div>
+  </div>
+
+</div><!-- .survey-wrap -->
+
+<script>
+  let currentStep = 1;
+  const totalSteps = 5;
+
+  function updateDots(step) {
+    for (let i = 1; i <= totalSteps; i++) {
+      const dot = document.getElementById('dot-' + i);
+      dot.className = 'dot';
+      if (i < step) dot.classList.add('done');
+      else if (i === step) dot.classList.add('active');
+    }
+  }
+
+  function goTo(next, back = false) {
+    const curr = document.getElementById('step-' + currentStep);
+    const nextEl = document.getElementById('step-' + next);
+
+    curr.classList.add('slide-out');
+    setTimeout(() => {
+      curr.classList.remove('active', 'slide-out');
+      nextEl.classList.add('active');
+      if (back) nextEl.classList.add('slide-in-back');
+      setTimeout(() => nextEl.classList.remove('slide-in-back'), 400);
+      currentStep = next;
+      updateDots(currentStep);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 280);
+  }
+
+  function submitSurvey() {
+    // Hide dots and all steps
+    document.getElementById('step-dots').style.display = 'none';
+    document.querySelector('.festival-mark').style.marginBottom = '0';
+    const stepEl = document.getElementById('step-' + currentStep);
+    stepEl.classList.add('slide-out');
+    setTimeout(() => {
+      stepEl.classList.remove('active', 'slide-out');
+      document.getElementById('success-screen').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 280);
+  }
+</script>
+</body>
+</html>
