@@ -354,7 +354,7 @@
 
         // restore persisted state without animation
         const stored = (() => { try { return localStorage.getItem(STORAGE_KEY); } catch(e) { return null; } })();
-        if (stored === '1') setCollapsed(true, false);
+        if (stored !== '0') setCollapsed(true, false);
 
         btn.addEventListener('click', function () {
           const nowCollapsed = wrap.classList.contains('collapsed');
