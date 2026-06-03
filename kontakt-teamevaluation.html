@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teamevaluation — kontakt Festival 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0D1A18;
+    --bg-card: #142019;
+    --bg-elevated: #1C2B27;
+    --accent: #7BBDA8;
+    --accent-hover: #68A894;
+    --gold: #D4A85A;
+    --text: #EAF2EF;
+    --text-muted: #7A998F;
+    --border: #243330;
+    --border-light: #344844;
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.45);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── STEP DOTS ── */
+  .step-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 24px 24px 0;
+    flex-wrap: wrap;
+  }
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--border-light);
+    transition: all 0.3s ease;
+  }
+  .dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
+  .dot.done   { background: rgba(123,189,168,0.4); }
+  .dot-line   { width: 12px; height: 1px; background: var(--border); }
+
+  /* ── OUTER WRAP ── */
+  .survey-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    min-height: 100vh;
+  }
+
+  /* ── MARK ── */
+  .festival-mark {
+    text-align: center;
+    padding: 32px 0 20px;
+  }
+  .festival-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+  .festival-year {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-top: 2px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ── STEP ANIM ── */
+  .step { display: none; animation: fadeSlideIn 0.4s ease forwards; }
+  .step.active { display: block; }
+  .step.slide-out  { animation: fadeSlideOut 0.3s ease forwards; }
+  .step.slide-in-back { animation: fadeSlideInBack 0.4s ease forwards; }
+
+  @keyframes fadeSlideIn     { from { opacity:0; transform:translateX(40px);  } to { opacity:1; transform:translateX(0); } }
+  @keyframes fadeSlideOut    { from { opacity:1; transform:translateX(0);      } to { opacity:0; transform:translateX(-40px); } }
+  @keyframes fadeSlideInBack { from { opacity:0; transform:translateX(-40px); } to { opacity:1; transform:translateX(0); } }
+
+  /* ── STEP CARD ── */
+  .step-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px;
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+  }
+  @media (max-width: 480px) { .step-card { padding: 24px 18px; } }
+
+  .step-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .step-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+
+  /* ── ANON NOTICE ── */
+  .anon-notice {
+    background: rgba(123,189,168,0.1);
+    border: 1px solid rgba(123,189,168,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 0.88rem;
+    color: var(--accent);
+    font-weight: 400;
+    margin-bottom: 28px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .anon-notice::before { content: "🔒"; font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── QUESTION BLOCK ── */
+  .q-block { margin-bottom: 32px; }
+  .q-block:last-child { margin-bottom: 0; }
+  .q-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .q-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+  }
+  .optional-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 8px;
+  }
+
+  /* ── EMOJI TILES ── */
+  .emoji-tiles { display: flex; flex-direction: column; gap: 10px; }
+  .emoji-tile input[type="radio"] { display: none; }
+  .emoji-tile label {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 18px;
+    background: var(--bg-elevated);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .emoji-tile label:hover { border-color: var(--accent); background: #1e3530; }
+  .emoji-tile input[type="radio"]:checked + label {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, #1a2f2b 0%, #162522 100%);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .tile-emoji { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
+  .tile-text  { font-size: 0.95rem; font-weight: 500; color: var(--text); }
+  .tile-desc  { font-size: 0.8rem; color: var(--text-muted); font-weight: 300; margin-top: 2px; }
+
+  /* ── TAG GRID (multi-select) ── */
+  .tag-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .tag-grid input[type="checkbox"] { display: none; }
+  .tag-grid label {
+    display: inline-flex; align-items: center;
+    padding: 9px 16px;
+    background: var(--bg-elevated);
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    font-size: 0.875rem; font-weight: 400;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .tag-grid input[type="checkbox"]:checked + label {
+    background: rgba(123,189,168,0.15);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .tag-grid label:hover { border-color: var(--border-light); color: var(--text); }
+
+  /* ── NPS SCALE ── */
+  .nps-wrap { margin: 4px 0; }
+  .nps-scale {
+    display: flex; gap: 4px; margin-bottom: 6px; flex-wrap: wrap;
+  }
+  .nps-scale input[type="radio"] { display: none; }
+  .nps-scale label {
+    flex: 1; min-width: 0;
+    display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 1; min-height: 42px;
+    background: var(--bg-elevated);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.88rem; font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .nps-scale input[type="radio"]:checked + label {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0D1A18;
+    font-weight: 700;
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(123,189,168,0.3);
+  }
+  .nps-scale label:hover { border-color: var(--accent); color: var(--text); }
+  .nps-labels {
+    display: flex; justify-content: space-between;
+    font-size: 0.73rem; color: var(--text-muted); font-weight: 300; margin-top: 4px;
+  }
+
+  /* ── KEINE ANGABE ── */
+  .na-row { display: flex; justify-content: flex-end; margin-top: 10px; }
+  .na-row input[type="radio"] { display: none; }
+  .na-label {
+    font-size: 0.75rem; color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 12px;
+    border: 1px dashed var(--border-light);
+    border-radius: 20px;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .na-row input[type="radio"]:checked + .na-label {
+    border-color: var(--text-muted);
+    color: var(--text);
+    background: var(--bg-elevated);
+    border-style: solid;
+  }
+  /* Keine Angabe for emoji tiles – same but inline */
+  .na-tile { margin-top: 6px; }
+  .na-tile input[type="radio"] { display: none; }
+  .na-tile label {
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px 18px;
+    background: transparent;
+    border: 1px dashed var(--border-light);
+    border-radius: 12px;
+    font-size: 0.82rem; color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    width: 100%;
+  }
+  .na-tile input[type="radio"]:checked + label {
+    border-color: var(--text-muted); border-style: solid;
+    color: var(--text);
+    background: var(--bg-elevated);
+  }
+  .na-tile label:hover { border-color: var(--border-light); color: var(--text); }
+  /* Keine Angabe for yes/no */
+  .yesno-tiles { display: flex; flex-direction: column; gap: 10px; }
+
+  /* ── TEXTAREA ── */
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--bg-elevated);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    resize: vertical;
+    min-height: 100px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    line-height: 1.6;
+  }
+  textarea::placeholder { color: var(--text-muted); }
+  textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(123,189,168,0.1); }
+
+  /* ── NAV ── */
+  .step-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 28px; gap: 12px;
+  }
+  .btn-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 11px 20px;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; font-weight: 400;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-back:hover { border-color: var(--border-light); color: var(--text); }
+  .btn-back:disabled { opacity: 0.3; cursor: default; pointer-events: none; }
+  .btn-next {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 28px;
+    background: var(--accent);
+    border: none; border-radius: 10px;
+    color: #0D1A18;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; transition: background 0.2s, transform 0.1s;
+    margin-left: auto;
+  }
+  .btn-next:hover { background: var(--accent-hover); }
+  .btn-next:active { transform: scale(0.97); }
+  .step-counter {
+    font-size: 0.78rem; color: var(--text-muted); font-weight: 300;
+    text-align: center; margin-top: 16px;
+  }
+
+  /* ── SUCCESS ── */
+  #success-screen {
+    display: none; text-align: center;
+    padding: 60px 0 40px;
+    animation: fadeSlideIn 0.5s ease forwards;
+  }
+  .success-symbol {
+    font-size: 3rem; color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 24px;
+    letter-spacing: 0.1em; display: block;
+  }
+  .success-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700;
+    color: var(--text); margin-bottom: 12px; line-height: 1.2;
+  }
+  .success-sub {
+    font-size: 1rem; color: var(--text-muted);
+    font-weight: 300; line-height: 1.7; margin-bottom: 40px;
+  }
+  .success-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px; margin-bottom: 16px;
+  }
+  .success-heart {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    font-size: 0.9rem; color: var(--text-muted); font-weight: 300;
+  }
+  .success-heart span { color: var(--accent); font-size: 1.1rem; }
+
+  .ornament {
+    color: var(--border-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8rem; letter-spacing: 0.2em;
+    text-align: center; margin: 20px 0 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="survey-wrap">
+
+  <div class="festival-mark">
+    <div class="festival-name">kontakt</div>
+    <div class="festival-year">Teamevaluation · 2026</div>
+  </div>
+
+  <div class="step-dots" id="step-dots">
+    <div class="dot active" id="dot-1"></div><div class="dot-line"></div>
+    <div class="dot" id="dot-2"></div><div class="dot-line"></div>
+    <div class="dot" id="dot-3"></div><div class="dot-line"></div>
+    <div class="dot" id="dot-4"></div><div class="dot-line"></div>
+    <div class="dot" id="dot-5"></div><div class="dot-line"></div>
+    <div class="dot" id="dot-6"></div><div class="dot-line"></div>
+    <div class="dot" id="dot-7"></div><div class="dot-line"></div>
+    <div class="dot" id="dot-8"></div><div class="dot-line"></div>
+    <div class="dot" id="dot-9"></div>
+  </div>
+
+  <!-- ===== STEP 1: Intro & Erfahrung ===== -->
+  <div class="step active" id="step-1">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 1 von 9</div>
+      <div class="step-title">Hallo, Teami!</div>
+      <div class="step-subtitle">Diese Umfrage ist für alle, die beim kontakt Festival 2026 mitgemacht haben.</div>
+
+      <div class="anon-notice">
+        Alle deine Antworten und Bewertungen sind komplett anonym. Keine Frage ist ein Muss — du kannst jederzeit „Keine Angabe" wählen.
+      </div>
+
+      <div class="q-block">
+        <div class="q-label">Wie viele Jahre Kontakterfahrung hast du?</div>
+        <div class="emoji-tiles">
+          <div class="emoji-tile">
+            <input type="radio" name="erfahrung" id="erf-1" value="erstes_mal">
+            <label for="erf-1"><span class="tile-emoji">🌱</span><div><div class="tile-text">Das war mein erstes Mal</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="erfahrung" id="erf-2" value="1_2_jahre">
+            <label for="erf-2"><span class="tile-emoji">🌿</span><div><div class="tile-text">1–2 Jahre</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="erfahrung" id="erf-3" value="3_5_jahre">
+            <label for="erf-3"><span class="tile-emoji">🌳</span><div><div class="tile-text">3–5 Jahre</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="erfahrung" id="erf-4" value="6_plus">
+            <label for="erf-4"><span class="tile-emoji">🏔️</span><div><div class="tile-text">6 Jahre oder mehr</div></div></label>
+          </div>
+          <div class="na-tile">
+            <input type="radio" name="erfahrung" id="erf-na" value="keine_angabe">
+            <label for="erf-na">Keine Angabe</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(2)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">1 / 9</div>
+  </div>
+
+  <!-- ===== STEP 2: Vorbereitung & Aufbau ===== -->
+  <div class="step" id="step-2">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 2 von 9</div>
+      <div class="step-title">Vorbereitung &amp; Aufbau</div>
+      <div class="step-subtitle">Wie zufrieden warst du mit den Phasen vor dem Festival?</div>
+
+      <div class="q-block">
+        <div class="q-label">Wie zufrieden warst du mit der <strong>Vorbereitungsphase</strong> des Festivals?</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="vorbereitung" id="v1" value="1"><label for="v1">1</label>
+            <input type="radio" name="vorbereitung" id="v2" value="2"><label for="v2">2</label>
+            <input type="radio" name="vorbereitung" id="v3" value="3"><label for="v3">3</label>
+            <input type="radio" name="vorbereitung" id="v4" value="4"><label for="v4">4</label>
+            <input type="radio" name="vorbereitung" id="v5" value="5"><label for="v5">5</label>
+            <input type="radio" name="vorbereitung" id="v6" value="6"><label for="v6">6</label>
+            <input type="radio" name="vorbereitung" id="v7" value="7"><label for="v7">7</label>
+            <input type="radio" name="vorbereitung" id="v8" value="8"><label for="v8">8</label>
+            <input type="radio" name="vorbereitung" id="v9" value="9"><label for="v9">9</label>
+            <input type="radio" name="vorbereitung" id="v10" value="10"><label for="v10">10</label>
+          </div>
+          <div class="nps-labels"><span>gar nicht zufrieden</span><span>sehr zufrieden</span></div>
+        </div>
+        <div class="na-row">
+          <input type="radio" name="vorbereitung" id="v-na" value="keine_angabe">
+          <label for="v-na" class="na-label">Keine Angabe</label>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="vorbereitung_text" placeholder="Warum diese Bewertung? …"></textarea>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Wie zufrieden warst du mit der <strong>Aufbauphase</strong> des Festivals?</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="aufbau" id="a1" value="1"><label for="a1">1</label>
+            <input type="radio" name="aufbau" id="a2" value="2"><label for="a2">2</label>
+            <input type="radio" name="aufbau" id="a3" value="3"><label for="a3">3</label>
+            <input type="radio" name="aufbau" id="a4" value="4"><label for="a4">4</label>
+            <input type="radio" name="aufbau" id="a5" value="5"><label for="a5">5</label>
+            <input type="radio" name="aufbau" id="a6" value="6"><label for="a6">6</label>
+            <input type="radio" name="aufbau" id="a7" value="7"><label for="a7">7</label>
+            <input type="radio" name="aufbau" id="a8" value="8"><label for="a8">8</label>
+            <input type="radio" name="aufbau" id="a9" value="9"><label for="a9">9</label>
+            <input type="radio" name="aufbau" id="a10" value="10"><label for="a10">10</label>
+          </div>
+          <div class="nps-labels"><span>gar nicht zufrieden</span><span>sehr zufrieden</span></div>
+        </div>
+        <div class="na-row">
+          <input type="radio" name="aufbau" id="a-na" value="keine_angabe">
+          <label for="a-na" class="na-label">Keine Angabe</label>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="aufbau_text" placeholder="Warum diese Bewertung? …"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(1, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(3)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">2 / 9</div>
+  </div>
+
+  <!-- ===== STEP 3: Durchführung & Abbau ===== -->
+  <div class="step" id="step-3">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 3 von 9</div>
+      <div class="step-title">Durchführung &amp; Abbau</div>
+      <div class="step-subtitle">Wie lief's während und nach dem Festival?</div>
+
+      <div class="q-block">
+        <div class="q-label">Wie zufrieden warst du mit der <strong>Durchführung</strong> des Festivals?</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="durchfuehrung" id="d1" value="1"><label for="d1">1</label>
+            <input type="radio" name="durchfuehrung" id="d2" value="2"><label for="d2">2</label>
+            <input type="radio" name="durchfuehrung" id="d3" value="3"><label for="d3">3</label>
+            <input type="radio" name="durchfuehrung" id="d4" value="4"><label for="d4">4</label>
+            <input type="radio" name="durchfuehrung" id="d5" value="5"><label for="d5">5</label>
+            <input type="radio" name="durchfuehrung" id="d6" value="6"><label for="d6">6</label>
+            <input type="radio" name="durchfuehrung" id="d7" value="7"><label for="d7">7</label>
+            <input type="radio" name="durchfuehrung" id="d8" value="8"><label for="d8">8</label>
+            <input type="radio" name="durchfuehrung" id="d9" value="9"><label for="d9">9</label>
+            <input type="radio" name="durchfuehrung" id="d10" value="10"><label for="d10">10</label>
+          </div>
+          <div class="nps-labels"><span>gar nicht zufrieden</span><span>sehr zufrieden</span></div>
+        </div>
+        <div class="na-row">
+          <input type="radio" name="durchfuehrung" id="d-na" value="keine_angabe">
+          <label for="d-na" class="na-label">Keine Angabe</label>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="durchfuehrung_text" placeholder="Warum diese Bewertung? …"></textarea>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Wie zufrieden warst du mit dem <strong>Abbau</strong> des Festivals?</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="abbau" id="ab1" value="1"><label for="ab1">1</label>
+            <input type="radio" name="abbau" id="ab2" value="2"><label for="ab2">2</label>
+            <input type="radio" name="abbau" id="ab3" value="3"><label for="ab3">3</label>
+            <input type="radio" name="abbau" id="ab4" value="4"><label for="ab4">4</label>
+            <input type="radio" name="abbau" id="ab5" value="5"><label for="ab5">5</label>
+            <input type="radio" name="abbau" id="ab6" value="6"><label for="ab6">6</label>
+            <input type="radio" name="abbau" id="ab7" value="7"><label for="ab7">7</label>
+            <input type="radio" name="abbau" id="ab8" value="8"><label for="ab8">8</label>
+            <input type="radio" name="abbau" id="ab9" value="9"><label for="ab9">9</label>
+            <input type="radio" name="abbau" id="ab10" value="10"><label for="ab10">10</label>
+          </div>
+          <div class="nps-labels"><span>gar nicht zufrieden</span><span>sehr zufrieden</span></div>
+        </div>
+        <div class="na-row">
+          <input type="radio" name="abbau" id="ab-na" value="keine_angabe">
+          <label for="ab-na" class="na-label">Keine Angabe</label>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="abbau_text" placeholder="Warum diese Bewertung? …"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(2, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(4)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">3 / 9</div>
+  </div>
+
+  <!-- ===== STEP 4: Erlebnis als Teami ===== -->
+  <div class="step" id="step-4">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 4 von 9</div>
+      <div class="step-title">Erlebnis auf dem Festival</div>
+      <div class="step-subtitle">Wie war es für dich als Teami auf dem Gelände?</div>
+
+      <div class="q-block">
+        <div class="q-label">Wie zufrieden warst du mit dem Festival als <strong>Veranstaltung</strong>? (Besuchi-Perspektive)</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="veranstaltung" id="ve1" value="1"><label for="ve1">1</label>
+            <input type="radio" name="veranstaltung" id="ve2" value="2"><label for="ve2">2</label>
+            <input type="radio" name="veranstaltung" id="ve3" value="3"><label for="ve3">3</label>
+            <input type="radio" name="veranstaltung" id="ve4" value="4"><label for="ve4">4</label>
+            <input type="radio" name="veranstaltung" id="ve5" value="5"><label for="ve5">5</label>
+            <input type="radio" name="veranstaltung" id="ve6" value="6"><label for="ve6">6</label>
+            <input type="radio" name="veranstaltung" id="ve7" value="7"><label for="ve7">7</label>
+            <input type="radio" name="veranstaltung" id="ve8" value="8"><label for="ve8">8</label>
+            <input type="radio" name="veranstaltung" id="ve9" value="9"><label for="ve9">9</label>
+            <input type="radio" name="veranstaltung" id="ve10" value="10"><label for="ve10">10</label>
+          </div>
+          <div class="nps-labels"><span>gar nicht zufrieden</span><span>sehr zufrieden</span></div>
+        </div>
+        <div class="na-row">
+          <input type="radio" name="veranstaltung" id="ve-na" value="keine_angabe">
+          <label for="ve-na" class="na-label">Keine Angabe</label>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="veranstaltung_text" placeholder="Warum diese Bewertung? …"></textarea>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Wie zufrieden warst du mit der <strong>Menge</strong> deiner auf dem Gelände verbrachten Zeit?</div>
+        <div class="emoji-tiles">
+          <div class="emoji-tile">
+            <input type="radio" name="zeit_menge" id="zm1" value="viel_mehr">
+            <label for="zm1"><span class="tile-emoji">😢</span><div><div class="tile-text">Ich wäre gerne viel häufiger da gewesen.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="zeit_menge" id="zm2" value="etwas_mehr">
+            <label for="zm2"><span class="tile-emoji">🙂</span><div><div class="tile-text">Ich wäre gerne etwas häufiger da gewesen.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="zeit_menge" id="zm3" value="passt">
+            <label for="zm3"><span class="tile-emoji">😊</span><div><div class="tile-text">Es hat für mich voll gepasst.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="zeit_menge" id="zm4" value="etwas_weniger">
+            <label for="zm4"><span class="tile-emoji">😓</span><div><div class="tile-text">Ich wäre gerne etwas weniger da gewesen.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="zeit_menge" id="zm5" value="viel_weniger">
+            <label for="zm5"><span class="tile-emoji">😩</span><div><div class="tile-text">Ich wäre gerne viel weniger da gewesen.</div></div></label>
+          </div>
+          <div class="na-tile">
+            <input type="radio" name="zeit_menge" id="zm-na" value="keine_angabe">
+            <label for="zm-na">Keine Angabe</label>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="zeit_menge_text" placeholder="Warum diese Bewertung? …"></textarea>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Wie zufrieden warst du mit der <strong>Qualität</strong> deiner auf dem Gelände verbrachten Zeit?</div>
+        <div class="emoji-tiles">
+          <div class="emoji-tile">
+            <input type="radio" name="zeit_qualitaet" id="zq1" value="gar_kein_spass">
+            <label for="zq1"><span class="tile-emoji">😞</span><div><div class="tile-text">Es hat mir gar kein Spaß gemacht.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="zeit_qualitaet" id="zq2" value="eher_weniger">
+            <label for="zq2"><span class="tile-emoji">😕</span><div><div class="tile-text">Es hat mir eher weniger Spaß gemacht.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="zeit_qualitaet" id="zq3" value="manchmal">
+            <label for="zq3"><span class="tile-emoji">😐</span><div><div class="tile-text">Es hat mir manchmal Spaß gemacht.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="zeit_qualitaet" id="zq4" value="ziemlich_viel">
+            <label for="zq4"><span class="tile-emoji">😄</span><div><div class="tile-text">Es hat mir ziemlich viel Spaß gemacht.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="zeit_qualitaet" id="zq5" value="sehr_viel">
+            <label for="zq5"><span class="tile-emoji">🤩</span><div><div class="tile-text">Es hat mir sehr viel Spaß gemacht.</div></div></label>
+          </div>
+          <div class="na-tile">
+            <input type="radio" name="zeit_qualitaet" id="zq-na" value="keine_angabe">
+            <label for="zq-na">Keine Angabe</label>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="zeit_qualitaet_text" placeholder="Warum diese Bewertung? …"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(3, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(5)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">4 / 9</div>
+  </div>
+
+  <!-- ===== STEP 5: Kommunikationskanäle ===== -->
+  <div class="step" id="step-5">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 5 von 9</div>
+      <div class="step-title">Kommunikation</div>
+      <div class="step-subtitle">Wie häufig hast du folgende Kanäle genutzt? (1 = nie, 10 = sehr häufig)</div>
+
+      <!-- Channel helper macro via repetition -->
+      <div class="q-block">
+        <div class="q-label">Großes Plenum</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="kanal_plenum" id="kp1" value="1"><label for="kp1">1</label>
+            <input type="radio" name="kanal_plenum" id="kp2" value="2"><label for="kp2">2</label>
+            <input type="radio" name="kanal_plenum" id="kp3" value="3"><label for="kp3">3</label>
+            <input type="radio" name="kanal_plenum" id="kp4" value="4"><label for="kp4">4</label>
+            <input type="radio" name="kanal_plenum" id="kp5" value="5"><label for="kp5">5</label>
+            <input type="radio" name="kanal_plenum" id="kp6" value="6"><label for="kp6">6</label>
+            <input type="radio" name="kanal_plenum" id="kp7" value="7"><label for="kp7">7</label>
+            <input type="radio" name="kanal_plenum" id="kp8" value="8"><label for="kp8">8</label>
+            <input type="radio" name="kanal_plenum" id="kp9" value="9"><label for="kp9">9</label>
+            <input type="radio" name="kanal_plenum" id="kp10" value="10"><label for="kp10">10</label>
+          </div>
+          <div class="nps-labels"><span>nie</span><span>sehr häufig</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="kanal_plenum" id="kp-na" value="keine_angabe"><label for="kp-na" class="na-label">Keine Angabe</label></div>
+      </div>
+
+      <hr class="q-divider">
+      <div class="q-block">
+        <div class="q-label">Telegram 2026 (allgemeiner Kanal)</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="kanal_tg2026" id="kt1" value="1"><label for="kt1">1</label>
+            <input type="radio" name="kanal_tg2026" id="kt2" value="2"><label for="kt2">2</label>
+            <input type="radio" name="kanal_tg2026" id="kt3" value="3"><label for="kt3">3</label>
+            <input type="radio" name="kanal_tg2026" id="kt4" value="4"><label for="kt4">4</label>
+            <input type="radio" name="kanal_tg2026" id="kt5" value="5"><label for="kt5">5</label>
+            <input type="radio" name="kanal_tg2026" id="kt6" value="6"><label for="kt6">6</label>
+            <input type="radio" name="kanal_tg2026" id="kt7" value="7"><label for="kt7">7</label>
+            <input type="radio" name="kanal_tg2026" id="kt8" value="8"><label for="kt8">8</label>
+            <input type="radio" name="kanal_tg2026" id="kt9" value="9"><label for="kt9">9</label>
+            <input type="radio" name="kanal_tg2026" id="kt10" value="10"><label for="kt10">10</label>
+          </div>
+          <div class="nps-labels"><span>nie</span><span>sehr häufig</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="kanal_tg2026" id="kt-na" value="keine_angabe"><label for="kt-na" class="na-label">Keine Angabe</label></div>
+      </div>
+
+      <hr class="q-divider">
+      <div class="q-block">
+        <div class="q-label">Telegram / AK-spezifischer Chat</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="kanal_tg_ak" id="ka1" value="1"><label for="ka1">1</label>
+            <input type="radio" name="kanal_tg_ak" id="ka2" value="2"><label for="ka2">2</label>
+            <input type="radio" name="kanal_tg_ak" id="ka3" value="3"><label for="ka3">3</label>
+            <input type="radio" name="kanal_tg_ak" id="ka4" value="4"><label for="ka4">4</label>
+            <input type="radio" name="kanal_tg_ak" id="ka5" value="5"><label for="ka5">5</label>
+            <input type="radio" name="kanal_tg_ak" id="ka6" value="6"><label for="ka6">6</label>
+            <input type="radio" name="kanal_tg_ak" id="ka7" value="7"><label for="ka7">7</label>
+            <input type="radio" name="kanal_tg_ak" id="ka8" value="8"><label for="ka8">8</label>
+            <input type="radio" name="kanal_tg_ak" id="ka9" value="9"><label for="ka9">9</label>
+            <input type="radio" name="kanal_tg_ak" id="ka10" value="10"><label for="ka10">10</label>
+          </div>
+          <div class="nps-labels"><span>nie</span><span>sehr häufig</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="kanal_tg_ak" id="ka-na" value="keine_angabe"><label for="ka-na" class="na-label">Keine Angabe</label></div>
+      </div>
+
+      <hr class="q-divider">
+      <div class="q-block">
+        <div class="q-label">Decks</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="kanal_decks" id="kd1" value="1"><label for="kd1">1</label>
+            <input type="radio" name="kanal_decks" id="kd2" value="2"><label for="kd2">2</label>
+            <input type="radio" name="kanal_decks" id="kd3" value="3"><label for="kd3">3</label>
+            <input type="radio" name="kanal_decks" id="kd4" value="4"><label for="kd4">4</label>
+            <input type="radio" name="kanal_decks" id="kd5" value="5"><label for="kd5">5</label>
+            <input type="radio" name="kanal_decks" id="kd6" value="6"><label for="kd6">6</label>
+            <input type="radio" name="kanal_decks" id="kd7" value="7"><label for="kd7">7</label>
+            <input type="radio" name="kanal_decks" id="kd8" value="8"><label for="kd8">8</label>
+            <input type="radio" name="kanal_decks" id="kd9" value="9"><label for="kd9">9</label>
+            <input type="radio" name="kanal_decks" id="kd10" value="10"><label for="kd10">10</label>
+          </div>
+          <div class="nps-labels"><span>nie</span><span>sehr häufig</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="kanal_decks" id="kd-na" value="keine_angabe"><label for="kd-na" class="na-label">Keine Angabe</label></div>
+      </div>
+
+      <hr class="q-divider">
+      <div class="q-block">
+        <div class="q-label">Pad (z. B. Aufbau-Pad)</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="kanal_pad" id="kpa1" value="1"><label for="kpa1">1</label>
+            <input type="radio" name="kanal_pad" id="kpa2" value="2"><label for="kpa2">2</label>
+            <input type="radio" name="kanal_pad" id="kpa3" value="3"><label for="kpa3">3</label>
+            <input type="radio" name="kanal_pad" id="kpa4" value="4"><label for="kpa4">4</label>
+            <input type="radio" name="kanal_pad" id="kpa5" value="5"><label for="kpa5">5</label>
+            <input type="radio" name="kanal_pad" id="kpa6" value="6"><label for="kpa6">6</label>
+            <input type="radio" name="kanal_pad" id="kpa7" value="7"><label for="kpa7">7</label>
+            <input type="radio" name="kanal_pad" id="kpa8" value="8"><label for="kpa8">8</label>
+            <input type="radio" name="kanal_pad" id="kpa9" value="9"><label for="kpa9">9</label>
+            <input type="radio" name="kanal_pad" id="kpa10" value="10"><label for="kpa10">10</label>
+          </div>
+          <div class="nps-labels"><span>nie</span><span>sehr häufig</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="kanal_pad" id="kpa-na" value="keine_angabe"><label for="kpa-na" class="na-label">Keine Angabe</label></div>
+      </div>
+
+      <hr class="q-divider">
+      <div class="q-block">
+        <div class="q-label">Persönlicher Austausch mit anderen Teamis</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="kanal_persoenlich" id="kpe1" value="1"><label for="kpe1">1</label>
+            <input type="radio" name="kanal_persoenlich" id="kpe2" value="2"><label for="kpe2">2</label>
+            <input type="radio" name="kanal_persoenlich" id="kpe3" value="3"><label for="kpe3">3</label>
+            <input type="radio" name="kanal_persoenlich" id="kpe4" value="4"><label for="kpe4">4</label>
+            <input type="radio" name="kanal_persoenlich" id="kpe5" value="5"><label for="kpe5">5</label>
+            <input type="radio" name="kanal_persoenlich" id="kpe6" value="6"><label for="kpe6">6</label>
+            <input type="radio" name="kanal_persoenlich" id="kpe7" value="7"><label for="kpe7">7</label>
+            <input type="radio" name="kanal_persoenlich" id="kpe8" value="8"><label for="kpe8">8</label>
+            <input type="radio" name="kanal_persoenlich" id="kpe9" value="9"><label for="kpe9">9</label>
+            <input type="radio" name="kanal_persoenlich" id="kpe10" value="10"><label for="kpe10">10</label>
+          </div>
+          <div class="nps-labels"><span>nie</span><span>sehr häufig</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="kanal_persoenlich" id="kpe-na" value="keine_angabe"><label for="kpe-na" class="na-label">Keine Angabe</label></div>
+      </div>
+
+      <hr class="q-divider">
+      <div class="q-block">
+        <p class="optional-hint">Optional — Anmerkungen zu Kommunikationskanälen:</p>
+        <textarea name="kommunikation_text" placeholder="Was hat gut funktioniert, was nicht? Gibt es Kanäle die gefehlt haben? …"></textarea>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(4, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(6)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">5 / 9</div>
+  </div>
+
+  <!-- ===== STEP 6: Arbeitslast ===== -->
+  <div class="step" id="step-6">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 6 von 9</div>
+      <div class="step-title">Arbeitslast</div>
+      <div class="step-subtitle">Wie habt ihr die Verteilung der Arbeit erlebt?</div>
+
+      <div class="q-block">
+        <div class="q-label">Wie zufrieden warst du mit der <strong>mengenmäßigen Verteilung</strong> der Arbeit auf das Team?</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="arbeitsvert" id="aw1" value="1"><label for="aw1">1</label>
+            <input type="radio" name="arbeitsvert" id="aw2" value="2"><label for="aw2">2</label>
+            <input type="radio" name="arbeitsvert" id="aw3" value="3"><label for="aw3">3</label>
+            <input type="radio" name="arbeitsvert" id="aw4" value="4"><label for="aw4">4</label>
+            <input type="radio" name="arbeitsvert" id="aw5" value="5"><label for="aw5">5</label>
+            <input type="radio" name="arbeitsvert" id="aw6" value="6"><label for="aw6">6</label>
+            <input type="radio" name="arbeitsvert" id="aw7" value="7"><label for="aw7">7</label>
+            <input type="radio" name="arbeitsvert" id="aw8" value="8"><label for="aw8">8</label>
+            <input type="radio" name="arbeitsvert" id="aw9" value="9"><label for="aw9">9</label>
+            <input type="radio" name="arbeitsvert" id="aw10" value="10"><label for="aw10">10</label>
+          </div>
+          <div class="nps-labels"><span>gar nicht zufrieden</span><span>sehr zufrieden</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="arbeitsvert" id="aw-na" value="keine_angabe"><label for="aw-na" class="na-label">Keine Angabe</label></div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — hast du eine anonyme Idee oder Anregung zur Verteilung der Arbeitslast?</p>
+          <textarea name="arbeitsvert_idee" placeholder="Idee oder Anregung …"></textarea>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — was würdest du an den Strukturen ändern für eine bessere Aufteilung?</p>
+          <textarea name="arbeitsvert_struktur" placeholder="Strukturelle Verbesserungsideen …"></textarea>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Personen, die während der Vorbereitung des Festivals <strong>sehr viel Zeit</strong> reingesteckt haben, sollten große <strong>Anerkennung</strong> bekommen.</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="anerkennung" id="an1" value="1"><label for="an1">1</label>
+            <input type="radio" name="anerkennung" id="an2" value="2"><label for="an2">2</label>
+            <input type="radio" name="anerkennung" id="an3" value="3"><label for="an3">3</label>
+            <input type="radio" name="anerkennung" id="an4" value="4"><label for="an4">4</label>
+            <input type="radio" name="anerkennung" id="an5" value="5"><label for="an5">5</label>
+            <input type="radio" name="anerkennung" id="an6" value="6"><label for="an6">6</label>
+            <input type="radio" name="anerkennung" id="an7" value="7"><label for="an7">7</label>
+            <input type="radio" name="anerkennung" id="an8" value="8"><label for="an8">8</label>
+            <input type="radio" name="anerkennung" id="an9" value="9"><label for="an9">9</label>
+            <input type="radio" name="anerkennung" id="an10" value="10"><label for="an10">10</label>
+          </div>
+          <div class="nps-labels"><span>stimme gar nicht zu</span><span>stimme voll zu</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="anerkennung" id="an-na" value="keine_angabe"><label for="an-na" class="na-label">Keine Angabe</label></div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="anerkennung_text" placeholder="Warum diese Bewertung? …"></textarea>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Die Meinung von Personen, die sehr viel Zeit reingesteckt haben, sollte bei <strong>Entscheidungen mehr Gewicht</strong> haben.</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="entscheidungsgewicht" id="eg1" value="1"><label for="eg1">1</label>
+            <input type="radio" name="entscheidungsgewicht" id="eg2" value="2"><label for="eg2">2</label>
+            <input type="radio" name="entscheidungsgewicht" id="eg3" value="3"><label for="eg3">3</label>
+            <input type="radio" name="entscheidungsgewicht" id="eg4" value="4"><label for="eg4">4</label>
+            <input type="radio" name="entscheidungsgewicht" id="eg5" value="5"><label for="eg5">5</label>
+            <input type="radio" name="entscheidungsgewicht" id="eg6" value="6"><label for="eg6">6</label>
+            <input type="radio" name="entscheidungsgewicht" id="eg7" value="7"><label for="eg7">7</label>
+            <input type="radio" name="entscheidungsgewicht" id="eg8" value="8"><label for="eg8">8</label>
+            <input type="radio" name="entscheidungsgewicht" id="eg9" value="9"><label for="eg9">9</label>
+            <input type="radio" name="entscheidungsgewicht" id="eg10" value="10"><label for="eg10">10</label>
+          </div>
+          <div class="nps-labels"><span>stimme gar nicht zu</span><span>stimme voll zu</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="entscheidungsgewicht" id="eg-na" value="keine_angabe"><label for="eg-na" class="na-label">Keine Angabe</label></div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="entscheidungsgewicht_text" placeholder="Warum diese Bewertung? …"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(5, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(7)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">6 / 9</div>
+  </div>
+
+  <!-- ===== STEP 7: kontakt — das Kulturprojekt ===== -->
+  <div class="step" id="step-7">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 7 von 9</div>
+      <div class="step-title">kontakt — das Kulturprojekt</div>
+      <div class="step-subtitle">Hier geht es um alle Aktivitäten über das Jahr, nicht nur das Festival.</div>
+
+      <div class="q-block">
+        <div class="q-label">Für wie realistisch hältst du es, bei <strong>kontakt — das Kulturprojekt</strong> weiterhin dabei zu sein?</div>
+        <div class="emoji-tiles">
+          <div class="emoji-tile">
+            <input type="radio" name="weitermachen" id="wm1" value="dabei">
+            <label for="wm1"><span class="tile-emoji">🙌</span><div><div class="tile-text">Ich bin eh dabei.</div><div class="tile-desc">Ich kann mit allem umgehen.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="weitermachen" id="wm2" value="eher_ja">
+            <label for="wm2"><span class="tile-emoji">👍</span><div><div class="tile-text">Eher realistisch</div><div class="tile-desc">Mit ein paar Finetunings.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="weitermachen" id="wm3" value="gespraeche_noetig">
+            <label for="wm3"><span class="tile-emoji">💬</span><div><div class="tile-text">Wir müssten uns mal ernsthaft zusammensetzen.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="weitermachen" id="wm4" value="eher_nein">
+            <label for="wm4"><span class="tile-emoji">🤔</span><div><div class="tile-text">Eher unrealistisch</div><div class="tile-desc">Wir müssten einiges überdenken.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="weitermachen" id="wm5" value="kaum_vorstellbar">
+            <label for="wm5"><span class="tile-emoji">😔</span><div><div class="tile-text">Ich kann es mir kaum vorstellen.</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="weitermachen" id="wm6" value="ausgeschlossen">
+            <label for="wm6"><span class="tile-emoji">🚪</span><div><div class="tile-text">Komplett ausgeschlossen.</div></div></label>
+          </div>
+          <div class="na-tile">
+            <input type="radio" name="weitermachen" id="wm-na" value="keine_angabe">
+            <label for="wm-na">Keine Angabe</label>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="weitermachen_text" placeholder="Warum diese Einschätzung? …"></textarea>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Was benötigst du konkret, um weiterhin bei kontakt mitzuwirken? <span style="font-weight:300;font-size:0.85rem;">(Mehrfachauswahl möglich)</span></div>
+        <div class="tag-grid">
+          <input type="checkbox" id="ben1" name="benoetigt" value="andere_organisation">
+          <label for="ben1">Andere Organisationsformen</label>
+
+          <input type="checkbox" id="ben2" name="benoetigt" value="kleineres_festival">
+          <label for="ben2">Kleineres Festival</label>
+
+          <input type="checkbox" id="ben3" name="benoetigt" value="mehr_wertschaetzung">
+          <label for="ben3">Mehr Wertschätzung untereinander</label>
+
+          <input type="checkbox" id="ben4" name="benoetigt" value="klarere_verantwortung">
+          <label for="ben4">Klarer aufgeteilte Verantwortung</label>
+
+          <input type="checkbox" id="ben5" name="benoetigt" value="mehr_autonomie_ak">
+          <label for="ben5">Mehr Autonomie der AKs</label>
+
+          <input type="checkbox" id="ben6" name="benoetigt" value="mehr_gemeinsam">
+          <label for="ben6">Mehr gemeinsame Aktionen</label>
+
+          <input type="checkbox" id="ben7" name="benoetigt" value="mehr_spass">
+          <label for="ben7">Mehr Spaß</label>
+
+          <input type="checkbox" id="ben-na" name="benoetigt" value="keine_angabe">
+          <label for="ben-na">Keine Angabe</label>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — gibt es weitere Punkte?</p>
+          <textarea name="benoetigt_text" placeholder="Weitere Ideen oder Wünsche …"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(6, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(8)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">7 / 9</div>
+  </div>
+
+  <!-- ===== STEP 8: Mitsprache & Strukturen ===== -->
+  <div class="step" id="step-8">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 8 von 9</div>
+      <div class="step-title">Mitsprache &amp; Strukturen</div>
+      <div class="step-subtitle">Wie erlebst du die politische Teilhabe im Team?</div>
+
+      <div class="q-block">
+        <div class="q-label">Fühlst du dich durch das Festival <strong>politisch gut repräsentiert</strong>?</div>
+        <div class="yesno-tiles">
+          <div class="emoji-tile">
+            <input type="radio" name="pol_repr" id="pr-ja" value="ja">
+            <label for="pr-ja"><span class="tile-emoji">✅</span><div><div class="tile-text">Ja</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="pol_repr" id="pr-nein" value="nein">
+            <label for="pr-nein"><span class="tile-emoji">❌</span><div><div class="tile-text">Nein</div></div></label>
+          </div>
+          <div class="na-tile">
+            <input type="radio" name="pol_repr" id="pr-na" value="keine_angabe">
+            <label for="pr-na">Keine Angabe</label>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="pol_repr_text" placeholder="Warum? …"></textarea>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Fühlst du dich <strong>sicher</strong>, deine politische Meinung unter Teamis zu äußern?</div>
+        <div class="yesno-tiles">
+          <div class="emoji-tile">
+            <input type="radio" name="pol_sicher" id="ps-ja" value="ja">
+            <label for="ps-ja"><span class="tile-emoji">✅</span><div><div class="tile-text">Ja</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="pol_sicher" id="ps-nein" value="nein">
+            <label for="ps-nein"><span class="tile-emoji">❌</span><div><div class="tile-text">Nein</div></div></label>
+          </div>
+          <div class="na-tile">
+            <input type="radio" name="pol_sicher" id="ps-na" value="keine_angabe">
+            <label for="ps-na">Keine Angabe</label>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="pol_sicher_text" placeholder="Warum? …"></textarea>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Wie weit sollte die <strong>Autonomie der AKs</strong> bei wichtigen Entscheidungen gehen?</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="ak_autonomie" id="aa1" value="1"><label for="aa1">1</label>
+            <input type="radio" name="ak_autonomie" id="aa2" value="2"><label for="aa2">2</label>
+            <input type="radio" name="ak_autonomie" id="aa3" value="3"><label for="aa3">3</label>
+            <input type="radio" name="ak_autonomie" id="aa4" value="4"><label for="aa4">4</label>
+            <input type="radio" name="ak_autonomie" id="aa5" value="5"><label for="aa5">5</label>
+            <input type="radio" name="ak_autonomie" id="aa6" value="6"><label for="aa6">6</label>
+            <input type="radio" name="ak_autonomie" id="aa7" value="7"><label for="aa7">7</label>
+            <input type="radio" name="ak_autonomie" id="aa8" value="8"><label for="aa8">8</label>
+            <input type="radio" name="ak_autonomie" id="aa9" value="9"><label for="aa9">9</label>
+            <input type="radio" name="ak_autonomie" id="aa10" value="10"><label for="aa10">10</label>
+          </div>
+          <div class="nps-labels"><span>Alles im Plenum entscheiden</span><span>AKs max. Spielraum</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="ak_autonomie" id="aa-na" value="keine_angabe"><label for="aa-na" class="na-label">Keine Angabe</label></div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="ak_autonomie_text" placeholder="Warum diese Einschätzung? …"></textarea>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Wie häufig kommt es vor, dass du in Situationen <strong>nicht abstimmen oder deine Meinung äußern</strong> möchtest?</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="nicht_abstimmen" id="na1" value="1"><label for="na1">1</label>
+            <input type="radio" name="nicht_abstimmen" id="na2" value="2"><label for="na2">2</label>
+            <input type="radio" name="nicht_abstimmen" id="na3" value="3"><label for="na3">3</label>
+            <input type="radio" name="nicht_abstimmen" id="na4" value="4"><label for="na4">4</label>
+            <input type="radio" name="nicht_abstimmen" id="na5" value="5"><label for="na5">5</label>
+            <input type="radio" name="nicht_abstimmen" id="na6" value="6"><label for="na6">6</label>
+            <input type="radio" name="nicht_abstimmen" id="na7" value="7"><label for="na7">7</label>
+            <input type="radio" name="nicht_abstimmen" id="na8" value="8"><label for="na8">8</label>
+            <input type="radio" name="nicht_abstimmen" id="na9" value="9"><label for="na9">9</label>
+            <input type="radio" name="nicht_abstimmen" id="na10" value="10"><label for="na10">10</label>
+          </div>
+          <div class="nps-labels"><span>nie</span><span>immer</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="nicht_abstimmen" id="nab-na" value="keine_angabe"><label for="nab-na" class="na-label">Keine Angabe</label></div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="nicht_abstimmen_text" placeholder="Warum? …"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(7, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="goTo(9)">
+        Weiter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">8 / 9</div>
+  </div>
+
+  <!-- ===== STEP 9: Festival 2027 & Abschluss ===== -->
+  <div class="step" id="step-9">
+    <div class="step-card">
+      <div class="step-eyebrow">Schritt 9 von 9</div>
+      <div class="step-title">Festival 2027 &amp; Feedback</div>
+      <div class="step-subtitle">Fast geschafft — noch ein paar letzte Gedanken.</div>
+
+      <div class="q-block">
+        <div class="q-label">Möchtest du, dass 2027 ein <strong>kontakt — das Kulturfestival</strong> stattfindet?</div>
+        <div class="yesno-tiles">
+          <div class="emoji-tile">
+            <input type="radio" name="festival2027" id="f27-ja" value="ja">
+            <label for="f27-ja"><span class="tile-emoji">🎉</span><div><div class="tile-text">Ja</div></div></label>
+          </div>
+          <div class="emoji-tile">
+            <input type="radio" name="festival2027" id="f27-nein" value="nein">
+            <label for="f27-nein"><span class="tile-emoji">🤷</span><div><div class="tile-text">Nein</div></div></label>
+          </div>
+          <div class="na-tile">
+            <input type="radio" name="festival2027" id="f27-na" value="keine_angabe">
+            <label for="f27-na">Keine Angabe</label>
+          </div>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Was steht für dich beim Mitwirken im Vordergrund? <span style="font-weight:300;font-size:0.85rem;">(Mehrfachauswahl möglich)</span></div>
+        <div class="tag-grid">
+          <input type="checkbox" id="mot1" name="motivation" value="produktiv">
+          <label for="mot1">Produktiv / selbstwirksam sein</label>
+
+          <input type="checkbox" id="mot2" name="motivation" value="freunde">
+          <label for="mot2">Zeit mit Freund*innen verbringen</label>
+
+          <input type="checkbox" id="mot3" name="motivation" value="neue_menschen">
+          <label for="mot3">Neue Menschen kennenlernen</label>
+
+          <input type="checkbox" id="mot4" name="motivation" value="fertigkeiten">
+          <label for="mot4">Neue Fertigkeiten erlernen</label>
+
+          <input type="checkbox" id="mot5" name="motivation" value="kreativ">
+          <label for="mot5">Kreativ sein</label>
+
+          <input type="checkbox" id="mot6" name="motivation" value="politisch_wirksam">
+          <label for="mot6">Politisch wirksam sein</label>
+
+          <input type="checkbox" id="mot7" name="motivation" value="kultur_zugaenglich">
+          <label for="mot7">Anderen Kultur zugänglich machen</label>
+
+          <input type="checkbox" id="mot8" name="motivation" value="anerkennung">
+          <label for="mot8">Anerkennung für mein Engagement</label>
+
+          <input type="checkbox" id="mot-na" name="motivation" value="keine_angabe">
+          <label for="mot-na">Keine Angabe</label>
+        </div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — weitere Punkte:</p>
+          <textarea name="motivation_text" placeholder="Was motiviert dich noch? …"></textarea>
+        </div>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Gibt es einen Themenkomplex, den du unbedingt bei der anstehenden Evaluation behandelt haben möchtest?</div>
+        <textarea name="thema_fehlt" placeholder="Bitte benenne diesen Themenkomplex …"></textarea>
+      </div>
+
+      <hr class="q-divider">
+
+      <div class="q-block">
+        <div class="q-label">Wie hat dir <strong>dieser Fragebogen</strong> gefallen?</div>
+        <div class="nps-wrap">
+          <div class="nps-scale">
+            <input type="radio" name="fragebogen_feedback" id="fb1" value="1"><label for="fb1">1</label>
+            <input type="radio" name="fragebogen_feedback" id="fb2" value="2"><label for="fb2">2</label>
+            <input type="radio" name="fragebogen_feedback" id="fb3" value="3"><label for="fb3">3</label>
+            <input type="radio" name="fragebogen_feedback" id="fb4" value="4"><label for="fb4">4</label>
+            <input type="radio" name="fragebogen_feedback" id="fb5" value="5"><label for="fb5">5</label>
+            <input type="radio" name="fragebogen_feedback" id="fb6" value="6"><label for="fb6">6</label>
+            <input type="radio" name="fragebogen_feedback" id="fb7" value="7"><label for="fb7">7</label>
+            <input type="radio" name="fragebogen_feedback" id="fb8" value="8"><label for="fb8">8</label>
+            <input type="radio" name="fragebogen_feedback" id="fb9" value="9"><label for="fb9">9</label>
+            <input type="radio" name="fragebogen_feedback" id="fb10" value="10"><label for="fb10">10</label>
+          </div>
+          <div class="nps-labels"><span>sehr schlecht</span><span>sehr gut</span></div>
+        </div>
+        <div class="na-row"><input type="radio" name="fragebogen_feedback" id="fb-na" value="keine_angabe"><label for="fb-na" class="na-label">Keine Angabe</label></div>
+        <div style="margin-top:14px;">
+          <p class="optional-hint">Optional — nenne gerne einen Grund:</p>
+          <textarea name="fragebogen_feedback_text" placeholder="Was hat gut funktioniert, was hat gestört? …"></textarea>
+        </div>
+      </div>
+
+      <div class="ornament">✦ ✦ ✦</div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goTo(8, true)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Zurück
+      </button>
+      <button class="btn-next" onclick="submitSurvey()" style="background: var(--accent); gap: 8px;">
+        Absenden
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+    </div>
+    <div class="step-counter">9 / 9</div>
+  </div>
+
+  <!-- ===== SUCCESS ===== -->
+  <div id="success-screen">
+    <span class="success-symbol">✦</span>
+    <div class="success-title">Danke, Teami!</div>
+    <div class="success-sub">
+      Deine Antworten sind anonym eingegangen und helfen uns,<br>
+      kontakt gemeinsam weiterzuentwickeln.
+    </div>
+    <div class="success-card">
+      <div class="success-heart">
+        <span>♥</span>
+        Bis zur Auswertungsrunde!
+        <span>♥</span>
+      </div>
+    </div>
+    <div style="font-size:0.8rem; color: var(--text-muted); font-weight:300; margin-top:20px;">
+      kontakt — das Kulturprojekt · Bamberg
+    </div>
+  </div>
+
+</div><!-- .survey-wrap -->
+
+<script>
+  let currentStep = 1;
+  const totalSteps = 9;
+
+  function updateDots(step) {
+    for (let i = 1; i <= totalSteps; i++) {
+      const dot = document.getElementById('dot-' + i);
+      dot.className = 'dot';
+      if (i < step) dot.classList.add('done');
+      else if (i === step) dot.classList.add('active');
+    }
+  }
+
+  function goTo(next, back = false) {
+    const curr = document.getElementById('step-' + currentStep);
+    const nextEl = document.getElementById('step-' + next);
+    curr.classList.add('slide-out');
+    setTimeout(() => {
+      curr.classList.remove('active', 'slide-out');
+      nextEl.classList.add('active');
+      if (back) nextEl.classList.add('slide-in-back');
+      setTimeout(() => nextEl.classList.remove('slide-in-back'), 400);
+      currentStep = next;
+      updateDots(currentStep);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 280);
+  }
+
+  function submitSurvey() {
+    document.getElementById('step-dots').style.display = 'none';
+    document.querySelector('.festival-mark').style.marginBottom = '0';
+    const stepEl = document.getElementById('step-' + currentStep);
+    stepEl.classList.add('slide-out');
+    setTimeout(() => {
+      stepEl.classList.remove('active', 'slide-out');
+      document.getElementById('success-screen').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 280);
+  }
+</script>
+</body>
+</html>
