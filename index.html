@@ -111,9 +111,98 @@
 
       <main id="mainContent"></main>
 
+      <footer class="eval-footer">
+        <div class="eval-footer-inner">
+          <span class="eval-footer-label">kontakt 2026</span>
+          <div class="eval-footer-links">
+            <a href="kontakt-besucherumfrage.html" class="eval-link eval-link-visitor">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              Besucherumfrage
+            </a>
+            <a href="kontakt-teamevaluation.html" class="eval-link eval-link-team">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+              Teamevaluation (intern)
+            </a>
+            <a href="kontakt-ak-bericht.html" class="eval-link eval-link-ak">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              AK-Bericht (intern)
+            </a>
+          </div>
+        </div>
+      </footer>
+
     </div>
 
     <style>
+      /* ── EVAL FOOTER ── */
+      .eval-footer {
+        border-top: 1px solid rgba(255,255,255,0.07);
+        padding: 20px 24px;
+        margin-top: 8px;
+      }
+      .eval-footer-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .eval-footer-label {
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.25);
+        font-family: inherit;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .eval-footer-links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .eval-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .eval-link-visitor {
+        background: rgba(232,133,90,0.12);
+        border: 1px solid rgba(232,133,90,0.3);
+        color: #E8855A;
+      }
+      .eval-link-visitor:hover {
+        background: rgba(232,133,90,0.22);
+        border-color: rgba(232,133,90,0.6);
+      }
+      .eval-link-team {
+        background: rgba(123,189,168,0.08);
+        border: 1px solid rgba(123,189,168,0.25);
+        color: rgba(123,189,168,0.8);
+      }
+      .eval-link-team:hover {
+        background: rgba(123,189,168,0.15);
+        border-color: rgba(123,189,168,0.4);
+        color: rgba(123,189,168,1);
+      }
+      .eval-link-ak {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.12);
+        color: rgba(255,255,255,0.45);
+      }
+      .eval-link-ak:hover {
+        background: rgba(255,255,255,0.09);
+        border-color: rgba(255,255,255,0.25);
+        color: rgba(255,255,255,0.7);
+      }
+
       /* ── PROGRAM COLLAPSE ── */
       .prog-toggle-btn {
         display: flex;
