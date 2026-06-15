@@ -1300,7 +1300,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         Zurück
       </button>
-      <button class="btn-next" onclick="submitSurvey()" style="background: var(--accent); gap: 8px;">
+      <button class="btn-next" onclick="submitSurvey(event)" style="background: var(--accent); gap: 8px;">
         Absenden
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
       </button>
@@ -1313,7 +1313,7 @@
     <span class="success-symbol">✦</span>
     <div class="success-title">Danke, Teami!</div>
     <div class="success-sub">
-      Deine Antworten sind anonym eingegangen und helfen uns,<br>
+      Deine Antworten wurden gespeichert und helfen uns,<br>
       kontakt gemeinsam weiterzuentwickeln.
     </div>
     <div class="success-card">
@@ -1330,9 +1330,31 @@
 
 </div><!-- .survey-wrap -->
 
+<script src="scripts/kontakt-forms.js"></script>
 <script>
   let currentStep = 1;
   const totalSteps = 9;
+  const teamForm = window.kontaktFormStore.init({
+    rootSelector: '.survey-wrap',
+    storageKey: 'kontakt-teamevaluation',
+    getExtraState() {
+      return { currentStep };
+    },
+    afterRestore(storedState) {
+      const savedStep = storedState?.currentStep;
+      if (!savedStep || savedStep < 1 || savedStep > totalSteps) {
+        return;
+      }
+
+      document.querySelectorAll('.step').forEach((stepEl) => {
+        stepEl.classList.remove('active', 'slide-out', 'slide-in-back');
+      });
+
+      currentStep = savedStep;
+      document.getElementById('step-' + currentStep).classList.add('active');
+      updateDots(currentStep);
+    },
+  });
 
   function updateDots(step) {
     for (let i = 1; i <= totalSteps; i++) {
@@ -1354,20 +1376,38 @@
       setTimeout(() => nextEl.classList.remove('slide-in-back'), 400);
       currentStep = next;
       updateDots(currentStep);
+      teamForm?.save();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 280);
   }
 
-  function submitSurvey() {
-    document.getElementById('step-dots').style.display = 'none';
-    document.querySelector('.festival-mark').style.marginBottom = '0';
-    const stepEl = document.getElementById('step-' + currentStep);
-    stepEl.classList.add('slide-out');
-    setTimeout(() => {
-      stepEl.classList.remove('active', 'slide-out');
-      document.getElementById('success-screen').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 280);
+  async function submitSurvey(event) {
+    try {
+      await window.kontaktFormStore.submit({
+        rootSelector: '.survey-wrap',
+        storageKey: 'kontakt-teamevaluation',
+        formName: 'kontakt-teamevaluation',
+        submitButton: event?.currentTarget,
+        pendingText: 'Sende...',
+        extraPayload: {
+          currentStep,
+        },
+        onSuccess() {
+          document.getElementById('step-dots').style.display = 'none';
+          document.querySelector('.festival-mark').style.marginBottom = '0';
+          const stepEl = document.getElementById('step-' + currentStep);
+          stepEl.classList.add('slide-out');
+          setTimeout(() => {
+            stepEl.classList.remove('active', 'slide-out');
+            document.getElementById('success-screen').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 280);
+          teamForm?.clear();
+        },
+      });
+    } catch {
+      // Error handling is shown in the shared helper.
+    }
   }
 </script>
 </body>

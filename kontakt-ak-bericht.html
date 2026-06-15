@@ -544,6 +544,17 @@
       </div>
 
       <div class="star-group">
+        <span class="star-label">AK-Stimmung</span>
+        <div class="stars" role="radiogroup">
+          <input type="radio" name="stars-ak" id="sa5" value="5"><label for="sa5" title="5 Sterne">★</label>
+          <input type="radio" name="stars-ak" id="sa4" value="4"><label for="sa4" title="4 Sterne">★</label>
+          <input type="radio" name="stars-ak" id="sa3" value="3"><label for="sa3" title="3 Sterne">★</label>
+          <input type="radio" name="stars-ak" id="sa2" value="2"><label for="sa2" title="2 Sterne">★</label>
+          <input type="radio" name="stars-ak" id="sa1" value="1"><label for="sa1" title="1 Stern">★</label>
+        </div>
+      </div>
+
+      <div class="star-group">
         <span class="star-label">Teamstimmung</span>
         <div class="stars" role="radiogroup">
           <input type="radio" name="stars-team" id="st5" value="5"><label for="st5" title="5 Sterne">★</label>
@@ -745,11 +756,37 @@
   </button>
 </div>
 
+<script src="scripts/kontakt-forms.js"></script>
 <script>
+  const akFormStore = window.kontaktFormStore.init({
+    rootSelector: '#ak-form',
+    storageKey: 'kontakt-ak-bericht',
+    afterRestore(storedState) {
+      if (storedState?.fields?.datum) {
+        return;
+      }
+
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('datum').value = today;
+    },
+  });
+
   // Auto-fill today's date
   document.addEventListener('DOMContentLoaded', () => {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('datum').value = today;
+    if (!document.getElementById('datum').value) {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('datum').value = today;
+      akFormStore?.save();
+    }
+
+    const personsValue = Number(document.getElementById('persons').value) || counters.persons.min;
+    counters.persons.val = personsValue;
+    document.getElementById('persons-val').textContent = personsValue;
+
+    const stundenValue = Number(document.getElementById('stunden').value) || counters.stunden.min;
+    counters.stunden.val = stundenValue;
+    document.getElementById('stunden-val').textContent = stundenValue;
+
     observeSections();
     updateProgress();
   });
@@ -761,6 +798,7 @@
     c.val = Math.max(c.min, Math.min(c.max, c.val + delta));
     document.getElementById(id + '-val').textContent = c.val;
     document.getElementById(id).value = c.val;
+    akFormStore?.save();
     updateProgress();
   }
 
@@ -772,10 +810,10 @@
       if (f.value && f.value.trim() !== '') filled++;
     });
     // Also count radio groups
-    ['stars-festival', 'stars-team'].forEach(name => {
+    ['stars-festival', 'stars-ak', 'stars-team'].forEach(name => {
       if (document.querySelector(`input[name="${name}"]:checked`)) filled++;
     });
-    const total = fields.length + 2;
+    const total = fields.length + 3;
     const pct = Math.min(100, Math.round((filled / total) * 100));
     document.getElementById('progress-bar').style.width = pct + '%';
   }
@@ -796,7 +834,7 @@
   }
 
   // Form submission
-  document.getElementById('ak-form').addEventListener('submit', function(e) {
+  document.getElementById('ak-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     let valid = true;
 
@@ -825,13 +863,26 @@
       return;
     }
 
-    // Show success
-    const firstName = nameVal.split(' ')[0];
-    document.getElementById('success-name').textContent = firstName;
-    document.getElementById('form-main').style.display = 'none';
-    document.getElementById('success-screen').style.display = 'block';
-    document.getElementById('progress-bar').style.width = '100%';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    try {
+      await window.kontaktFormStore.submit({
+        rootSelector: '#ak-form',
+        storageKey: 'kontakt-ak-bericht',
+        formName: 'kontakt-ak-bericht',
+        submitButton: e.submitter,
+        pendingText: 'Sende...',
+        onSuccess() {
+          const firstName = nameVal.split(' ')[0];
+          document.getElementById('success-name').textContent = firstName;
+          document.getElementById('form-main').style.display = 'none';
+          document.getElementById('success-screen').style.display = 'block';
+          document.getElementById('progress-bar').style.width = '100%';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          akFormStore?.clear();
+        },
+      });
+    } catch {
+      // Error handling is shown in the shared helper.
+    }
   });
 
   // Remove invalid on input

@@ -668,7 +668,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         Zurück
       </button>
-      <button class="btn-next" onclick="submitSurvey()" style="background: var(--sage); gap: 8px;">
+      <button class="btn-next" onclick="submitSurvey(event)" style="background: var(--sage); gap: 8px;">
         Absenden
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
       </button>
@@ -681,7 +681,7 @@
     <span class="success-symbol">✦</span>
     <div class="success-title">Vielen Dank!</div>
     <div class="success-sub">
-      Deine Antworten helfen uns, kontakt<br>
+      Deine Antworten wurden gespeichert und helfen uns, kontakt<br>
       jedes Jahr ein bisschen besser zu machen.
     </div>
     <div class="success-card">
@@ -699,9 +699,31 @@
 
 </div><!-- .survey-wrap -->
 
+<script src="scripts/kontakt-forms.js"></script>
 <script>
   let currentStep = 1;
   const totalSteps = 5;
+  const besucherForm = window.kontaktFormStore.init({
+    rootSelector: '.survey-wrap',
+    storageKey: 'kontakt-besucherumfrage',
+    getExtraState() {
+      return { currentStep };
+    },
+    afterRestore(storedState) {
+      const savedStep = storedState?.currentStep;
+      if (!savedStep || savedStep < 1 || savedStep > totalSteps) {
+        return;
+      }
+
+      document.querySelectorAll('.step').forEach((stepEl) => {
+        stepEl.classList.remove('active', 'slide-out', 'slide-in-back');
+      });
+
+      currentStep = savedStep;
+      document.getElementById('step-' + currentStep).classList.add('active');
+      updateDots(currentStep);
+    },
+  });
 
   function updateDots(step) {
     for (let i = 1; i <= totalSteps; i++) {
@@ -724,21 +746,38 @@
       setTimeout(() => nextEl.classList.remove('slide-in-back'), 400);
       currentStep = next;
       updateDots(currentStep);
+      besucherForm?.save();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 280);
   }
 
-  function submitSurvey() {
-    // Hide dots and all steps
-    document.getElementById('step-dots').style.display = 'none';
-    document.querySelector('.festival-mark').style.marginBottom = '0';
-    const stepEl = document.getElementById('step-' + currentStep);
-    stepEl.classList.add('slide-out');
-    setTimeout(() => {
-      stepEl.classList.remove('active', 'slide-out');
-      document.getElementById('success-screen').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 280);
+  async function submitSurvey(event) {
+    try {
+      await window.kontaktFormStore.submit({
+        rootSelector: '.survey-wrap',
+        storageKey: 'kontakt-besucherumfrage',
+        formName: 'kontakt-besucherumfrage',
+        submitButton: event?.currentTarget,
+        pendingText: 'Sende...',
+        extraPayload: {
+          currentStep,
+        },
+        onSuccess() {
+          document.getElementById('step-dots').style.display = 'none';
+          document.querySelector('.festival-mark').style.marginBottom = '0';
+          const stepEl = document.getElementById('step-' + currentStep);
+          stepEl.classList.add('slide-out');
+          setTimeout(() => {
+            stepEl.classList.remove('active', 'slide-out');
+            document.getElementById('success-screen').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 280);
+          besucherForm?.clear();
+        },
+      });
+    } catch {
+      // Error handling is shown in the shared helper.
+    }
   }
 </script>
 </body>
